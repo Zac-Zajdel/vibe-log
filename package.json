@@ -14,6 +14,7 @@
   "dependencies": {
     "@nuxt/eslint": "1.3.0",
     "@nuxt/image": "1.10.0",
+    "@qirolab/nuxt-sanctum-authentication": "0.1.15",
     "@tailwindcss/vite": "^4.1.6",
     "@vueuse/core": "^13.1.0",
     "class-variance-authority": "^0.7.1",
