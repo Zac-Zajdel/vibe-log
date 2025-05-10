@@ -8,10 +8,8 @@
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"prettier": "prettier --write .",
-		"format": "npm-run-all -p lint:fix prettier"
+		"lint:fix": "eslint && tsc --noEmit",
+		"format": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\""
 	},
 	"dependencies": {
 		"@nuxt/eslint": "1.3.0",
@@ -31,13 +29,13 @@
 		"tailwind-merge": "^3.2.0",
 		"tailwindcss": "^4.1.6",
 		"tw-animate-css": "^1.2.9",
-		"typescript": "^5.8.3",
 		"vue": "^3.5.13",
 		"vue-router": "^4.5.1",
 		"vue-sonner": "^1.3.2"
 	},
 	"devDependencies": {
 		"@nuxtjs/color-mode": "^3.5.2",
-		"npm-run-all": "^4.1.5"
+		"typescript": "^5.8.3",
+		"vue-tsc": "^2.2.10"
 	}
 }
