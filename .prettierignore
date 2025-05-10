@@ -1,0 +1,8 @@
+# Ignore build output
+.nuxt
+dist
+
+# Ignore node_modules
+node_modules
+
+composer.json

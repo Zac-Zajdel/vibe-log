@@ -1,33 +1,37 @@
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
-	compatibilityDate: '2024-11-01',
-	devtools: { enabled: true },
+  compatibilityDate: '2024-11-01',
+  devtools: { enabled: true },
 
-	srcDir: 'client',
+  typescript: {
+    typeCheck: true,
+  },
 
-	modules: ['@nuxt/eslint', '@nuxt/image', 'shadcn-nuxt', '@nuxtjs/color-mode'],
+  srcDir: 'client',
 
-	colorMode: {
-		storageKey: 'dark',
-		classSuffix: '',
-	},
+  modules: ['@nuxt/eslint', '@nuxt/image', 'shadcn-nuxt', '@nuxtjs/color-mode'],
 
-	css: ['~/assets/css/main.css'],
+  colorMode: {
+    storageKey: 'dark',
+    classSuffix: '',
+  },
 
-	vite: {
-		plugins: [tailwindcss()],
-	},
+  css: ['~/assets/css/main.css'],
 
-	shadcn: {
-		/**
-		 * Prefix for all the imported component
-		 */
-		prefix: '',
-		/**
-		 * Directory that the component lives in.
-		 * @default "./components/ui"
-		 */
-		componentDir: './client/components/ui',
-	},
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './client/components/ui',
+  },
 });
