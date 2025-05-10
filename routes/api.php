@@ -9,13 +9,13 @@ Route::middleware('auth')->group(function () {
     Route::get('user', function (Request $request) {
         return response()->json([
             'message' => 'User logged in successfully',
-            'data' => $request->user()
+            'data' => $request->user(),
         ]);
     });
-    
+
     Route::get('hello', function () {
         return response()->json([
-            'message' => 'Hello World'
+            'message' => 'Hello World',
         ]);
     });
 

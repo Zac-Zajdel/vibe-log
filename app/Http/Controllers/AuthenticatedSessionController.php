@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -15,7 +14,7 @@ class AuthenticatedSessionController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-    
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
@@ -26,7 +25,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         return response()->json([
-            'message' => 'The provided credentials do not match our records.'
+            'message' => 'The provided credentials do not match our records.',
         ], 422);
     }
 
