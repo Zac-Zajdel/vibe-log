@@ -18,7 +18,7 @@
     try {
       await form.submit();
       await refreshUser();
-      return navigateTo('/');
+      return navigateTo('/dashboard');
     } catch (err) {
       console.error(err);
     }

@@ -8,6 +8,8 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
+  ssr: false,
+
   srcDir: 'client',
 
   modules: [
@@ -77,5 +79,7 @@ export default defineNuxtConfig({
       // URL to redirect to after logging out
       redirectToAfterLogout: '/',
     },
+
+    logLevel: 5,
   },
 });

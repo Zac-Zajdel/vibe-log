@@ -3,16 +3,19 @@
     middleware: ['$guest'],
   });
 
+  const { login } = useSanctum();
+
   const form = ref({
     email: '',
     password: '',
   });
 
-  const { login } = useSanctum();
-
   const submitForm = async () => {
-    const result = await login(form.value);
-    console.log(result);
+    try {
+      await login(form.value);
+    } catch (err) {
+      console.log(err);
+    }
   };
 </script>
 
