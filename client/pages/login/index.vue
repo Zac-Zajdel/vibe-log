@@ -20,21 +20,28 @@
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col items-center justify-center">
-    <div class="w-full max-w-md space-y-3 rounded-xl p-8 shadow-lg">
-      <h1 class="text-center text-2xl font-bold">Login</h1>
-      <form class="space-y-3" @submit.prevent="submitForm">
-        <div class="flex flex-col space-y-1">
-          <Label for="email">Email</Label>
-          <Input id="email" v-model="form.email" type="email" />
-        </div>
-        <div class="flex flex-col space-y-2">
-          <Label for="password">Password</Label>
-          <Input id="password" v-model="form.password" type="password" />
-        </div>
-
-        <Button type="submit" class="mt-5 w-full">Login</Button>
+  <div class="flex min-h-screen items-center justify-center">
+    <Card class="w-[350px]">
+      <CardHeader>
+        <CardTitle>Win The Take</CardTitle>
+      </CardHeader>
+      <form @submit.prevent="submitForm">
+        <CardContent>
+          <div class="grid w-full items-center gap-4">
+            <div class="flex flex-col space-y-1.5">
+              <Label for="email">Email</Label>
+              <Input id="email" v-model="form.email" type="email" />
+            </div>
+            <div class="flex flex-col space-y-1.5">
+              <Label for="password">Password</Label>
+              <Input id="password" v-model="form.password" type="password" />
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter class="flex justify-end px-6 pt-6">
+          <Button type="submit">Login</Button>
+        </CardFooter>
       </form>
-    </div>
+    </Card>
   </div>
 </template>

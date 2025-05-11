@@ -1,75 +1,27 @@
-# Nuxt Minimal Starter
+**PAY TO CHALLENGE PLATFORM**
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+1. **Posting Requires a Stake**
+   - Users must stake money (e.g., $1–$50) behind any post they make.
+   - The higher the stake, the more visibility it gets (algorithm boosts it).
+   - This creates ego-based incentives. People pay to be heard and taken seriously.
+2. **Challenging Also Requires a Stake**
+   - Anyone can challenge a post by staking _equal_ or _more_ money.
+   - The more challengers, the bigger the pool.
+3. **The Winner Takes a Cut**
+   - After a challenge period (e.g., 24 hours), a vote by a tursted mod panel determines the “winner” and get assistance from AI which analysizes both sides and suggests a winner.
+   - If the challenger wins, they get **X% of the combined stake.**
+   - If the OP wins, they get **100% of the combined stake**.
+   - The winner receives reputation points as a ranking which can grow and makes you more of a verified player. Others can see this reputation ranking.
+4. **Business Structure**
+   - I take a **platform fee** on each side, win or lose.
+   - Users have a financial incentive to continue playing.
 
-## Setup
+**Psychology Behind This:**
 
-Make sure to install dependencies:
+- The monetary aspect appeals to those with a gambling mindset.
+- The dynamic of challenging and being challenged feeds into our current toxic social discourse which has proven to be a profitable business model (X, Facebook, etc…)
+- Earning higher reputation points from winning challenges feeds into a person’s ego and makes their profile become more popular on the platform.
 
-```bash
-# npm
-npm install
+**URL Names:**
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- WinTheThread.com
