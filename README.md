@@ -1,5 +1,20 @@
 # Win The Take
 
+# TODO:
+
+- Reverb
+- Socialite
+- Pulse
+- Telescope
+- Cashier
+- Octane
+- Laravel Data
+- Typescript Transformer
+- Laravel Actions
+- Tanstack Query
+- Pest
+- Spatie Activity Log
+
 ## 🎉 Tools
 
 - 🚀 [Laravel](https://laravel.com/) - Laravel framework
