@@ -12,7 +12,6 @@
 - Typescript Transformer
 - Laravel Actions
 - Tanstack Query
-- Pest
 - Spatie Activity Log
 
 ## 🎉 Tools
