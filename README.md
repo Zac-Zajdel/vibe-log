@@ -11,7 +11,6 @@
 - Laravel Actions
 - Tanstack Query
 - Spatie Activity Log
-- Laravel Deploy Operations
 
 ## 🎉 Tools
 
@@ -29,11 +28,12 @@
 - 📦 [Spatie Laravel Data](https://spatie.be/docs/laravel-data/v4/introduction) - Data Object Management
 - 📝 [Spatie Typescript Transformer](https://spatie.be/docs/typescript-transformer/v2/introduction) - PHP to TypeScript Definitions
 - 🔄 [Tanstack Query](https://tanstack.com/query/latest) - Async State Management
-- 🎯 [Larastan](https://github.com/nunomaduro/larastan) - Static Analysis Tool
 - 📝 [Spatie Activity Log](https://spatie.be/docs/laravel-activitylog/v4/introduction) - Model Changes Tracking
+- 🎯 [Larastan](https://github.com/nunomaduro/larastan) - Static Analysis Tool
 - ⚙️ [Laravel Actions](https://laravelactions.com/) - Business Logic Encapsulation
 - 🧪 [Pest](https://pestphp.com/) - Testing Framework
 - 🏗️ [Architecture Testing](https://github.com/pestphp/pest-plugin-arch) - Code Structure Validation
+- 📐 [Laravel Deploy Operations](https://deploy-operations.dragon-code.pro/introduction.html) - Migration like actions
 
 ## 🎯 Getting started
 

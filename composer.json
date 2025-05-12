@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "dragon-code/laravel-deploy-operations": "^7.1",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
@@ -63,14 +64,14 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
-        "type-coverage": [
-            "@php artisan test --type-coverage --min=100"
-        ],
         "lint": [
             "./vendor/bin/pint --test"
         ],
         "lint:fix": [
             "./vendor/bin/pint"
+        ],
+        "type-coverage": [
+            "@php artisan test --type-coverage --min=100"
         ],
         "larastan": [
             "./vendor/bin/phpstan analyse"
