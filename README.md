@@ -8,11 +8,10 @@
 - Telescope
 - Cashier
 - Octane
-- Laravel Data
-- Typescript Transformer
 - Laravel Actions
 - Tanstack Query
 - Spatie Activity Log
+- Laravel Deploy Operations
 
 ## 🎉 Tools
 
