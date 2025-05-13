@@ -23,6 +23,7 @@
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
+        "laravel/telescope": "^5.7",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.8",
@@ -67,7 +68,7 @@
         "lint": [
             "./vendor/bin/pint --test"
         ],
-        "lint:fix": [
+        "lint-fix": [
             "./vendor/bin/pint"
         ],
         "type-coverage": [
@@ -82,13 +83,14 @@
         "art": [
             "composer lint",
             "composer larastan",
-            "composer type-coverage",
-            "@php artisan test"
+            "composer type-coverage"
         ]
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {

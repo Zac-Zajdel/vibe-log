@@ -5,7 +5,6 @@
 - Reverb
 - Socialite
 - Pulse
-- Telescope
 - Cashier
 - Octane
 - Laravel Actions
