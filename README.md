@@ -8,7 +8,6 @@
 - Cashier
 - Octane
 - Laravel Actions
-- Tanstack Query
 - Spatie Activity Log
 
 ## 🎉 Tools

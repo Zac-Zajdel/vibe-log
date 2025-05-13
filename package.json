@@ -16,6 +16,8 @@
     "@nuxt/image": "1.10.0",
     "@qirolab/nuxt-sanctum-authentication": "0.1.15",
     "@tailwindcss/vite": "^4.1.6",
+    "@tanstack/vue-query": "^5.76.0",
+    "@tanstack/vue-query-devtools": "^5.76.0",
     "@vueuse/core": "^13.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
