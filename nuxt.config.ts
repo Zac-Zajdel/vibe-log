@@ -73,6 +73,6 @@ export default defineNuxtConfig({
       onLogout: '/',
     },
 
-    logLevel: 5,
+    logLevel: 3,
   },
 });
