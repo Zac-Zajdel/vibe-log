@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'shadcn-nuxt',
     '@nuxtjs/color-mode',
-    '@qirolab/nuxt-sanctum-authentication',
+    'nuxt-auth-sanctum',
   ],
 
   colorMode: {
@@ -43,13 +43,12 @@ export default defineNuxtConfig({
     componentDir: './client/components/ui',
   },
 
-  laravelSanctum: {
-    apiUrl: process.env.NUXT_SANCTUM_API_URL,
-    authMode: 'cookie',
+  sanctum: {
+    baseUrl: process.env.NUXT_SANCTUM_API_URL,
 
-    userResponseWrapperKey: 'data',
+    userStateKey: 'data',
 
-    sanctumEndpoints: {
+    endpoints: {
       // Endpoint to request a new CSRF token from the server
       csrf: '/sanctum/csrf-cookie',
 
@@ -64,20 +63,14 @@ export default defineNuxtConfig({
     },
 
     redirect: {
-      // Preserve the originally requested route, redirecting users there after login
-      enableIntendedRedirect: false,
-
       // Path to redirect users when a page requires authentication
-      loginPath: '/login',
+      onLogin: '/dashboard',
 
       // URL to redirect users to when guest-only access is required
-      guestOnlyRedirect: '/',
-
-      // URL to redirect to after a successful login
-      redirectToAfterLogin: '/dashboard',
+      onGuestOnly: '/',
 
       // URL to redirect to after logging out
-      redirectToAfterLogout: '/',
+      onLogout: '/',
     },
 
     logLevel: 5,

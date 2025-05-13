@@ -2,10 +2,10 @@
   import { useQuery } from '@tanstack/vue-query';
 
   definePageMeta({
-    middleware: ['$auth'],
+    middleware: ['sanctum:auth'],
   });
 
-  const { logout } = useSanctum();
+  const { logout } = useSanctumAuth();
   const colorMode = useColorMode();
 
   const { isPending, data } = useQuery({
@@ -22,7 +22,7 @@
 
     <div class="flex flex-col gap-4">
       <div v-if="isPending">Loading...</div>
-      <code v-else>{{ data?.message }}</code>
+      <code v-else>{{ data }}</code>
 
       <div class="flex gap-2">
         <Button @click="colorMode.preference = 'light'">Light</Button>

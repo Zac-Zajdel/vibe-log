@@ -1,9 +1,9 @@
 <script setup lang="ts">
   definePageMeta({
-    middleware: ['$guest'],
+    middleware: ['sanctum:guest'],
   });
 
-  const { login } = useSanctum();
+  const { login } = useSanctumAuth();
 
   const form = ref({
     email: '',

@@ -1,11 +1,11 @@
 <script setup lang="ts">
   definePageMeta({
-    middleware: ['$guest'],
+    middleware: ['sanctum:guest'],
   });
 
-  const { refreshUser } = useSanctum();
+  const { refreshIdentity } = useSanctumAuth();
 
-  const form = useSanctumForm('post', '/api/register', {
+  const form = ref({
     name: '',
     email: '',
     password: '',
@@ -13,11 +13,34 @@
   });
 
   async function registerUser() {
-    if (form.processing) return;
-
     try {
-      await form.submit();
-      await refreshUser();
+      // First get the CSRF cookie
+      await $fetch('http://localhost:8000/sanctum/csrf-cookie', {
+        credentials: 'include', // Important: This ensures cookies are sent/received
+      });
+
+      // Get the CSRF token from cookie and decode it
+      const token = decodeURIComponent(
+        document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('XSRF-TOKEN='))
+          ?.split('=')[1] ?? ''
+      );
+
+      // Now make the registration request with the CSRF token
+      const result = await $fetch('http://localhost:8000/api/register', {
+        method: 'POST',
+        body: JSON.stringify(form.value),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': token,
+        },
+        credentials: 'include', // Important: This ensures cookies are sent/received
+      });
+
+      console.log('result', result);
+
+      await refreshIdentity();
       return navigateTo('/dashboard');
     } catch (err) {
       console.error(err);
@@ -32,41 +55,15 @@
       <form @submit.prevent="registerUser">
         <div class="flex flex-col space-y-1">
           <Label for="name">Name</Label>
-          <Input
-            id="name"
-            v-model="form.name"
-            :class="{ 'border-red-600': form.invalid('name') }"
-            @input="form.forgetError('name')"
-          />
-          <span v-if="form.invalid('name')" class="text-sm text-red-600">
-            {{ form.errors.name }}
-          </span>
+          <Input id="name" v-model="form.name" />
         </div>
         <div class="mt-3 flex flex-col space-y-1">
           <Label for="email">Email</Label>
-          <Input
-            id="email"
-            v-model="form.email"
-            type="email"
-            :class="{ 'border-red-600': form.invalid('email') }"
-            @input="form.forgetError('email')"
-          />
-          <span v-if="form.invalid('email')" class="text-sm text-red-600">
-            {{ form.errors.email }}
-          </span>
+          <Input id="email" v-model="form.email" type="email" />
         </div>
         <div class="mt-3 flex flex-col space-y-1">
           <Label for="password">Password</Label>
-          <Input
-            id="password"
-            v-model="form.password"
-            type="password"
-            :class="{ 'border-red-600': form.invalid('password') }"
-            @input="form.forgetError('password')"
-          />
-          <span v-if="form.invalid('password')" class="text-sm text-red-600">
-            {{ form.errors.password }}
-          </span>
+          <Input id="password" v-model="form.password" type="password" />
         </div>
         <div class="mt-3 flex flex-col space-y-1">
           <Label for="password_confirmation">Password Confirmation</Label>
@@ -74,26 +71,10 @@
             id="password_confirmation"
             v-model="form.password_confirmation"
             type="password"
-            :class="{ 'border-red-600': form.invalid('password_confirmation') }"
-            @input="form.forgetError('password_confirmation')"
           />
-          <span
-            v-if="form.invalid('password_confirmation')"
-            class="text-sm text-red-600"
-          >
-            {{ form.errors.password_confirmation }}
-          </span>
         </div>
 
-        <Button
-          type="submit"
-          class="mt-5 w-full"
-          :class="{
-            'cursor-not-allowed opacity-50': form.processing,
-          }"
-        >
-          Register
-        </Button>
+        <Button type="submit" class="mt-5 w-full">Register</Button>
       </form>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   definePageMeta({
-    middleware: ['$guest'],
+    middleware: ['sanctum:guest'],
   });
 </script>
 
