@@ -1,31 +1,25 @@
 <script setup lang="ts">
-  import { Calendar, Home, Inbox, Search, Settings } from 'lucide-vue-next';
+  import { Home, Inbox, Settings, Swords } from 'lucide-vue-next';
 
-  // Menu items.
   const items = [
     {
-      title: 'Home',
-      url: '#',
+      title: 'Dashboard',
+      url: '/dashboard',
       icon: Home,
     },
     {
-      title: 'Inbox',
-      url: '#',
+      title: 'Posts',
+      url: '/posts',
       icon: Inbox,
     },
     {
-      title: 'Calendar',
-      url: '#',
-      icon: Calendar,
-    },
-    {
-      title: 'Search',
-      url: '#',
-      icon: Search,
+      title: 'Challenges',
+      url: '/challenges',
+      icon: Swords,
     },
     {
       title: 'Settings',
-      url: '#',
+      url: '/settings',
       icon: Settings,
     },
   ];
@@ -33,6 +27,18 @@
 
 <template>
   <Sidebar collapsible="icon">
+    <SidebarHeader>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" as-child>
+            <NuxtLink href="/dashboard">
+              <AppLogo />
+            </NuxtLink>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarHeader>
+
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel>Application</SidebarGroupLabel>

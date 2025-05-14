@@ -1,13 +1,20 @@
 <script setup lang="ts">
   import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 
-  // TODO - this appears to not be reactive?
   const { isAuthenticated } = useSanctumAuth();
 
-  let layout = 'default';
+  const layout = ref('default');
   if (isAuthenticated.value) {
-    layout = 'sidebar';
+    layout.value = 'sidebar';
   }
+
+  watch(isAuthenticated, (newVal) => {
+    if (newVal) {
+      layout.value = 'sidebar';
+    } else {
+      layout.value = 'default';
+    }
+  });
 </script>
 
 <template>
