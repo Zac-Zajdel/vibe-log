@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-screen flex-col">
-    <div class="flex-1 overflow-auto">
+  <div class="flex min-h-screen flex-col">
+    <div class="mx-auto w-full max-w-screen-xl px-4 sm:px-6">
       <slot />
     </div>
   </div>
