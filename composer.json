@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "zaczajdel/win-the-take",
+    "name": "zaczajdel/vibe-sync",
     "type": "project",
-    "description": "Post it. Prove it. Win the take.",
+    "description": "Team Updates | Company Announcements | Vibe Sync",
     "keywords": [
         "laravel",
         "framework"

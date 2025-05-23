@@ -23,7 +23,7 @@
   <div class="flex min-h-screen items-center justify-center">
     <Card class="w-[350px]">
       <CardHeader>
-        <CardTitle>Win The Take</CardTitle>
+        <CardTitle>Vibe Brief</CardTitle>
       </CardHeader>
       <form @submit.prevent="submitForm">
         <CardContent>
