@@ -1,4 +1,4 @@
-# Vibe Brief
+# Vibe Log
 
 # TODO:
 
