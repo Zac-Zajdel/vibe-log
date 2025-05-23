@@ -12,7 +12,7 @@
     "format": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\""
   },
   "dependencies": {
-    "@nuxt/eslint": "1.3.0",
+    "@nuxt/eslint": "1.4.1",
     "@nuxt/image": "1.10.0",
     "@tailwindcss/vite": "^4.1.6",
     "@tanstack/vue-query": "^5.76.0",
