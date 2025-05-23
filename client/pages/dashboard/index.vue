@@ -13,7 +13,9 @@
     queryFn: () => useSanctumFetch('/api/hello'),
   });
 
-  const logoutUser = () => logout();
+  const logoutUser = async () => {
+    await logout();
+  };
 </script>
 
 <template>

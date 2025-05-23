@@ -1,0 +1,18 @@
+<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Message Bubble -->
+  <g transform="translate(35, 30) rotate(-25)">
+    <ellipse cx="30" cy="20" rx="30" ry="20" fill="#CCCCCC" stroke="#2C3E50" stroke-width="1.5"/>
+    <polygon points="18,35 30,47 36,35" fill="#CCCCCC" stroke="#2C3E50" stroke-width="1.5"/>
+  </g>
+
+  <!-- Right Message Bubble -->
+  <g transform="translate(95, 30) rotate(25)">
+    <ellipse cx="30" cy="20" rx="30" ry="20" fill="#EEEEEE" stroke="#641010" stroke-width="1.5"/>
+    <polygon points="24,35 35,47 42,35" fill="#EEEEEE" stroke="#641010" stroke-width="1.5"/>
+  </g>
+
+  <!-- Enhanced Clash Impact Star -->
+  <g transform="translate(90, 42) scale(2)">
+    <polygon points="5,0 6,4 10,5 6,6 5,10 4,6 0,5 4,4" fill="#F8E71C" stroke="#F5A623" stroke-width="0.5"/>
+  </g>
+</svg>
