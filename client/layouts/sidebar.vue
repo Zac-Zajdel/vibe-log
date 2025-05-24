@@ -5,8 +5,7 @@
 <template>
   <SidebarProvider :default-open="defaultOpen">
     <AppSidebar />
-    <main class="p-3">
-      <SidebarTrigger />
+    <main class="flex-1">
       <slot />
     </main>
   </SidebarProvider>

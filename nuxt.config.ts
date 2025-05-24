@@ -64,7 +64,7 @@ export default defineNuxtConfig({
 
     redirect: {
       // Path to redirect users when a page requires authentication
-      onLogin: '/dashboard',
+      onLogin: '/home',
 
       // URL to redirect users to when guest-only access is required
       onGuestOnly: '/',

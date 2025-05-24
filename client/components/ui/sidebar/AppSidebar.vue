@@ -1,21 +1,16 @@
 <script setup lang="ts">
-  import { Home, Inbox, Settings, Swords } from 'lucide-vue-next';
+  import { CircleUser, Home, Settings } from 'lucide-vue-next';
 
   const items = [
     {
-      title: 'Dashboard',
-      url: '/dashboard',
+      title: 'Home',
+      url: '/home',
       icon: Home,
     },
     {
-      title: 'Posts',
-      url: '/posts',
-      icon: Inbox,
-    },
-    {
-      title: 'Challenges',
-      url: '/challenges',
-      icon: Swords,
+      title: 'Standup',
+      url: '/standup',
+      icon: CircleUser,
     },
     {
       title: 'Settings',
@@ -30,8 +25,8 @@
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton size="lg" as-child>
-            <NuxtLink href="/dashboard">
+          <SidebarMenuButton class="h-13" as-child>
+            <NuxtLink href="/home">
               <AppLogo />
             </NuxtLink>
           </SidebarMenuButton>
@@ -39,9 +34,8 @@
       </SidebarMenu>
     </SidebarHeader>
 
-    <SidebarContent>
+    <SidebarContent class="mt-1">
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">

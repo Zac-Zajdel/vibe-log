@@ -1,5 +1,7 @@
 <script setup lang="ts">
+  import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { useQuery } from '@tanstack/vue-query';
+  import { HomeIcon } from 'lucide-vue-next';
 
   definePageMeta({
     middleware: ['sanctum:auth'],
@@ -13,15 +15,16 @@
     queryFn: () => useSanctumFetch('/api/hello'),
   });
 
-  const logoutUser = async () => {
+  // TODO - This does not work.
+  const signOut = async () => {
     await logout();
   };
+
+  const breadcrumbs: Breadcrumbs = [{ title: 'Home', icon: HomeIcon }];
 </script>
 
 <template>
-  <div>
-    <h1 class="text-3xl font-bold">Dashboard</h1>
-
+  <PageWrapper :breadcrumbs="breadcrumbs">
     <div class="flex flex-col gap-4">
       <div v-if="isPending">Loading...</div>
       <code v-else>{{ data }}</code>
@@ -30,8 +33,8 @@
         <Button @click="colorMode.preference = 'light'">Light</Button>
         <Button @click="colorMode.preference = 'dark'">Dark</Button>
         <Button @click="colorMode.preference = 'system'">System</Button>
-        <Button @click="logoutUser">Logout</Button>
+        <Button @click="signOut">Logout</Button>
       </div>
     </div>
-  </div>
+  </PageWrapper>
 </template>

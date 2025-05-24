@@ -1,18 +1,28 @@
-<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Left Message Bubble -->
-  <g transform="translate(35, 30) rotate(-25)">
-    <ellipse cx="30" cy="20" rx="30" ry="20" fill="#CCCCCC" stroke="#2C3E50" stroke-width="1.5"/>
-    <polygon points="18,35 30,47 36,35" fill="#CCCCCC" stroke="#2C3E50" stroke-width="1.5"/>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#f9fafb" stroke="#dce3ea" stroke-width="3"/>
+
+  <!-- Speech Bubble -->
+  <path d="M60 70 h80 a12 12 0 0 1 12 12 v36 a12 12 0 0 1 -12 12 h-26 l-14 14 -14 -14 h-26 a12 12 0 0 1 -12 -12 v-36 a12 12 0 0 1 12 -12 z"
+        fill="#2563eb" stroke="#1e40af" stroke-width="1.5"/>
+
+  <!-- Dot Grid -->
+  <g fill="white">
+    <circle cx="82" cy="95" r="3.2"/>
+    <circle cx="100" cy="95" r="3.2"/>
+    <circle cx="118" cy="95" r="3.2"/>
+    <circle cx="91" cy="110" r="3.2"/>
+    <circle cx="109" cy="110" r="3.2"/>
   </g>
 
-  <!-- Right Message Bubble -->
-  <g transform="translate(95, 30) rotate(25)">
-    <ellipse cx="30" cy="20" rx="30" ry="20" fill="#EEEEEE" stroke="#641010" stroke-width="1.5"/>
-    <polygon points="24,35 35,47 42,35" fill="#EEEEEE" stroke="#641010" stroke-width="1.5"/>
+  <!-- Notification Ping with Centered Checkmark -->
+  <g>
+    <circle cx="145" cy="65" r="6.5" fill="#f43f5e"/>
+    <circle cx="145" cy="65" r="10" fill="none" stroke="#fecdd3" stroke-width="2"/>
+    <path d="M142 65 l2 2 l4 -4" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 
-  <!-- Enhanced Clash Impact Star -->
-  <g transform="translate(90, 42) scale(2)">
-    <polygon points="5,0 6,4 10,5 6,6 5,10 4,6 0,5 4,4" fill="#F8E71C" stroke="#F5A623" stroke-width="0.5"/>
-  </g>
+  <!-- Shadow -->
+  <ellipse cx="100" cy="146" rx="34" ry="4.5" fill="#0000000a"/>
 </svg>
+

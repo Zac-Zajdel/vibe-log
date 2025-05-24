@@ -28,20 +28,18 @@
       );
 
       // Now make the registration request with the CSRF token
-      const result = await $fetch('http://localhost:8000/api/register', {
+      await $fetch('http://localhost:8000/api/register', {
         method: 'POST',
         body: JSON.stringify(form.value),
         headers: {
           'Content-Type': 'application/json',
           'X-XSRF-TOKEN': token,
         },
-        credentials: 'include', // Important: This ensures cookies are sent/received
+        credentials: 'include',
       });
 
-      console.log('result', result);
-
       await refreshIdentity();
-      return navigateTo('/dashboard');
+      return navigateTo('/home');
     } catch (err) {
       console.error(err);
     }
