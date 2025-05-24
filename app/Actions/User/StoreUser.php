@@ -13,9 +13,8 @@ final class StoreUser
 {
     use AsAction;
 
-    public function handle(
-        UserData $data,
-    ): User {
+    public function handle(UserData $data): User
+    {
         return User::create([
             'name' => $data->name,
             'email' => $data->email,
