@@ -50,16 +50,16 @@ export default defineNuxtConfig({
 
     endpoints: {
       // Endpoint to request a new CSRF token from the server
-      csrf: '/sanctum/csrf-cookie',
+      csrf: '/v1/sanctum/csrf-cookie',
 
       // Endpoint used for user authentication
-      login: '/api/login',
+      login: '/api/v1/login',
 
       // Endpoint used to log out users
-      logout: '/api/logout',
+      logout: '/api/v1/logout',
 
       // Endpoint to retrieve the currently authenticated user's data
-      user: '/api/user',
+      user: '/api/v1/user',
     },
 
     redirect: {

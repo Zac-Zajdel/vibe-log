@@ -1,14 +1,6 @@
 # Vibe Log
 
-# TODO:
-
-- Reverb
-- Socialite
-- Pulse
-- Cashier
-- Octane
-- Laravel Actions
-- Spatie Activity Log
+Team Updates | Company Announcements | Vibe Log
 
 ## 🎉 Tools
 

@@ -12,7 +12,7 @@
 
   const { isPending, data } = useQuery({
     queryKey: ['hello'],
-    queryFn: () => useSanctumFetch('/api/hello'),
+    queryFn: () => useSanctumFetch('/api/v1/hello'),
   });
 
   // TODO - This does not work.
