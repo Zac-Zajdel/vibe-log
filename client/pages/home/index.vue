@@ -3,18 +3,12 @@
   import { useQuery } from '@tanstack/vue-query';
   import { HomeIcon } from 'lucide-vue-next';
 
-  const { logout } = useSanctumAuth();
   const colorMode = useColorMode();
 
   const { isPending, data } = useQuery({
     queryKey: ['hello'],
     queryFn: () => useSanctumFetch('/api/v1/hello'),
   });
-
-  const signOut = async () => {
-    await logout();
-    window.location.reload();
-  };
 
   const breadcrumbs: Breadcrumbs = [{ title: 'Home', icon: HomeIcon }];
 </script>
@@ -29,7 +23,6 @@
         <Button @click="colorMode.preference = 'light'">Light</Button>
         <Button @click="colorMode.preference = 'dark'">Dark</Button>
         <Button @click="colorMode.preference = 'system'">System</Button>
-        <Button @click="signOut">Logout</Button>
       </div>
     </div>
   </PageWrapper>
