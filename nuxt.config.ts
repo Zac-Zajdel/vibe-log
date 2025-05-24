@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
-  ssr: false,
+  ssr: true,
 
   srcDir: 'client',
 

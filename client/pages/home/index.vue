@@ -4,10 +4,11 @@
   import { HomeIcon } from 'lucide-vue-next';
 
   const colorMode = useColorMode();
+  const sanctumFetch = useSanctumClient();
 
   const { isPending, data } = useQuery({
     queryKey: ['hello'],
-    queryFn: () => useSanctumFetch('/api/v1/hello'),
+    queryFn: () => sanctumFetch('/api/v1/hello'),
   });
 
   const breadcrumbs: Breadcrumbs = [{ title: 'Home', icon: HomeIcon }];
