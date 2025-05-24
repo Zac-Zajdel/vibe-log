@@ -59,6 +59,6 @@ export default defineNuxtConfig({
       onAuthOnly: '/',
       onGuestOnly: '/home',
     },
-    logLevel: 5,
+    logLevel: 3,
   },
 });
