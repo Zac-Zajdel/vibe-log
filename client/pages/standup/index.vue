@@ -2,10 +2,6 @@
   import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { CircleUser } from 'lucide-vue-next';
 
-  definePageMeta({
-    middleware: ['sanctum:auth'],
-  });
-
   const breadcrumbs: Breadcrumbs = [{ title: 'Standup', icon: CircleUser }];
 </script>
 

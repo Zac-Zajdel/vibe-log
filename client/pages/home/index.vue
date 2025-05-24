@@ -3,10 +3,6 @@
   import { useQuery } from '@tanstack/vue-query';
   import { HomeIcon } from 'lucide-vue-next';
 
-  definePageMeta({
-    middleware: ['sanctum:auth'],
-  });
-
   const { logout } = useSanctumAuth();
   const colorMode = useColorMode();
 
@@ -15,9 +11,9 @@
     queryFn: () => useSanctumFetch('/api/v1/hello'),
   });
 
-  // TODO - This does not work.
   const signOut = async () => {
     await logout();
+    window.location.reload();
   };
 
   const breadcrumbs: Breadcrumbs = [{ title: 'Home', icon: HomeIcon }];

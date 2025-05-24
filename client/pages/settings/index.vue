@@ -2,10 +2,6 @@
   import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { Settings } from 'lucide-vue-next';
 
-  definePageMeta({
-    middleware: ['sanctum:auth'],
-  });
-
   const breadcrumbs: Breadcrumbs = [{ title: 'Settings', icon: Settings }];
 </script>
 

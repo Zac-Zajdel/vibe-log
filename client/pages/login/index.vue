@@ -1,6 +1,8 @@
 <script setup lang="ts">
   definePageMeta({
-    middleware: ['sanctum:guest'],
+    sanctum: {
+      guestOnly: true,
+    },
   });
 
   const { login } = useSanctumAuth();

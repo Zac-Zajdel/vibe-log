@@ -45,34 +45,20 @@ export default defineNuxtConfig({
 
   sanctum: {
     baseUrl: process.env.NUXT_SANCTUM_API_URL,
-
-    userStateKey: 'data',
-
+    globalMiddleware: {
+      enabled: true,
+    },
     endpoints: {
-      // Endpoint to request a new CSRF token from the server
-      csrf: '/v1/sanctum/csrf-cookie',
-
-      // Endpoint used for user authentication
+      csrf: '/sanctum/csrf-cookie',
       login: '/api/v1/login',
-
-      // Endpoint used to log out users
       logout: '/api/v1/logout',
-
-      // Endpoint to retrieve the currently authenticated user's data
       user: '/api/v1/user',
     },
-
     redirect: {
-      // Path to redirect users when a page requires authentication
-      onLogin: '/home',
-
-      // URL to redirect users to when guest-only access is required
-      onGuestOnly: '/',
-
-      // URL to redirect to after logging out
       onLogout: '/',
+      onAuthOnly: '/',
+      onGuestOnly: '/home',
     },
-
-    logLevel: 3,
+    logLevel: 5,
   },
 });

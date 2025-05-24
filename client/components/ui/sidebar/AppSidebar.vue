@@ -1,23 +1,5 @@
 <script setup lang="ts">
-  import { CircleUser, Home, Settings } from 'lucide-vue-next';
-
-  const items = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: Home,
-    },
-    {
-      title: 'Standup',
-      url: '/standup',
-      icon: CircleUser,
-    },
-    {
-      title: 'Settings',
-      url: '/settings',
-      icon: Settings,
-    },
-  ];
+  import { sidebarOptions } from '@/types/sidebar';
 </script>
 
 <template>
@@ -38,12 +20,15 @@
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="item in items" :key="item.title">
+            <SidebarMenuItem
+              v-for="option in sidebarOptions"
+              :key="option.title"
+            >
               <SidebarMenuButton as-child>
-                <a :href="item.url">
-                  <component :is="item.icon" />
-                  <span>{{ item.title }}</span>
-                </a>
+                <NuxtLink :href="option.url">
+                  <component :is="option.icon" />
+                  <span>{{ option.title }}</span>
+                </NuxtLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
