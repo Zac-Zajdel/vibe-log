@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->statefulApi();
 
-        // TODO: Remove this when we have Sanctum tokens working...
+        // TODO: Remove this when we have Sanctum tokens working for Postman testing...
         if (env('APP_ENV') === 'local') {
             $middleware->append(StartSession::class);
         }
@@ -54,6 +54,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Catch-all for unexpected exceptions
         $exceptions->render(function (Throwable $e): JsonResponse {
+            report($e->getMessage());
+
             if (config('app.debug')) {
                 return response()->json([
                     'status' => 'error',
