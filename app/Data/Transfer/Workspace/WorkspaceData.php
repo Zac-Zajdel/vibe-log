@@ -28,6 +28,6 @@ final class WorkspaceData extends Dto
             'description' => $this->description,
             'logo' => $this->logo,
             'archived_at' => $this->archived_at,
-        ], fn ($value): bool => $value === null);
+        ], fn ($value): bool => $value !== null);
     }
 }

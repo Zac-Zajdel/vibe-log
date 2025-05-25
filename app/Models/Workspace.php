@@ -13,14 +13,6 @@ final class Workspace extends Model
     /** @use HasFactory<\Database\Factories\WorkspaceFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'name',
-        'description',
-        'logo',
-        'archived_at',
-    ];
-
     /**
      * @return BelongsTo<User, $this>
      */

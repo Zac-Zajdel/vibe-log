@@ -3,6 +3,8 @@
   import { useQuery } from '@tanstack/vue-query';
   import { HomeIcon } from 'lucide-vue-next';
 
+  useHead({ title: 'Home' });
+
   const colorMode = useColorMode();
   const sanctumFetch = useSanctumClient();
 

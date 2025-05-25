@@ -23,6 +23,6 @@ final class UserData extends Dto
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-        ], fn ($value): bool => $value === null);
+        ], fn ($value): bool => $value !== null);
     }
 }
