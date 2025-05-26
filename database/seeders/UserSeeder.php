@@ -15,7 +15,7 @@ final class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Zac Zajdel',
             'email' => 'zaczajdel213@gmail.com',
-            'password' => Hash::make(env('USER_SEEDER_PASSWORD')),
+            'password' => Hash::make(config('app.seeder_password')),
         ]);
     }
 }

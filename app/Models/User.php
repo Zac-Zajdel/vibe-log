@@ -48,6 +48,6 @@ final class User extends Authenticatable
      */
     public function workspaces(): HasMany
     {
-        return $this->hasMany(Workspace::class);
+        return $this->hasMany(Workspace::class, 'owner_id');
     }
 }

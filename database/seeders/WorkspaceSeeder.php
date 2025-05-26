@@ -13,7 +13,7 @@ final class WorkspaceSeeder extends Seeder
     public function run(): void
     {
         Workspace::factory(2)
-            ->for(User::first())
+            ->for(User::first(), 'owner')
             ->create();
     }
 }

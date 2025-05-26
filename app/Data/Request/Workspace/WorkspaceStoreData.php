@@ -16,7 +16,7 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
 final class WorkspaceStoreData extends Data
 {
     #[Exists(User::class, 'id')]
-    public int $user_id;
+    public int $owner_id;
 
     #[Min(3), Max(255)]
     public string $name;
@@ -36,7 +36,7 @@ final class WorkspaceStoreData extends Data
             'name' => [
                 'required',
                 Rule::unique(Workspace::class, 'name')
-                    ->where('user_id', data_get($context->payload, 'user_id'))
+                    ->where('owner_id', data_get($context->payload, 'owner_id'))
                     ->whereNull('archived_at'),
             ],
         ];

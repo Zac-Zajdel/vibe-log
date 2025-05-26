@@ -9,7 +9,7 @@ use Spatie\LaravelData\Data;
 final class WorkspaceData extends Data
 {
     public function __construct(
-        public readonly int $user_id,
+        public readonly int $owner_id,
         public readonly string $name,
         public readonly ?string $description,
         public readonly ?string $logo = null,

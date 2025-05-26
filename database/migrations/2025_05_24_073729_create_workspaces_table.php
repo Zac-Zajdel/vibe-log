@@ -12,14 +12,14 @@ return new class extends Migration
     {
         Schema::create('workspaces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('owner_id')->constrained('users');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('logo')->nullable();
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
 
-            $table->unique(['user_id', 'name']);
+            $table->unique(['owner_id', 'name']);
         });
     }
 

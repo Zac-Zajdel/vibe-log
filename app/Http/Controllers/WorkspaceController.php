@@ -17,28 +17,20 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelData\PaginatedDataCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * 1. Test other routes
- * 2. Create postman collections
- * 3. lang files responses
- * 4. validate policies.
- * 5. test cases.
- * 6. Create default workspace when user is created.
- */
 final class WorkspaceController extends Controller
 {
     public function index(): JsonResponse
     {
         $collection = Workspace::query()
-            ->with('user')
-            ->whereUserId(request()->user()?->id)
+            ->with('owner')
+            ->whereOwnerId(request()->user()?->id)
             ->paginate(
                 perPage: request()->get('per_page', 2),
                 page: request()->get('page', 1),
             );
 
         return $this->success(
-            WorkspaceResource::collect($collection, PaginatedDataCollection::class)->wrap('workspaces'),
+            WorkspaceResource::collect($collection, PaginatedDataCollection::class),
             'Workspaces retrieved successfully',
         );
     }
@@ -63,9 +55,8 @@ final class WorkspaceController extends Controller
     {
         Gate::authorize('view', $workspace);
 
-        // todo - relationship should be owner.
         return $this->success(
-            WorkspaceResource::from($workspace->load('user')),
+            WorkspaceResource::from($workspace->load('owner')),
             'Workspace retrieved successfully',
         );
     }

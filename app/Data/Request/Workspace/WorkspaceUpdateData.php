@@ -21,7 +21,7 @@ final class WorkspaceUpdateData extends Data
     public int $id;
 
     #[Exists(User::class, 'id')]
-    public int $user_id;
+    public int $owner_id;
 
     #[Min(3), Max(255)]
     public string $name;
@@ -43,7 +43,7 @@ final class WorkspaceUpdateData extends Data
             'name' => [
                 'required',
                 Rule::unique(Workspace::class, 'name')
-                    ->where('user_id', data_get($context->payload, 'user_id'))
+                    ->where('owner_id', data_get($context->payload, 'owner_id'))
                     ->ignore(data_get($context->payload, 'id'))
                     ->whereNull('archived_at'),
             ],

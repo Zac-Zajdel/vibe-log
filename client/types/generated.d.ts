@@ -7,13 +7,13 @@ declare namespace App.Data.Request.User {
 }
 declare namespace App.Data.Request.Workspace {
   export type WorkspaceStoreData = {
-    user_id: number;
+    owner_id: number;
     name: string;
     description: string | null;
     logo: string | null;
   };
   export type WorkspaceUpdateData = {
-    user_id: number;
+    owner_id: number;
     name: string;
     description: string | null;
     logo: string | null;
@@ -34,7 +34,7 @@ declare namespace App.Data.Resource.User {
 declare namespace App.Data.Resource.Workspace {
   export type WorkspaceResource = {
     id: number;
-    user_id: number;
+    owner_id: number;
     name: string | null;
     description: string | null;
     logo: string | null;
@@ -53,7 +53,7 @@ declare namespace App.Data.Transfer.User {
 }
 declare namespace App.Data.Transfer.Workspace {
   export type WorkspaceData = {
-    user_id: number;
+    owner_id: number;
     name: string;
     description: string | null;
     logo: string | null;

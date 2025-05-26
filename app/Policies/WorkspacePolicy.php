@@ -11,16 +11,16 @@ final class WorkspacePolicy
 {
     public function view(User $user, Workspace $workspace): bool
     {
-        return $user->id === $workspace->user_id;
+        return $user->id === $workspace->owner_id;
     }
 
     public function update(User $user, Workspace $workspace): bool
     {
-        return $user->id === $workspace->user_id;
+        return $user->id === $workspace->owner_id;
     }
 
     public function delete(User $user, Workspace $workspace): bool
     {
-        return $user->id === $workspace->user_id;
+        return $user->id === $workspace->owner_id;
     }
 }
