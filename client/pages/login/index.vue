@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  useHead({ titleTemplate: 'Login | Vibe Log' });
+
   definePageMeta({
     sanctum: {
       guestOnly: true,

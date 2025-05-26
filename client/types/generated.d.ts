@@ -12,6 +12,13 @@ declare namespace App.Data.Request.Workspace {
     description: string | null;
     logo: string | null;
   };
+  export type WorkspaceUpdateData = {
+    user_id: number;
+    name: string;
+    description: string | null;
+    logo: string | null;
+    archived_at: string | null;
+  };
 }
 declare namespace App.Data.Resource.User {
   export type UserResource = {
@@ -20,8 +27,8 @@ declare namespace App.Data.Resource.User {
     email: string;
     email_verified_at: string | null;
     remember_token: string | null;
-    created_at: string;
-    updated_at: string;
+    created_at: string | null;
+    updated_at: string | null;
   };
 }
 declare namespace App.Data.Resource.Workspace {
@@ -32,8 +39,8 @@ declare namespace App.Data.Resource.Workspace {
     description: string | null;
     logo: string | null;
     archived_at: string | null;
-    created_at: string;
-    updated_at: string;
+    created_at: string | null;
+    updated_at: string | null;
     user?: App.Data.Resource.User.UserResource;
   };
 }
@@ -46,8 +53,8 @@ declare namespace App.Data.Transfer.User {
 }
 declare namespace App.Data.Transfer.Workspace {
   export type WorkspaceData = {
-    user_id: number | null;
-    name: string | null;
+    user_id: number;
+    name: string;
     description: string | null;
     logo: string | null;
     archived_at: string | null;

@@ -7,14 +7,19 @@ namespace App\Data\Request\Workspace;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Validation\Rule;
+use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
+use Spatie\TypeScriptTransformer\Attributes\Hidden;
 
-final class WorkspaceStoreData extends Data
+final class WorkspaceUpdateData extends Data
 {
+    #[Hidden, FromRouteParameterProperty('workspace', 'id')]
+    public int $id;
+
     #[Exists(User::class, 'id')]
     public int $user_id;
 
@@ -27,6 +32,8 @@ final class WorkspaceStoreData extends Data
     #[Max(255)]
     public ?string $logo;
 
+    public ?string $archived_at = null;
+
     /**
      * @return array<string, mixed>
      */
@@ -37,6 +44,7 @@ final class WorkspaceStoreData extends Data
                 'required',
                 Rule::unique(Workspace::class, 'name')
                     ->where('user_id', data_get($context->payload, 'user_id'))
+                    ->ignore(data_get($context->payload, 'id'))
                     ->whereNull('archived_at'),
             ],
         ];

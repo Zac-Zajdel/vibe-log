@@ -2,6 +2,8 @@
   import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { Settings } from 'lucide-vue-next';
 
+  useHead({ title: 'Settings' });
+
   const breadcrumbs: Breadcrumbs = [{ title: 'Settings', icon: Settings }];
 </script>
 

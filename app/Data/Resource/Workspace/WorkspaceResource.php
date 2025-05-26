@@ -18,9 +18,9 @@ final class WorkspaceResource extends Resource
         public ?string $name,
         public ?string $description,
         public ?string $logo,
-        public ?CarbonImmutable $archived_at,
-        public CarbonImmutable $created_at,
-        public CarbonImmutable $updated_at,
+        public ?string $archived_at,
+        public ?CarbonImmutable $created_at,
+        public ?CarbonImmutable $updated_at,
         public Lazy|UserResource $user,
     ) {}
 
@@ -35,7 +35,7 @@ final class WorkspaceResource extends Resource
             archived_at: $workspace->archived_at,
             created_at: $workspace->created_at,
             updated_at: $workspace->updated_at,
-            user: Lazy::whenLoaded('user', $workspace, fn () => UserResource::fromModel($workspace->user)),
+            user: Lazy::whenLoaded('user', $workspace, fn () => $workspace->user ? UserResource::fromModel($workspace->user) : null),
         );
     }
 }

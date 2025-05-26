@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\Workspace\StoreWorkspace;
+use App\Actions\Workspace\UpdateWorkspace;
 use App\Data\Request\Workspace\WorkspaceStoreData;
+use App\Data\Request\Workspace\WorkspaceUpdateData;
 use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\Workspace;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Request;
 use Spatie\LaravelData\PaginatedDataCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,29 +29,24 @@ final class WorkspaceController extends Controller
 {
     public function index(): JsonResponse
     {
-        $workspaces = Workspace::query()
+        $collection = Workspace::query()
             ->with('user')
-            ->whereUserId(request()->user()->id)
+            ->whereUserId(request()->user()?->id)
             ->paginate(
                 perPage: request()->get('per_page', 2),
                 page: request()->get('page', 1),
             );
 
         return $this->success(
-            WorkspaceResource::collect($workspaces, PaginatedDataCollection::class)->wrap('workspaces'),
-            'Workspaces retrieved successfully'
+            WorkspaceResource::collect($collection, PaginatedDataCollection::class)->wrap('workspaces'),
+            'Workspaces retrieved successfully',
         );
     }
 
     public function store(WorkspaceStoreData $data): JsonResponse
     {
         $workspace = StoreWorkspace::make()->handle(
-            new WorkspaceData(
-                user_id: $data->user_id,
-                name: $data->name,
-                description: $data->description,
-                logo: $data->logo,
-            ),
+            WorkspaceData::from($data),
         );
 
         return $this->success(
@@ -59,19 +56,31 @@ final class WorkspaceController extends Controller
         );
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(Workspace $workspace): JsonResponse
     {
+        Gate::authorize('view', $workspace);
+
+        // todo - relationship should be owner.
         return $this->success(
-            WorkspaceResource::from($workspace),
+            WorkspaceResource::from($workspace->load('user')),
             'Workspace retrieved successfully',
         );
     }
 
-    public function update(Workspace $workspace, Request $request): JsonResponse
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(Workspace $workspace, WorkspaceUpdateData $data): JsonResponse
     {
         Gate::authorize('update', $workspace);
 
-        $workspace->update($request->all());
+        $workspace = UpdateWorkspace::make()->handle(
+            $workspace,
+            WorkspaceData::from($data),
+        );
 
         return $this->success(
             WorkspaceResource::from($workspace),
@@ -79,6 +88,9 @@ final class WorkspaceController extends Controller
         );
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Workspace $workspace): JsonResponse
     {
         Gate::authorize('delete', $workspace);
@@ -86,7 +98,7 @@ final class WorkspaceController extends Controller
         $workspace->delete();
 
         return $this->success(
-            WorkspaceResource::from($workspace),
+            null,
             'Workspace deleted successfully',
             Response::HTTP_NO_CONTENT,
         );

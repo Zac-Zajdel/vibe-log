@@ -15,13 +15,7 @@ final class RegisteredUserController extends Controller
 {
     public function store(UserStoreData $data): JsonResponse
     {
-        $user = StoreUser::make()->handle(
-            new UserData(
-                name: $data->name,
-                email: $data->email,
-                password: $data->password,
-            )
-        );
+        $user = StoreUser::make()->handle(UserData::from($data));
 
         event(new Registered($user));
 

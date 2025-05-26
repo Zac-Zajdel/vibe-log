@@ -19,6 +19,11 @@ final class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        $this->app->bind(
+            \Illuminate\Pagination\LengthAwarePaginator::class,
+            \App\Services\CustomLengthAwarePaginator::class,
+        );
     }
 
     public function boot(): void
