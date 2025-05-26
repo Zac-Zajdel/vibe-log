@@ -2,6 +2,8 @@
   import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { CircleUser } from 'lucide-vue-next';
 
+  useHead({ title: 'Standup' });
+
   const breadcrumbs: Breadcrumbs = [{ title: 'Standup', icon: CircleUser }];
 </script>
 

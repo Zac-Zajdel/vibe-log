@@ -1,3 +1,7 @@
+<script setup lang="ts">
+  useHead({ titleTemplate: 'Vibe Log' });
+</script>
+
 <template>
   <div>
     <LandingNavBar />

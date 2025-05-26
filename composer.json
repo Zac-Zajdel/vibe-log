@@ -81,7 +81,7 @@
         "typescript": [
             "@php artisan typescript:transform --format"
         ],
-        "art": [
+        "check": [
             "composer lint",
             "composer larastan",
             "composer type-coverage"

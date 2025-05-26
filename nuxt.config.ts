@@ -4,11 +4,20 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
 
+  app: {
+    head: {
+      titleTemplate: '%s | Vibe Log',
+      htmlAttrs: {
+        lang: 'en',
+      },
+    },
+  },
+
   typescript: {
     typeCheck: true,
   },
 
-  ssr: false,
+  ssr: true,
 
   srcDir: 'client',
 
@@ -59,6 +68,6 @@ export default defineNuxtConfig({
       onAuthOnly: '/',
       onGuestOnly: '/home',
     },
-    logLevel: 5,
+    logLevel: 3,
   },
 });

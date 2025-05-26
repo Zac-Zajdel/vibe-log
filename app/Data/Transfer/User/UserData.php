@@ -13,16 +13,4 @@ final class UserData extends Dto
         public readonly ?string $email = null,
         public readonly ?string $password = null,
     ) {}
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(): array
-    {
-        return array_filter([
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
-        ], fn ($value): bool => $value === null);
-    }
 }
