@@ -24,4 +24,5 @@ test('Data Request')
 
 test('Data Resource')
     ->expect('App\Data\Resource')
+    ->toHaveSuffix('Resource')
     ->toExtend(Resource::class);

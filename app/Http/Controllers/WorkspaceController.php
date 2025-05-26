@@ -86,10 +86,26 @@ final class WorkspaceController extends Controller
     {
         Gate::authorize('delete', $workspace);
 
+        /**
+         * TODO: Each workspace has a is_default flag.
+         * - Users can't delete their default workspace.
+         * - For all other users, we update their active workspace to the default workspace.
+         */
         DB::transaction(function () use ($workspace) {
-            $workspace->activeWorkspaceUsers()->update([
-                'active_workspace_id' => null,
-            ]);
+            // TODo - Legacy way.
+            // $workspace->activeWorkspaceUsers()->update([
+            //     'active_workspace_id' => null,
+            // ]);
+
+            // foreach ($workspace->activeWorkspaceUsers as $user) {
+            //     $defaultWorkspace = Workspace::query()
+            //         ->whereOwnerId($user->id)
+            //         ->whereIsDefault(true)
+            //         ->sole();
+
+            //     $user->activeWorkspace()->associate($defaultWorkspace);
+            //     $user->save();
+            // }
 
             $workspace->delete();
         });

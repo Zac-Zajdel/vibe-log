@@ -30,6 +30,6 @@ Route::prefix('v1')
 
 Route::prefix('v1')
     ->middleware('guest')->group(function (): void {
-        Route::post('register', [UserController::class, 'store']);
-        Route::post('login', [AuthenticatedSessionController::class, 'store']);
+        Route::post('register', [UserController::class, 'store'])->name('user.register');
+        Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('user.login');
     });

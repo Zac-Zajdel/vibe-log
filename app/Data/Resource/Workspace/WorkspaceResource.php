@@ -35,7 +35,11 @@ final class WorkspaceResource extends Resource
             archived_at: $workspace->archived_at,
             created_at: $workspace->created_at,
             updated_at: $workspace->updated_at,
-            owner: Lazy::whenLoaded('owner', $workspace, fn () => UserResource::fromModel($workspace->owner)),
+            owner: Lazy::whenLoaded(
+                'owner',
+                $workspace,
+                fn () => UserResource::fromModel($workspace->owner),
+            ),
         );
     }
 }
