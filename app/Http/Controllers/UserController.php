@@ -35,6 +35,7 @@ final class UserController extends Controller
                 'owner_id' => $user->id,
                 'name' => 'Default Workspace',
                 'description' => 'Your personal workspace',
+                'is_default' => true,
             ]),
         );
 

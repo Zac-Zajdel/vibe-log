@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,6 +43,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ *
+ * @property-read Workspace|null $defaultWorkspace
  *
  * @mixin \Eloquent
  */
@@ -92,5 +95,13 @@ final class User extends Authenticatable
     public function workspaces(): HasMany
     {
         return $this->hasMany(Workspace::class, 'owner_id');
+    }
+
+    /**
+     * @return HasOne<Workspace, $this>
+     */
+    public function defaultWorkspace(): HasOne
+    {
+        return $this->hasOne(Workspace::class, 'owner_id')->where('is_default', true);
     }
 }

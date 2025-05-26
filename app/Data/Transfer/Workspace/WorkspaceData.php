@@ -13,6 +13,7 @@ final class WorkspaceData extends Data
         public readonly string $name,
         public readonly ?string $description,
         public readonly ?string $logo = null,
+        public readonly bool $is_default = false,
         public readonly ?string $archived_at = null,
     ) {}
 }

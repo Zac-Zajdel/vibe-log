@@ -22,7 +22,7 @@ final class AuthenticatedSessionController extends Controller
 
             return response()->json([
                 'message' => 'User logged in successfully',
-                'data' => Auth::user(),
+                'data' => Auth::user()->load('activeWorkspace'),
             ]);
         }
 

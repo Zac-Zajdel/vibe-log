@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('logo')->nullable();
+            $table->boolean('is_default')->default(false);
             $table->timestamp('archived_at')->nullable();
             $table->timestamps();
 

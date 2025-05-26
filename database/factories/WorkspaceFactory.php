@@ -31,6 +31,7 @@ final class WorkspaceFactory extends Factory
         return $this->state(fn () => [
             'name' => 'Default Workspace',
             'description' => 'Your personal workspace',
+            'is_default' => true,
         ]);
     }
 }
