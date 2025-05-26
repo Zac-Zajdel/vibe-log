@@ -14,7 +14,7 @@ Route::prefix('v1')
         Route::get('user', fn (Request $request) => response()->json([
             'status' => 'success',
             'message' => 'User logged in successfully',
-            'data' => $request->user(),
+            'data' => $request->user()->load('activeWorkspace'),
         ]));
 
         Route::get('hello', fn () => response()->json([

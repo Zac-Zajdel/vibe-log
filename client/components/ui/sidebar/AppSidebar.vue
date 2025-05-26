@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { useWorkspacesQuery } from '@/hooks/api/workspace/useWorkspacesQuery';
   import { sidebarOptions } from '@/types/sidebar';
   import { ChevronDown, ChevronUp, User } from 'lucide-vue-next';
 
-  const { logout } = useSanctumAuth();
+  const { workspaces } = useWorkspacesQuery(1, 10);
 
+  const { logout } = useSanctumAuth();
   const signOut = async () => {
     await logout();
     window.location.reload();
@@ -25,11 +27,12 @@
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent class="w-48">
-              <DropdownMenuItem>
-                <span>Personal Website</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Work</span>
+              <DropdownMenuItem
+                v-for="workspace in workspaces"
+                :key="workspace.id"
+                class="text-xs"
+              >
+                <span>{{ workspace.name }}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

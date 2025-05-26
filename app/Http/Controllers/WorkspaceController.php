@@ -13,6 +13,7 @@ use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\Workspace;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelData\PaginatedDataCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,9 @@ final class WorkspaceController extends Controller
     public function index(): JsonResponse
     {
         $collection = Workspace::query()
-            ->with('owner')
             ->whereOwnerId(request()->user()?->id)
             ->paginate(
-                perPage: request()->get('per_page', 2),
+                perPage: request()->get('per_page', 10),
                 page: request()->get('page', 1),
             );
 
@@ -86,7 +86,13 @@ final class WorkspaceController extends Controller
     {
         Gate::authorize('delete', $workspace);
 
-        $workspace->delete();
+        DB::transaction(function () use ($workspace) {
+            $workspace->activeWorkspaceUsers()->update([
+                'active_workspace_id' => null,
+            ]);
+
+            $workspace->delete();
+        });
 
         return $this->success(
             null,

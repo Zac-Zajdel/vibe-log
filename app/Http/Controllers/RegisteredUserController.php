@@ -19,13 +19,16 @@ final class RegisteredUserController extends Controller
     {
         $user = StoreUser::make()->handle(UserData::from($data));
 
-        StoreWorkspace::make()->handle(
+        $workspace = StoreWorkspace::make()->handle(
             WorkspaceData::from([
                 'owner_id' => $user->id,
                 'name' => 'Default Workspace',
                 'description' => 'Your personal workspace',
             ]),
         );
+
+        $user->activeWorkspace()->associate($workspace);
+        $user->save();
 
         event(new Registered($user));
 

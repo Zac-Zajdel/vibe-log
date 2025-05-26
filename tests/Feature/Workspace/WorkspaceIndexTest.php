@@ -3,18 +3,10 @@
 declare(strict_types=1);
 
 use App\Models\User;
-use App\Models\Workspace;
 use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
-    $this->workspace = Workspace::factory()->create([
-        'owner_id' => $this->user->id,
-        'name' => 'Default Workspace',
-        'description' => 'Your personal workspace',
-        'logo' => 'https://via.placeholder.com/150',
-        'archived_at' => null,
-    ]);
 });
 
 it('Workspace index route', function () {
@@ -26,10 +18,9 @@ it('Workspace index route', function () {
             message: 'Workspaces retrieved successfully',
         )
         ->assertJsonFragment([
-            'id' => $this->workspace->id,
-            'name' => 'Default Workspace',
-            'description' => 'Your personal workspace',
-            'logo' => 'https://via.placeholder.com/150',
-            'archived_at' => null,
+            'id' => $this->user->activeWorkspace->id,
+            'name' => $this->user->activeWorkspace->name,
+            'description' => $this->user->activeWorkspace->description,
+            'logo' => $this->user->activeWorkspace->logo,
         ]);
 });

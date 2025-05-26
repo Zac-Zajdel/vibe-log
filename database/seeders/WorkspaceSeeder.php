@@ -12,8 +12,10 @@ final class WorkspaceSeeder extends Seeder
 {
     public function run(): void
     {
-        Workspace::factory(2)
-            ->for(User::first(), 'owner')
-            ->create();
+        foreach (User::all() as $user) {
+            Workspace::factory(2)
+                ->for($user, 'owner')
+                ->create();
+        }
     }
 }

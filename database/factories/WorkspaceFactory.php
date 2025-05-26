@@ -20,8 +20,17 @@ final class WorkspaceFactory extends Factory
     {
         return [
             'owner_id' => User::factory(),
-            'name' => fake()->company(),
+            'name' => fake()->unique()->company(),
             'description' => fake()->paragraph(),
+            'logo' => fake()->imageUrl(),
         ];
+    }
+
+    public function default(): Factory
+    {
+        return $this->state(fn () => [
+            'name' => 'Default Workspace',
+            'description' => 'Your personal workspace',
+        ]);
     }
 }

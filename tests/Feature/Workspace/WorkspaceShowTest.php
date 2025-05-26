@@ -3,15 +3,11 @@
 declare(strict_types=1);
 
 use App\Models\User;
-use App\Models\Workspace;
 use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
-
-    $this->workspace = Workspace::factory()
-        ->for($this->user, 'owner')
-        ->create();
+    $this->workspace = $this->user->activeWorkspace;
 });
 
 it('Retrieve Workspace', function () {
