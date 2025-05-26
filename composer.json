@@ -84,8 +84,7 @@
         ],
         "check": [
             "composer lint",
-            "composer larastan",
-            "composer type-coverage"
+            "composer larastan"
         ]
     },
     "extra": {

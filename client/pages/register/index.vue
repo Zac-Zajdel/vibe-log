@@ -20,7 +20,7 @@
     try {
       // First get the CSRF cookie
       await $fetch('http://localhost:8000/sanctum/csrf-cookie', {
-        credentials: 'include', // Important: This ensures cookies are sent/received
+        credentials: 'include',
       });
 
       // Get the CSRF token from cookie and decode it

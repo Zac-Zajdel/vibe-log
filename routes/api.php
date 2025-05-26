@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthenticatedSessionController;
-use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +30,6 @@ Route::prefix('v1')
 
 Route::prefix('v1')
     ->middleware('guest')->group(function (): void {
-        Route::post('register', [RegisteredUserController::class, 'store']);
+        Route::post('register', [UserController::class, 'store']);
         Route::post('login', [AuthenticatedSessionController::class, 'store']);
     });

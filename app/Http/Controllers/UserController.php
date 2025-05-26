@@ -7,14 +7,23 @@ namespace App\Http\Controllers;
 use App\Actions\User\StoreUser;
 use App\Actions\Workspace\StoreWorkspace;
 use App\Data\Request\User\UserStoreData;
+use App\Data\Resource\User\UserResource;
 use App\Data\Transfer\User\UserData;
 use App\Data\Transfer\Workspace\WorkspaceData;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
-final class RegisteredUserController extends Controller
+final class UserController extends Controller
 {
+    public function index()
+    {
+        //
+    }
+
     public function store(UserStoreData $data): JsonResponse
     {
         $user = StoreUser::make()->handle(UserData::from($data));
@@ -34,9 +43,25 @@ final class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return response()->json([
-            'message' => 'User created successfully',
-            'data' => $user,
-        ]);
+        return $this->success(
+            UserResource::from($user),
+            'User created successfully',
+            Response::HTTP_CREATED,
+        );
+    }
+
+    public function show(User $user)
+    {
+        //
+    }
+
+    public function update(Request $request, User $user)
+    {
+        //
+    }
+
+    public function destroy(User $user)
+    {
+        //
     }
 }
