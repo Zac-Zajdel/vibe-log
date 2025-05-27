@@ -20,7 +20,7 @@ final class UserResource extends Resource
         public ?string $remember_token,
         public ?CarbonImmutable $created_at,
         public ?CarbonImmutable $updated_at,
-        public Lazy|WorkspaceResource $activeWorkspace,
+        public Lazy|WorkspaceResource $active_workspace,
     ) {}
 
     public static function fromModel(User $user): self
@@ -33,7 +33,7 @@ final class UserResource extends Resource
             remember_token: $user->remember_token,
             created_at: $user->created_at,
             updated_at: $user->updated_at,
-            activeWorkspace: Lazy::whenLoaded(
+            active_workspace: Lazy::whenLoaded(
                 'activeWorkspace',
                 $user,
                 fn () => $user->activeWorkspace ? WorkspaceResource::fromModel($user->activeWorkspace) : null,

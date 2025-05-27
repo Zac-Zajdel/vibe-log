@@ -10,6 +10,7 @@ use App\Data\Request\Workspace\WorkspaceStoreData;
 use App\Data\Request\Workspace\WorkspaceUpdateData;
 use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
+use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -87,26 +88,14 @@ final class WorkspaceController extends Controller
     {
         Gate::authorize('delete', $workspace);
 
-        /**
-         * TODO: Each workspace has a is_default flag.
-         * - Users can't delete their default workspace.
-         * - For all other users, we update their active workspace to the default workspace.
-         */
         DB::transaction(function () use ($workspace) {
-            // TODo - Legacy way.
-            // $workspace->activeWorkspaceUsers()->update([
-            //     'active_workspace_id' => null,
-            // ]);
-
-            // foreach ($workspace->activeWorkspaceUsers as $user) {
-            //     $defaultWorkspace = Workspace::query()
-            //         ->whereOwnerId($user->id)
-            //         ->whereIsDefault(true)
-            //         ->sole();
-
-            //     $user->activeWorkspace()->associate($defaultWorkspace);
-            //     $user->save();
-            // }
+            $workspace
+                ->activeWorkspaceUsers()
+                ->with('defaultWorkspace')
+                ->each(function (User $user) {
+                    $user->activeWorkspace()->associate($user->defaultWorkspace);
+                    $user->save();
+                });
 
             $workspace->delete();
         });

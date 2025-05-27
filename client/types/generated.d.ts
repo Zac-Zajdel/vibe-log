@@ -29,6 +29,7 @@ declare namespace App.Data.Resource.User {
     remember_token: string | null;
     created_at: string | null;
     updated_at: string | null;
+    active_workspace?: App.Data.Resource.Workspace.WorkspaceResource;
   };
 }
 declare namespace App.Data.Resource.Workspace {
@@ -38,10 +39,11 @@ declare namespace App.Data.Resource.Workspace {
     name: string | null;
     description: string | null;
     logo: string | null;
+    is_default: boolean;
     archived_at: string | null;
     created_at: string | null;
     updated_at: string | null;
-    user?: App.Data.Resource.User.UserResource;
+    owner?: App.Data.Resource.User.UserResource;
   };
 }
 declare namespace App.Data.Transfer.User {
@@ -57,6 +59,7 @@ declare namespace App.Data.Transfer.Workspace {
     name: string;
     description: string | null;
     logo: string | null;
+    is_default: boolean;
     archived_at: string | null;
   };
 }
