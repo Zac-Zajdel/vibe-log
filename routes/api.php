@@ -15,15 +15,10 @@ Route::prefix('v1')
             'status' => 'success',
             'message' => 'User logged in successfully',
             'data' => $request->user()->load('activeWorkspace'),
-        ]));
-
-        Route::get('hello', fn () => response()->json([
-            'status' => 'success',
-            'message' => 'Retrieved successfully',
-            'data' => 'Hello World',
-        ]));
+        ]))->name('user.show');
 
         Route::apiResource('workspaces', WorkspaceController::class);
+        Route::apiResource('users', UserController::class)->except(['index', 'show', 'destroy']);
 
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     });

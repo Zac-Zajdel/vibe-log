@@ -21,11 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class UserController extends Controller
 {
-    public function index(): void
-    {
-        //
-    }
-
     public function store(UserStoreData $data): JsonResponse
     {
         $user = StoreUser::make()->handle(UserData::from($data));
@@ -66,6 +61,7 @@ final class UserController extends Controller
         );
     }
 
+    // TODO - This is next before I can merge the workspace UI component.
     public function update(Request $request, User $user): void
     {
         Gate::authorize('update', $user);

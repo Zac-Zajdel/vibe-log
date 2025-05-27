@@ -9,7 +9,7 @@ export const useWorkspacesQuery = (page: number, itemsPerPage: number) => {
     }> => {
       const sanctumFetch = useSanctumClient();
 
-      const { data } = await sanctumFetch('/api/v1/workspaces');
+      const { data } = await sanctumFetch('workspaces');
 
       return {
         workspaces: data.data,

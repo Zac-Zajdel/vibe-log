@@ -28,10 +28,10 @@
                   class="ml-1 flex w-26 flex-col group-data-[collapsible=icon]:hidden"
                 >
                   <span class="truncate text-xs font-medium">
-                    {{ user?.data?.name }}
+                    {{ user?.name }}
                   </span>
                   <span class="text-muted-foreground truncate text-[10px]">
-                    {{ user?.data?.email }}
+                    {{ user?.email }}
                   </span>
                 </div>
                 <ChevronUp

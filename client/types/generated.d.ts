@@ -27,6 +27,7 @@ declare namespace App.Data.Resource.User {
     email: string;
     email_verified_at: string | null;
     remember_token: string | null;
+    active_workspace_id: number | null;
     created_at: string | null;
     updated_at: string | null;
     active_workspace?: App.Data.Resource.Workspace.WorkspaceResource;

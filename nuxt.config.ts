@@ -59,9 +59,9 @@ export default defineNuxtConfig({
     },
     endpoints: {
       csrf: '/sanctum/csrf-cookie',
-      login: '/api/v1/login',
-      logout: '/api/v1/logout',
-      user: '/api/v1/user',
+      login: 'login',
+      logout: 'logout',
+      user: 'user',
     },
     redirect: {
       onLogout: '/',

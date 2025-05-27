@@ -23,6 +23,7 @@ final class WorkspaceController extends Controller
 {
     public function index(): JsonResponse
     {
+        // TODO - Add Data Request with search capabilities in UI.
         $collection = Workspace::query()
             ->whereOwnerId(request()->user()?->id)
             ->whereIsDefault(false)
