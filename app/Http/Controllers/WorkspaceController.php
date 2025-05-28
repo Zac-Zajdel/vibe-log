@@ -26,7 +26,7 @@ final class WorkspaceController extends Controller
         // TODO - Add Data Request with search capabilities in UI.
         $collection = Workspace::query()
             ->whereOwnerId(request()->user()?->id)
-            ->whereIsDefault(false)
+            ->where('id', '!=', request()->user()?->active_workspace_id)
             ->paginate(
                 perPage: request()->get('per_page', 10),
                 page: request()->get('page', 1),

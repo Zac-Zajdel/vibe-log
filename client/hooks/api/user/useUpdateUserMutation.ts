@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
 export const useUpdateUserMutation = () => {
@@ -11,7 +11,7 @@ export const useUpdateUserMutation = () => {
     }> => {
       const sanctumFetch = useSanctumClient();
 
-      const { data } = await sanctumFetch(`users/${user.id}`, {
+      const { data, message } = await sanctumFetch(`users/${user.id}`, {
         method: 'PUT',
         body: JSON.stringify({
           name: user.name,
@@ -21,23 +21,13 @@ export const useUpdateUserMutation = () => {
       });
 
       return {
-        message: data.message,
-        user: data.user,
+        message,
+        user: data,
       };
     },
-    onSuccess: async ({ message }: { message: string }) => {
-      toast.success(message);
-
-      // Re-queries the user to get the updated active workspace.
-      const { refreshIdentity } = useSanctumAuth();
-      refreshIdentity();
-
-      // Updates the sidebar options within the dropdown menu.
-      const queryClient = useQueryClient();
-      queryClient.invalidateQueries({
-        queryKey: ['workspaces'],
-      });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast.error(error?.data?.message);
     },
-    onError: (error) => toast.error(error.message),
   });
 };
