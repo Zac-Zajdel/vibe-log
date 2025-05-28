@@ -16,10 +16,13 @@ final class StoreUser
 
     public function handle(UserData $data): User
     {
-        return User::create([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => ! $data->password instanceof Optional ? Hash::make($data->password) : null,
-        ]);
+        return tap(
+            User::create([
+                'name' => $data->name,
+                'email' => $data->email,
+                'password' => ! $data->password instanceof Optional ? Hash::make($data->password) : null,
+            ]),
+            fn (User $user) => $user->refresh(),
+        );
     }
 }

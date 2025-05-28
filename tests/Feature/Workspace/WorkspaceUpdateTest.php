@@ -12,12 +12,12 @@ beforeEach(function () {
 });
 
 it('Update Workspace', function () {
-    $workspaceData = new WorkspaceData(
-        owner_id: $this->user->id,
-        name: 'Your updated workspace',
-        description: 'Your updated workspace',
-        logo: 'https://via.placeholder.com/160',
-    );
+    $workspaceData = WorkspaceData::from([
+        'owner_id' => $this->user->id,
+        'name' => 'Your updated workspace',
+        'description' => 'Your updated workspace',
+        'logo' => 'https://via.placeholder.com/160',
+    ]);
 
     $this
         ->actingAs($this->user)

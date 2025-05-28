@@ -13,12 +13,12 @@ beforeEach(function () {
 });
 
 it('Create Workspace', function () {
-    $workspaceData = new WorkspaceData(
-        owner_id: $this->user->id,
-        name: fake()->unique()->company(),
-        description: 'Your personal workspace',
-        logo: 'https://via.placeholder.com/150',
-    );
+    $workspaceData = WorkspaceData::from([
+        'owner_id' => $this->user->id,
+        'name' => fake()->unique()->company(),
+        'description' => 'Your personal workspace',
+        'logo' => 'https://via.placeholder.com/150',
+    ]);
 
     $response = $this
         ->actingAs($this->user)

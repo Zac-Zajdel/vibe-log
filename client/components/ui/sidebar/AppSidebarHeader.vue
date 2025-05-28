@@ -50,6 +50,7 @@
               <ChevronDown class="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
+          <!-- TODO - Add option for user to create more workspaces either as + icon or as first content within dropdown -->
           <DropdownMenuContent class="w-48">
             <DropdownMenuItem
               v-for="workspace in workspaces"
