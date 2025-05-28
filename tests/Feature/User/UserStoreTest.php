@@ -23,11 +23,12 @@ it('Register User', function () {
     $user = User::with('activeWorkspace')->latest()->first();
 
     $response
-        ->assertSuccess(
-            Response::HTTP_CREATED,
-            'User created successfully',
-            UserResource::from($user)->toArray(),
-        );
+        ->assertStatus(Response::HTTP_CREATED)
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'User created successfully',
+            'data' => UserResource::from($user)->toArray(),
+        ]);
 
     // Check if the user is logged in and has the correct ID.
     expect(auth()->check())->toBeTrue();

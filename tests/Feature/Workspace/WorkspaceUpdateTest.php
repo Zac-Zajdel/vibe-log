@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\User;
 
@@ -24,10 +25,12 @@ it('Update Workspace', function () {
             route('workspaces.update', $this->workspace),
             $workspaceData->toArray(),
         )
-        ->assertSuccess(
-            message: 'Workspace updated successfully',
-            json: $workspaceData->toArray(),
-        );
+        ->assertOk()
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Workspace updated successfully',
+            'data' => WorkspaceResource::from($this->workspace->refresh())->toArray(),
+        ]);
 
     $this->assertDatabaseHas('workspaces', $workspaceData->toArray());
 });

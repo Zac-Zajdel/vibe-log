@@ -11,7 +11,7 @@ abstract class Controller
 {
     protected function success(
         mixed $data = null,
-        string $message = 'Success',
+        string $message = 'success',
         int $code = Response::HTTP_OK
     ): JsonResponse {
         return response()->json([
@@ -22,7 +22,7 @@ abstract class Controller
     }
 
     protected function error(
-        string $message = 'Error',
+        string $message = 'error',
         mixed $errors = null,
         int $code = Response::HTTP_BAD_REQUEST
     ): JsonResponse {
