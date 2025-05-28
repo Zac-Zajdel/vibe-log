@@ -8,6 +8,7 @@ use App\Data\Transfer\User\UserData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Spatie\LaravelData\Optional;
 
 final class StoreUser
 {
@@ -15,10 +16,13 @@ final class StoreUser
 
     public function handle(UserData $data): User
     {
-        return User::create([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => $data->password ? Hash::make($data->password) : null,
-        ]);
+        return tap(
+            User::create([
+                'name' => $data->name,
+                'email' => $data->email,
+                'password' => ! $data->password instanceof Optional ? Hash::make($data->password) : null,
+            ]),
+            fn (User $user) => $user->refresh(),
+        );
     }
 }

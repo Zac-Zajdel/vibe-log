@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Workspace;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -31,6 +32,19 @@ final class UserFactory extends Factory
             'password' => self::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $defaultWorkspace = Workspace::factory()
+                ->default()
+                ->for($user, 'owner')
+                ->create();
+
+            $user->activeWorkspace()->associate($defaultWorkspace);
+            $user->save();
+        });
     }
 
     /**

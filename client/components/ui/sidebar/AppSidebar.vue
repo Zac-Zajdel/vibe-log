@@ -1,43 +1,15 @@
 <script setup lang="ts">
+  import AppSidebarFooter from '@/components/ui/sidebar/AppSidebarFooter.vue';
+  import AppSidebarHeader from '@/components/ui/sidebar/AppSidebarHeader.vue';
   import { sidebarOptions } from '@/types/sidebar';
-  import { ChevronDown, ChevronUp, User } from 'lucide-vue-next';
-
-  const { logout } = useSanctumAuth();
-
-  const signOut = async () => {
-    await logout();
-    window.location.reload();
-  };
 </script>
 
 <template>
   <Sidebar collapsible="icon">
-    <!-- Hidden for now on collapse but want to show icon of workspace instead-->
-    <SidebarHeader class="mt-2 group-data-[collapsible=icon]:hidden">
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <DropdownMenu>
-            <!--eslint-disable-next-line vue/attribute-hyphenation -->
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>
-                Default Workspace
-                <ChevronDown class="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent class="w-48">
-              <DropdownMenuItem>
-                <span>Personal Website</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Work</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarHeader>
+    <AppSidebarHeader />
 
     <SidebarContent class="group-data-[collapsible=icon]:mt-1.5">
+      <Separator class="mt-1" />
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -57,29 +29,6 @@
       </SidebarGroup>
     </SidebarContent>
 
-    <SidebarFooter>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <DropdownMenu>
-            <!--eslint-disable-next-line vue/attribute-hyphenation -->
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>
-                <User />
-                Username
-                <ChevronUp class="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side="top" class="w-48">
-              <DropdownMenuItem>
-                <NuxtLink to="/profile">Profile</NuxtLink>
-              </DropdownMenuItem>
-              <DropdownMenuItem @click="signOut">
-                <span>Sign out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarFooter>
+    <AppSidebarFooter />
   </Sidebar>
 </template>

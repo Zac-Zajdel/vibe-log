@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { toast } from 'vue-sonner';
+
   useHead({ titleTemplate: 'Register | Vibe Log' });
 
   definePageMeta({
@@ -20,7 +22,7 @@
     try {
       // First get the CSRF cookie
       await $fetch('http://localhost:8000/sanctum/csrf-cookie', {
-        credentials: 'include', // Important: This ensures cookies are sent/received
+        credentials: 'include',
       });
 
       // Get the CSRF token from cookie and decode it
@@ -32,7 +34,7 @@
       );
 
       // Now make the registration request with the CSRF token
-      await $fetch('http://localhost:8000/api/v1/register', {
+      const response = await $fetch('http://localhost:8000/api/v1/register', {
         method: 'POST',
         body: JSON.stringify(form.value),
         headers: {
@@ -44,8 +46,9 @@
 
       await refreshIdentity();
       return navigateTo('/home');
-    } catch (err) {
-      console.error(err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err.data.message);
     }
   }
 </script>

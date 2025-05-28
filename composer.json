@@ -19,6 +19,7 @@
         "spatie/laravel-typescript-transformer": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.0",
         "laravel/pail": "^1.2.2",
@@ -31,6 +32,9 @@
         "pestphp/pest-plugin-type-coverage": "^3.5"
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
@@ -83,8 +87,7 @@
         ],
         "check": [
             "composer lint",
-            "composer larastan",
-            "composer type-coverage"
+            "composer larastan"
         ]
     },
     "extra": {

@@ -14,6 +14,9 @@ final class StoreWorkspace
 
     public function handle(WorkspaceData $data): Workspace
     {
-        return Workspace::create($data->toArray());
+        return tap(
+            Workspace::create($data->toArray()),
+            fn (Workspace $workspace) => $workspace->refresh(),
+        );
     }
 }

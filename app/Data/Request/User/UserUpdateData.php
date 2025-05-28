@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Data\Request\User;
+
+use App\Models\User;
+use App\Models\Workspace;
+use Illuminate\Validation\Rule;
+use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
+use Spatie\LaravelData\Attributes\Validation\Max;
+use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Support\Validation\ValidationContext;
+use Spatie\TypeScriptTransformer\Attributes\Hidden;
+
+final class UserUpdateData extends Data
+{
+    #[Hidden, FromRouteParameterProperty('user', 'id')]
+    public int $id;
+
+    #[Max(255)]
+    public string $name;
+
+    public string $email;
+
+    public int $active_workspace_id;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function rules(ValidationContext $context): array
+    {
+        return [
+            'email' => [
+                'required',
+                'max:255',
+                'string',
+                'email',
+                Rule::unique(User::class, 'email')->ignore($context->payload['id']),
+            ],
+            'active_workspace_id' => [
+                'required',
+                Rule::exists(Workspace::class, 'id')->where('owner_id', data_get($context->payload, 'id')),
+            ],
+        ];
+    }
+}
