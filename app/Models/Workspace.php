@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Data\Request\Workspace\WorkspaceIndexData;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,18 +26,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read User $owner
  *
  * @method static \Database\Factories\WorkspaceFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereArchivedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereIsDefault($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereLogo($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereOwnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workspace whereUpdatedAt($value)
+ * @method static Builder<static>|Workspace newModelQuery()
+ * @method static Builder<static>|Workspace newQuery()
+ * @method static Builder<static>|Workspace query()
+ * @method static Builder<static>|Workspace search(\App\Data\Request\Workspace\WorkspaceIndexData $data)
+ * @method static Builder<static>|Workspace whereArchivedAt($value)
+ * @method static Builder<static>|Workspace whereCreatedAt($value)
+ * @method static Builder<static>|Workspace whereDescription($value)
+ * @method static Builder<static>|Workspace whereId($value)
+ * @method static Builder<static>|Workspace whereIsDefault($value)
+ * @method static Builder<static>|Workspace whereLogo($value)
+ * @method static Builder<static>|Workspace whereName($value)
+ * @method static Builder<static>|Workspace whereOwnerId($value)
+ * @method static Builder<static>|Workspace whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
@@ -68,5 +71,17 @@ final class Workspace extends Model
     public function activeWorkspaceUsers(): HasMany
     {
         return $this->hasMany(User::class, 'active_workspace_id');
+    }
+
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
+    protected function scopeSearch(Builder $query, WorkspaceIndexData $data): Builder
+    {
+        /** @var string $search */
+        $search = $data->search;
+
+        return $query->where('name', 'ilike', "%$search%");
     }
 }

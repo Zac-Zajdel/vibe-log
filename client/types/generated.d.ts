@@ -11,6 +11,11 @@ declare namespace App.Data.Request.User {
   };
 }
 declare namespace App.Data.Request.Workspace {
+  export type WorkspaceIndexData = {
+    search?: string;
+    page?: number;
+    per_page?: number;
+  };
   export type WorkspaceStoreData = {
     owner_id: number;
     name: string;

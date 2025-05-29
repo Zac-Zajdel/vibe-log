@@ -6,7 +6,7 @@
 
 <template>
   <Sidebar collapsible="icon">
-    <AppSidebarHeader />
+    <AppSidebarHeader class="mt-2" />
 
     <SidebarContent class="group-data-[collapsible=icon]:mt-1.5">
       <Separator class="mt-1" />
