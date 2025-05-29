@@ -4,20 +4,25 @@ declare namespace App.Data.Request.User {
     email: string;
     password: string;
   };
+  export type UserUpdateData = {
+    name?: string;
+    email?: string;
+    active_workspace_id?: number;
+  };
 }
 declare namespace App.Data.Request.Workspace {
   export type WorkspaceStoreData = {
     owner_id: number;
     name: string;
-    description: string | null;
-    logo: string | null;
+    description?: string | null;
+    logo?: string | null;
   };
   export type WorkspaceUpdateData = {
     owner_id: number;
     name: string;
-    description: string | null;
-    logo: string | null;
-    archived_at: string | null;
+    description?: string | null;
+    logo?: string | null;
+    archived_at?: string | null;
   };
 }
 declare namespace App.Data.Resource.User {
@@ -49,18 +54,19 @@ declare namespace App.Data.Resource.Workspace {
 }
 declare namespace App.Data.Transfer.User {
   export type UserData = {
-    name: string | null;
-    email: string | null;
-    password: string | null;
+    name?: string;
+    email?: string;
+    password?: string;
+    active_workspace_id?: number;
   };
 }
 declare namespace App.Data.Transfer.Workspace {
   export type WorkspaceData = {
-    owner_id: number;
-    name: string;
-    description: string | null;
-    logo: string | null;
-    is_default: boolean;
-    archived_at: string | null;
+    owner_id?: number;
+    name?: string;
+    description?: string | null;
+    logo?: string | null;
+    is_default?: boolean;
+    archived_at?: string | null;
   };
 }
