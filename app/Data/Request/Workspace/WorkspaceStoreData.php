@@ -11,6 +11,7 @@ use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 
 final class WorkspaceStoreData extends Data
@@ -22,10 +23,10 @@ final class WorkspaceStoreData extends Data
     public string $name;
 
     #[Max(1000)]
-    public ?string $description;
+    public Optional|string|null $description;
 
     #[Max(255)]
-    public ?string $logo;
+    public Optional|string|null $logo;
 
     /**
      * @return array<string, mixed>

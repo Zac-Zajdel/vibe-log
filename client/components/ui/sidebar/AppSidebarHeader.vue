@@ -39,9 +39,7 @@
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              :tooltip="user.active_workspace?.name || 'Default Workspace'"
-            >
+            <SidebarMenuButton>
               <div class="w-33 overflow-hidden">
                 <span class="block truncate text-xs font-medium">
                   {{ user.active_workspace?.name || 'Default Workspace' }}
@@ -50,8 +48,9 @@
               <ChevronDown class="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <!-- TODO - Add option for user to create more workspaces either as + icon or as first content within dropdown -->
           <DropdownMenuContent class="w-48">
+            <WorkspaceCreate />
+            <SidebarSeparator class="mx-0 my-2" />
             <DropdownMenuItem
               v-for="workspace in workspaces"
               :key="workspace.id"

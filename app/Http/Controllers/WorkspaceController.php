@@ -27,6 +27,7 @@ final class WorkspaceController extends Controller
         $collection = Workspace::query()
             ->whereOwnerId(request()->user()?->id)
             ->where('id', '!=', request()->user()?->active_workspace_id)
+            ->orderBy('name', 'asc')
             ->paginate(
                 perPage: request()->get('per_page', 10),
                 page: request()->get('page', 1),

@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\Hidden;
 
@@ -19,11 +20,11 @@ final class UserUpdateData extends Data
     public int $id;
 
     #[Max(255)]
-    public string $name;
+    public Optional|string $name;
 
-    public string $email;
+    public Optional|string $email;
 
-    public int $active_workspace_id;
+    public Optional|int $active_workspace_id;
 
     /**
      * @return array<string, mixed>
@@ -32,14 +33,12 @@ final class UserUpdateData extends Data
     {
         return [
             'email' => [
-                'required',
                 'max:255',
                 'string',
                 'email',
                 Rule::unique(User::class, 'email')->ignore($context->payload['id']),
             ],
             'active_workspace_id' => [
-                'required',
                 Rule::exists(Workspace::class, 'id')->where('owner_id', data_get($context->payload, 'id')),
             ],
         ];

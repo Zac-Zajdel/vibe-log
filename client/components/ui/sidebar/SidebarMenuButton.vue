@@ -43,7 +43,7 @@
     <slot />
   </SidebarMenuButtonChild>
 
-  <Tooltip v-else :delayDuration="500">
+  <Tooltip v-else :delayDuration="800">
     <TooltipTrigger as-child>
       <SidebarMenuButtonChild v-bind="{ ...delegatedProps, ...$attrs }">
         <slot />

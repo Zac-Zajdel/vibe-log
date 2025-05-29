@@ -12,6 +12,7 @@ use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\Hidden;
 
@@ -27,12 +28,12 @@ final class WorkspaceUpdateData extends Data
     public string $name;
 
     #[Max(1000)]
-    public ?string $description;
+    public Optional|string|null $description;
 
     #[Max(255)]
-    public ?string $logo;
+    public Optional|string|null $logo;
 
-    public ?string $archived_at = null;
+    public Optional|string|null $archived_at;
 
     /**
      * @return array<string, mixed>
