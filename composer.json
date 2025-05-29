@@ -87,7 +87,8 @@
         ],
         "check": [
             "composer lint",
-            "composer larastan"
+            "composer larastan",
+            "composer test"
         ]
     },
     "extra": {

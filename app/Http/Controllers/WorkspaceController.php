@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Workspace\StoreWorkspace;
 use App\Actions\Workspace\UpdateWorkspace;
+use App\Data\Request\Workspace\WorkspaceIndexData;
 use App\Data\Request\Workspace\WorkspaceStoreData;
 use App\Data\Request\Workspace\WorkspaceUpdateData;
 use App\Data\Resource\Workspace\WorkspaceResource;
@@ -16,17 +17,21 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\PaginatedDataCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 final class WorkspaceController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(WorkspaceIndexData $data): JsonResponse
     {
-        // TODO - Add Data Request with search capabilities in UI.
         $collection = Workspace::query()
             ->whereOwnerId(request()->user()?->id)
             ->where('id', '!=', request()->user()?->active_workspace_id)
+            ->when(
+                ! $data->search instanceof Optional,
+                fn ($q) => $q->search($data),
+            )
             ->orderBy('name', 'asc')
             ->paginate(
                 perPage: request()->get('per_page', 10),

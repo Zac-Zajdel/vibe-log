@@ -39,7 +39,7 @@
 
 <template>
   <Dialog v-model:open="open">
-    <DialogTrigger class="w-full cursor-pointer pt-1">
+    <DialogTrigger class="w-full cursor-pointer">
       <div
         class="hover:bg-muted flex cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-xs"
       >
