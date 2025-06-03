@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxtjs/color-mode',
     'nuxt-auth-sanctum',
+    'motion-v/nuxt',
   ],
 
   colorMode: {
