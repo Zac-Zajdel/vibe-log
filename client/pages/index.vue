@@ -5,9 +5,9 @@
 </script>
 
 <template>
-  <div>
+  <div class="flex min-h-screen flex-col">
     <LandingNavBar />
-    <div class="mt-24 flex justify-center space-y-6 text-center">
+    <main class="mt-24 flex flex-1 justify-center space-y-6 text-center">
       <div class="max-w-[650px] space-y-6">
         <motion.h1
           class="text-6xl font-medium tracking-wide text-pretty"
@@ -36,6 +36,7 @@
           collaboration.
         </motion.h2>
       </div>
-    </div>
+    </main>
+    <LandingFooter />
   </div>
 </template>

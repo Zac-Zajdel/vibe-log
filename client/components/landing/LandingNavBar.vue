@@ -1,10 +1,13 @@
+<script setup lang="ts">
+  import { LogIn } from 'lucide-vue-next';
+</script>
+
 <template>
   <div class="flex items-center justify-between pt-5 pb-3">
     <div class="flex items-center">
-      <NuxtImg src="/images/logo.svg" alt="Vibe Log" class="size-10" />
-      <h1 class="ml-4 text-xl">Vibe Log</h1>
+      <h1 class="ml-4 text-2xl">Vibe Log</h1>
     </div>
-    <Button>
+    <Button iconPlacement="right" effect="expandIcon" :icon="LogIn">
       <NuxtLink to="/login">Login</NuxtLink>
     </Button>
   </div>
