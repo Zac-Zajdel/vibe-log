@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import type { Breadcrumbs } from '@/types/breadcrumbs';
-  import { ArrowLeftIcon, ArrowRightIcon, HomeIcon } from 'lucide-vue-next';
-  import ButtonEnhanced from '~/components/ui/button/ButtonEnhanced.vue';
+  import { HomeIcon, MoonStar, Sun } from 'lucide-vue-next';
 
   useHead({ title: 'Home' });
 
@@ -14,22 +13,22 @@
   <PageWrapper :breadcrumbs="breadcrumbs">
     <div class="flex flex-col gap-4">
       <div class="flex gap-2">
-        <ButtonEnhanced
+        <Button
           iconPlacement="left"
           effect="expandIcon"
-          :icon="ArrowLeftIcon"
+          :icon="Sun"
           @click="colorMode.preference = 'light'"
         >
           Light
-        </ButtonEnhanced>
-        <ButtonEnhanced
+        </Button>
+        <Button
           iconPlacement="right"
           effect="expandIcon"
-          :icon="ArrowRightIcon"
+          :icon="MoonStar"
           @click="colorMode.preference = 'dark'"
         >
           Dark
-        </ButtonEnhanced>
+        </Button>
         <Button @click="colorMode.preference = 'system'">System</Button>
       </div>
     </div>
