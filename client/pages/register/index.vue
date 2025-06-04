@@ -34,7 +34,7 @@
       );
 
       // Now make the registration request with the CSRF token
-      const response = await $fetch('http://localhost:8000/api/v1/register', {
+      await $fetch('http://localhost:8000/api/v1/register', {
         method: 'POST',
         body: JSON.stringify(form.value),
         headers: {
