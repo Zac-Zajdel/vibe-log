@@ -7,8 +7,10 @@
     <div class="flex items-center">
       <h1 class="ml-4 text-2xl">Vibe Log</h1>
     </div>
-    <Button iconPlacement="right" effect="expandIcon" :icon="LogIn">
-      <NuxtLink to="/login">Login</NuxtLink>
-    </Button>
+    <NuxtLink to="/login">
+      <Button iconPlacement="right" effect="expandIcon" :icon="LogIn">
+        Login
+      </Button>
+    </NuxtLink>
   </div>
 </template>

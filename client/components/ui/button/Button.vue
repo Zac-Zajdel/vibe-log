@@ -24,11 +24,7 @@
     :as="as"
     :as-child="asChild"
     :class="
-      cn(
-        'group flex cursor-pointer items-center',
-        buttonVariants({ variant, size }),
-        props.class
-      )
+      cn('group cursor-pointer', buttonVariants({ variant, size }), props.class)
     "
   >
     <!-- Left icon -->
