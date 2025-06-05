@@ -2,6 +2,7 @@
   import { useForm } from '@tanstack/vue-form';
   import { Mail } from 'lucide-vue-next';
   import { toast } from 'vue-sonner';
+  import { z } from 'zod/v4';
 
   useHead({ titleTemplate: 'Login | Vibe Log' });
 
@@ -38,8 +39,13 @@
       <CardContent>
         <form @submit.prevent.stop="form.handleSubmit">
           <div class="space-y-3">
-            <form.Field name="email">
-              <template #default="{ field }">
+            <form.Field
+              name="email"
+              :validators="{
+                onBlur: z.email(),
+              }"
+            >
+              <template #default="{ field, state }">
                 <Label :for="field.name">Email</Label>
                 <Input
                   :id="field.name"
@@ -51,10 +57,18 @@
                       field.handleChange((e.target as HTMLInputElement).value)
                   "
                 />
+                <InputInfo :state="state" />
               </template>
             </form.Field>
-            <form.Field name="password">
-              <template #default="{ field }">
+            <form.Field
+              name="password"
+              :validators="{
+                onBlur: z.string().min(8, {
+                  error: 'Password must be a minimum of 8 characters',
+                }),
+              }"
+            >
+              <template #default="{ field, state }">
                 <Label :for="field.name">Password</Label>
                 <Input
                   :id="field.name"
@@ -68,6 +82,7 @@
                       field.handleChange((e.target as HTMLInputElement).value)
                   "
                 />
+                <InputInfo :state="state" />
               </template>
             </form.Field>
           </div>
@@ -76,7 +91,7 @@
               <Button
                 type="submit"
                 :disabled="!canSubmit"
-                class="mt-10 w-full"
+                class="mt-5 w-full"
                 iconPlacement="right"
                 effect="expandIcon"
                 :icon="Mail"
