@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { useForm } from '@tanstack/vue-form';
+  import { Mail } from 'lucide-vue-next';
   import { toast } from 'vue-sonner';
 
   useHead({ titleTemplate: 'Login | Vibe Log' });
@@ -70,9 +71,20 @@
               </template>
             </form.Field>
           </div>
-          <Button type="submit" class="mt-10 w-full">
-            Continue with Email
-          </Button>
+          <form.Subscribe>
+            <template #default="{ canSubmit, isSubmitting }">
+              <Button
+                type="submit"
+                :disabled="!canSubmit"
+                class="mt-10 w-full"
+                iconPlacement="right"
+                effect="expandIcon"
+                :icon="Mail"
+              >
+                {{ isSubmitting ? 'Logging in...' : 'Continue with Email' }}
+              </Button>
+            </template>
+          </form.Subscribe>
         </form>
       </CardContent>
       <CardFooter class="my-3 flex items-center justify-center px-6">

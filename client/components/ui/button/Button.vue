@@ -31,7 +31,7 @@
     <template v-if="icon && iconPlacement === 'left'">
       <template v-if="effect === 'expandIcon'">
         <div
-          class="-mr-2 w-0 translate-x-[-100%] opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pr-6 group-hover:opacity-100"
+          class="-mr-2 w-0 translate-x-[-100%] opacity-0 transition-all duration-300 group-hover:w-5 group-hover:translate-x-0 group-hover:pr-6 group-hover:opacity-100"
         >
           <component :is="icon" />
         </div>
@@ -47,7 +47,7 @@
     <template v-if="icon && iconPlacement === 'right'">
       <template v-if="effect === 'expandIcon'">
         <div
-          class="-ml-2 w-0 translate-x-[100%] opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100"
+          class="-ml-2 w-0 translate-x-[100%] opacity-0 transition-all duration-300 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-3 group-hover:opacity-100"
         >
           <component :is="icon" />
         </div>
