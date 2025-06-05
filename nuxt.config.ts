@@ -21,6 +21,12 @@ export default defineNuxtConfig({
 
   srcDir: 'client',
 
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.NUXT_SANCTUM_API_URL,
+    },
+  },
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/image',
@@ -42,14 +48,7 @@ export default defineNuxtConfig({
   },
 
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
     componentDir: './client/components/ui',
   },
 
@@ -59,7 +58,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
     endpoints: {
-      csrf: '/sanctum/csrf-cookie',
+      csrf: '/api/v1/sanctum/csrf-cookie',
       login: 'login',
       logout: 'logout',
       user: 'user',
