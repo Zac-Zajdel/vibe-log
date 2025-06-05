@@ -2,6 +2,7 @@
   import { useForm } from '@tanstack/vue-form';
   import { UserPlus } from 'lucide-vue-next';
   import { toast } from 'vue-sonner';
+  import { z } from 'zod/v4';
 
   useHead({ titleTemplate: 'Register | Vibe Log' });
 
@@ -81,8 +82,13 @@
                 />
               </template>
             </form.Field>
-            <form.Field name="email">
-              <template #default="{ field }">
+            <form.Field
+              name="email"
+              :validators="{
+                onBlur: z.email(),
+              }"
+            >
+              <template #default="{ field, state }">
                 <Label :for="field.name">Email</Label>
                 <Input
                   :id="field.name"
@@ -94,10 +100,18 @@
                       field.handleChange((e.target as HTMLInputElement).value)
                   "
                 />
+                <InputInfo :state="state" />
               </template>
             </form.Field>
-            <form.Field name="password">
-              <template #default="{ field }">
+            <form.Field
+              name="password"
+              :validators="{
+                onBlur: z.string().min(8, {
+                  error: 'Password must be a minimum of 8 characters',
+                }),
+              }"
+            >
+              <template #default="{ field, state }">
                 <Label :for="field.name">Password</Label>
                 <Input
                   :id="field.name"
@@ -111,10 +125,20 @@
                       field.handleChange((e.target as HTMLInputElement).value)
                   "
                 />
+                <InputInfo :state="state" />
               </template>
             </form.Field>
-            <form.Field name="password_confirmation">
-              <template #default="{ field }">
+            <form.Field
+              name="password_confirmation"
+              :validators="{
+                onBlur: z
+                  .string()
+                  .refine((val) => val === form.state.values.password, {
+                    message: 'Passwords do not match',
+                  }),
+              }"
+            >
+              <template #default="{ field, state }">
                 <Label :for="field.name">Password Confirmation</Label>
                 <Input
                   :id="field.name"
@@ -128,6 +152,7 @@
                       field.handleChange((e.target as HTMLInputElement).value)
                   "
                 />
+                <InputInfo :state="state" />
               </template>
             </form.Field>
           </div>

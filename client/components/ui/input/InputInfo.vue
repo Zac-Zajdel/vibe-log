@@ -16,7 +16,6 @@
       >
         {{ error.message }}
       </em>
-      {{ props.state.meta.isValidating ? 'Validating...' : null }}
     </template>
   </div>
 </template>
