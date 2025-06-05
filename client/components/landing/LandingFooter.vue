@@ -1,7 +1,3 @@
-<script setup lang="ts">
-  import Github from '@/components/ui/icons/Github.vue';
-</script>
-
 <template>
   <footer>
     <div class="flex items-center justify-between py-5">
@@ -18,7 +14,7 @@
       <div>
         <NuxtLink href="https://github.com/Zac-Zajdel/vibe-log" target="_blank">
           <Button variant="outline" size="icon" aria-label="Github">
-            <Github />
+            <GithubIcon />
           </Button>
         </NuxtLink>
       </div>

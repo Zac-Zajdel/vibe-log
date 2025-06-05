@@ -6,6 +6,8 @@ use Laravel\Sanctum\Sanctum;
 
 return [
 
+    'prefix' => 'api/v1/sanctum',
+
     /*
     |--------------------------------------------------------------------------
     | Stateful Domains
