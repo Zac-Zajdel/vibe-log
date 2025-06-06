@@ -9,6 +9,7 @@ use App\Enums\StandupGroup\StandupGroupVisibility;
 use App\Models\StandupGroup;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\Max;
@@ -40,7 +41,7 @@ final class StandupGroupUpdateData extends Data
     public Optional|array|null $days;
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array<int, string|Unique>>
      */
     public static function rules(ValidationContext $context): array
     {

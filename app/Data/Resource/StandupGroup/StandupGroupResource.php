@@ -18,7 +18,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
 final class StandupGroupResource extends Resource
 {
     /**
-     * @param Collection<int, StandupGroupDay>|array<StandupGroupDay>|null $days
+     * @param  Collection<int, StandupGroupDay>|array<StandupGroupDay>|null  $days
      */
     public function __construct(
         public int $id,
