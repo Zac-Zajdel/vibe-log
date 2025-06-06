@@ -60,7 +60,7 @@ final class StandupGroup extends Model
     }
 
     /**
-     * @return BelongsTo<User, $this>
+     * @return BelongsTo<Workspace, $this>
      */
     public function workspace(): BelongsTo
     {

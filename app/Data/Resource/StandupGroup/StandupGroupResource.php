@@ -10,6 +10,7 @@ use App\Enums\StandupGroup\StandupGroupDay;
 use App\Enums\StandupGroup\StandupGroupVisibility;
 use App\Models\StandupGroup;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Collection;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
@@ -17,7 +18,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
 final class StandupGroupResource extends Resource
 {
     /**
-     * @param  array<StandupGroupDay>|null  $days
+     * @param Collection<int, StandupGroupDay>|array<StandupGroupDay>|null $days
      */
     public function __construct(
         public int $id,
@@ -27,9 +28,8 @@ final class StandupGroupResource extends Resource
         public ?string $description,
         public StandupGroupVisibility $visibility,
         public bool $is_active,
-        // TODO - Definitely a better way to do this...
-        #[TypeScriptType(StandupGroupDay::class.'[] | null')]
-        public ?array $days,
+        #[TypeScriptType(StandupGroupDay::class.'[]|null')]
+        public Collection|array|null $days,
         public ?CarbonImmutable $created_at,
         public ?CarbonImmutable $updated_at,
         public Lazy|UserResource $owner,

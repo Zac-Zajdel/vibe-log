@@ -1,3 +1,13 @@
+declare namespace App.Data.Request.StandupGroup {
+  export type StandupGroupUpdateData = {
+    owner_id: number;
+    name: string;
+    description?: string | null;
+    is_active?: boolean;
+    visibility?: App.Enums.StandupGroup.StandupGroupVisibility | null;
+    days?: Array<App.Enums.StandupGroup.StandupGroupDay> | null;
+  };
+}
 declare namespace App.Data.Request.User {
   export type UserStoreData = {
     name: string;
@@ -79,7 +89,7 @@ declare namespace App.Data.Transfer.StandupGroup {
     owner_id?: number;
     name?: string;
     description?: string | null;
-    visibility?: App.Enums.StandupGroup.StandupGroupVisibility;
+    visibility?: App.Enums.StandupGroup.StandupGroupVisibility | null;
     is_active?: boolean;
     days?: Array<App.Enums.StandupGroup.StandupGroupDay> | null;
   };

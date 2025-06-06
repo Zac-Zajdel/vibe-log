@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\StandupGroupController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ Route::prefix('v1')
             'data' => $request->user()->load('activeWorkspace'),
         ]))->name('user.show');
 
+        Route::apiResource('standup-groups', StandupGroupController::class);
         Route::apiResource('workspaces', WorkspaceController::class);
         Route::apiResource('users', UserController::class)->except(['index', 'show', 'destroy']);
 

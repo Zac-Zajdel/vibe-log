@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\StandupGroup\UpdateStandupGroup;
+use App\Data\Request\StandupGroup\StandupGroupUpdateData;
 use App\Data\Resource\StandupGroup\StandupGroupResource;
+use App\Data\Transfer\StandupGroup\StandupGroupData;
 use App\Models\StandupGroup;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -36,9 +39,22 @@ final class StandupGroupController extends Controller
         );
     }
 
-    public function update(StandupGroup $standupGroup): void
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(StandupGroupUpdateData $data, StandupGroup $standupGroup): JsonResponse
     {
-        //
+        Gate::authorize('update', $standupGroup);
+
+        $standupGroup = UpdateStandupGroup::make()->handle(
+            $standupGroup,
+            StandupGroupData::from($data),
+        );
+
+        return $this->success(
+            StandupGroupData::from($standupGroup),
+            'Workspace updated successfully',
+        );
     }
 
     /**
