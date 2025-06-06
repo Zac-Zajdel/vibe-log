@@ -30,6 +30,22 @@ declare namespace App.Data.Request.Workspace {
     archived_at?: string | null;
   };
 }
+declare namespace App.Data.Resource.StandupGroup {
+  export type StandupGroupResource = {
+    id: number;
+    workspace_id: number;
+    owner_id: number;
+    name: string;
+    description: string | null;
+    visibility: App.Enums.StandupGroup.StandupGroupVisibility;
+    is_active: boolean;
+    days: Array<App.Enums.StandupGroup.StandupGroupDay> | null;
+    created_at: string | null;
+    updated_at: string | null;
+    owner?: App.Data.Resource.User.UserResource;
+    workspace?: App.Data.Resource.Workspace.WorkspaceResource;
+  };
+}
 declare namespace App.Data.Resource.User {
   export type UserResource = {
     id: number;
@@ -47,7 +63,7 @@ declare namespace App.Data.Resource.Workspace {
   export type WorkspaceResource = {
     id: number;
     owner_id: number;
-    name: string | null;
+    name: string;
     description: string | null;
     logo: string | null;
     is_default: boolean;
@@ -55,6 +71,17 @@ declare namespace App.Data.Resource.Workspace {
     created_at: string | null;
     updated_at: string | null;
     owner?: App.Data.Resource.User.UserResource;
+  };
+}
+declare namespace App.Data.Transfer.StandupGroup {
+  export type StandupGroupData = {
+    workspace_id?: number;
+    owner_id?: number;
+    name?: string;
+    description?: string | null;
+    visibility?: App.Enums.StandupGroup.StandupGroupVisibility;
+    is_active?: boolean;
+    days?: Array<App.Enums.StandupGroup.StandupGroupDay> | null;
   };
 }
 declare namespace App.Data.Transfer.User {
@@ -74,4 +101,15 @@ declare namespace App.Data.Transfer.Workspace {
     is_default?: boolean;
     archived_at?: string | null;
   };
+}
+declare namespace App.Enums.StandupGroup {
+  export type StandupGroupDay =
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday'
+    | 'sunday';
+  export type StandupGroupVisibility = 'public' | 'private' | 'invite_only';
 }
