@@ -16,6 +16,7 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             WorkspaceSeeder::class,
+            StandupGroupSeeder::class,
         ]);
     }
 }

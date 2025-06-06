@@ -7,6 +7,8 @@ namespace App\Data\Request\User;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Exists;
+use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Data;
@@ -27,7 +29,7 @@ final class UserUpdateData extends Data
     public Optional|int $active_workspace_id;
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, list<string|Unique|Exists>>
      */
     public static function rules(ValidationContext $context): array
     {
