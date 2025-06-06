@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $activeWorkspaceUsers
  * @property-read int|null $active_workspace_users_count
  * @property-read User $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, StandupGroup> $standupGroups
+ * @property-read int|null $standup_groups_count
  *
  * @method static \Database\Factories\WorkspaceFactory factory($count = null, $state = [])
  * @method static Builder<static>|Workspace newModelQuery()
@@ -71,6 +73,14 @@ final class Workspace extends Model
     public function activeWorkspaceUsers(): HasMany
     {
         return $this->hasMany(User::class, 'active_workspace_id');
+    }
+
+    /**
+     * @return HasMany<StandupGroup, $this>
+     */
+    public function standupGroups(): HasMany
+    {
+        return $this->hasMany(StandupGroup::class);
     }
 
     /**

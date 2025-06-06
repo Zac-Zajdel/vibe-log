@@ -8,27 +8,27 @@ use App\Models\StandupGroup;
 
 final class StandupGroupController extends Controller
 {
-    public function index()
+    public function index(): void
     {
         //
     }
 
-    public function store()
+    public function store(): void
     {
         //
     }
 
-    public function show(StandupGroup $standupGroup)
+    public function show(StandupGroup $standupGroup): void
     {
         //
     }
 
-    public function update(StandupGroup $standupGroup)
+    public function update(StandupGroup $standupGroup): void
     {
         //
     }
 
-    public function destroy(StandupGroup $standupGroup)
+    public function destroy(StandupGroup $standupGroup): void
     {
         //
     }
