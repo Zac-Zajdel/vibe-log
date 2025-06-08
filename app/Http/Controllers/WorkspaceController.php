@@ -13,7 +13,6 @@ use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\User;
 use App\Models\Workspace;
-use Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +25,8 @@ final class WorkspaceController extends Controller
 {
     public function index(WorkspaceIndexData $data): JsonResponse
     {
-        $user = Auth::user();
+        /** @var User $user */
+        $user = auth()->user();
 
         $workspaces = Workspace::query()
             ->whereOwnerId($user->id)
