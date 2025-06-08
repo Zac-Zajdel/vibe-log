@@ -18,8 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->statefulApi();
 
         // TODO: Uncomment for easy development...
-        // if (env('APP_ENV') === 'local') {
-        //     $middleware->append(StartSession::class);
-        // }
+        if (env('APP_ENV') === 'local') {
+            $middleware->append(StartSession::class);
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {})->create();

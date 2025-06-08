@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\StandupGroupController;
+use App\Http\Controllers\StandupUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ Route::prefix('v1')
 
         Route::apiResource('workspaces', WorkspaceController::class);
         Route::apiResource('standup-groups', StandupGroupController::class);
+        Route::apiResource('standup-groups.users', StandupUserController::class)->except(['show']);
         Route::apiResource('users', UserController::class)->except(['index', 'show', 'destroy']);
 
         Route::post('tokens', [PersonalAccessTokenController::class, 'store'])->name('tokens.store');
