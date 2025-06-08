@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\StandupGroupController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkspaceController;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')
-    ->middleware('auth')
+    ->middleware('auth:sanctum')
     ->group(function (): void {
         Route::get('user', fn (Request $request) => response()->json([
             'status' => 'success',
@@ -18,10 +19,11 @@ Route::prefix('v1')
             'data' => $request->user()->load('activeWorkspace'),
         ]))->name('user.show');
 
-        Route::apiResource('standup-groups', StandupGroupController::class);
         Route::apiResource('workspaces', WorkspaceController::class);
+        Route::apiResource('standup-groups', StandupGroupController::class);
         Route::apiResource('users', UserController::class)->except(['index', 'show', 'destroy']);
 
+        Route::post('tokens', [PersonalAccessTokenController::class, 'store'])->name('tokens.store');
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     });
 
