@@ -25,9 +25,12 @@ final class WorkspaceController extends Controller
 {
     public function index(WorkspaceIndexData $data): JsonResponse
     {
-        $collection = Workspace::query()
-            ->whereOwnerId(request()->user()?->id)
-            ->where('id', '!=', request()->user()?->active_workspace_id)
+        /** @var User $user */
+        $user = auth()->user();
+
+        $workspaces = Workspace::query()
+            ->whereOwnerId($user->id)
+            ->where('id', '!=', $user->active_workspace_id)
             ->when(
                 ! $data->search instanceof Optional,
                 fn ($q) => $q->search($data),
@@ -39,7 +42,7 @@ final class WorkspaceController extends Controller
             );
 
         return $this->success(
-            WorkspaceResource::collect($collection, PaginatedDataCollection::class),
+            WorkspaceResource::collect($workspaces, PaginatedDataCollection::class),
             'Workspaces retrieved successfully',
         );
     }

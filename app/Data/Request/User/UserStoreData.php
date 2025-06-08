@@ -23,7 +23,7 @@ final class UserStoreData extends Data
     public string $password;
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array<int, Password|string|null>>
      */
     public static function rules(ValidationContext $context): array
     {

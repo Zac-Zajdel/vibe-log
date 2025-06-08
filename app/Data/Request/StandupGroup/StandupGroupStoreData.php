@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Data\Request\Workspace;
+namespace App\Data\Request\StandupGroup;
 
+use App\Enums\StandupGroup\StandupGroupDay;
+use App\Enums\StandupGroup\StandupGroupVisibility;
+use App\Models\StandupGroup;
 use App\Models\User;
-use App\Models\Workspace;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Attributes\Validation\Exists;
@@ -15,7 +17,7 @@ use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 
-final class WorkspaceStoreData extends Data
+final class StandupGroupStoreData extends Data
 {
     #[Exists(User::class, 'id')]
     public int $owner_id;
@@ -26,31 +28,27 @@ final class WorkspaceStoreData extends Data
     #[Max(1000)]
     public Optional|string|null $description;
 
-    #[Max(255)]
-    public Optional|string|null $logo;
+    public Optional|bool $is_active;
+
+    public Optional|StandupGroupVisibility|null $visibility;
+
+    /** @var StandupGroupDay[] */
+    public Optional|array|null $days;
 
     /**
      * @return array<string, array<int, string|Unique>>
      */
     public static function rules(ValidationContext $context): array
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         return [
             'name' => [
                 'required',
-                Rule::unique(Workspace::class, 'name')
-                    ->where('owner_id', data_get($context->payload, 'owner_id'))
-                    ->whereNull('archived_at'),
+                Rule::unique(StandupGroup::class, 'name')
+                    ->where('workspace_id', $user->active_workspace_id),
             ],
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function messages(): array
-    {
-        return [
-            'name.unique' => 'You already have a workspace with this name.',
         ];
     }
 }
