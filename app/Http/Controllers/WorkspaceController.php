@@ -13,6 +13,7 @@ use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\User;
 use App\Models\Workspace;
+use Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -25,9 +26,11 @@ final class WorkspaceController extends Controller
 {
     public function index(WorkspaceIndexData $data): JsonResponse
     {
-        $collection = Workspace::query()
-            ->whereOwnerId(request()->user()?->id)
-            ->where('id', '!=', request()->user()?->active_workspace_id)
+        $user = Auth::user();
+
+        $workspaces = Workspace::query()
+            ->whereOwnerId($user->id)
+            ->where('id', '!=', $user->active_workspace_id)
             ->when(
                 ! $data->search instanceof Optional,
                 fn ($q) => $q->search($data),
@@ -39,7 +42,7 @@ final class WorkspaceController extends Controller
             );
 
         return $this->success(
-            WorkspaceResource::collect($collection, PaginatedDataCollection::class),
+            WorkspaceResource::collect($workspaces, PaginatedDataCollection::class),
             'Workspaces retrieved successfully',
         );
     }

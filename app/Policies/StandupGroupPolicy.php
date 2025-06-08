@@ -9,11 +9,6 @@ use App\Models\User;
 
 final class StandupGroupPolicy
 {
-    public function view(User $user, StandupGroup $standupGroup): bool
-    {
-        return true;
-    }
-
     public function update(User $user, StandupGroup $standupGroup): bool
     {
         return $user->id === $standupGroup->owner_id;

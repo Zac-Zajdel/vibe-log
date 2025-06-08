@@ -4,26 +4,51 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\StandupGroup\StoreStandupGroup;
 use App\Actions\StandupGroup\UpdateStandupGroup;
+use App\Data\Request\StandupGroup\StandupGroupIndexData;
+use App\Data\Request\StandupGroup\StandupGroupStoreData;
 use App\Data\Request\StandupGroup\StandupGroupUpdateData;
 use App\Data\Resource\StandupGroup\StandupGroupResource;
 use App\Data\Transfer\StandupGroup\StandupGroupData;
 use App\Models\StandupGroup;
+use Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
+use Spatie\LaravelData\PaginatedDataCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 final class StandupGroupController extends Controller
 {
-    public function index(): void
+    public function index(StandupGroupIndexData $data): JsonResponse
     {
-        //
+        $standupGroups = StandupGroup::query()
+            ->where('workspace_id', Auth::user()->active_workspace_id)
+            ->paginate(
+                perPage: $data->per_page,
+                page: 1,
+            );
+
+        return $this->success(
+            StandupGroupResource::collect($standupGroups, PaginatedDataCollection::class),
+            'Standup Groups retrieved successfully',
+        );
     }
 
-    public function store(): void
+    public function store(StandupGroupStoreData $data): JsonResponse
     {
-        //
+        $standupGroup = StoreStandupGroup::make()->handle(
+            StandupGroupData::from([
+                ...$data->toArray(),
+                'workspace_id' => Auth::user()->active_workspace_id,
+            ]),
+        );
+
+        return $this->success(
+            StandupGroupResource::from($standupGroup),
+            'Standup Group created successfully',
+        );
     }
 
     /**
@@ -35,7 +60,7 @@ final class StandupGroupController extends Controller
 
         return $this->success(
             StandupGroupResource::from($standupGroup->load('owner')),
-            'Standup retrieved successfully',
+            'Standup Group retrieved successfully',
         );
     }
 
@@ -52,8 +77,8 @@ final class StandupGroupController extends Controller
         );
 
         return $this->success(
-            StandupGroupData::from($standupGroup),
-            'Workspace updated successfully',
+            StandupGroupResource::from($standupGroup),
+            'Standup Group updated successfully',
         );
     }
 
@@ -68,7 +93,7 @@ final class StandupGroupController extends Controller
 
         return $this->success(
             null,
-            'Standup deleted successfully',
+            'Standup Group deleted successfully',
             Response::HTTP_NO_CONTENT,
         );
     }

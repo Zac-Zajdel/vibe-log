@@ -11,20 +11,15 @@ use App\Models\User;
 use Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
-use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
-use Spatie\TypeScriptTransformer\Attributes\Hidden;
 
-final class StandupGroupUpdateData extends Data
+final class StandupGroupStoreData extends Data
 {
-    #[Hidden, FromRouteParameterProperty('standup_group', 'id')]
-    public int $id;
-
     #[Exists(User::class, 'id')]
     public int $owner_id;
 
@@ -50,8 +45,7 @@ final class StandupGroupUpdateData extends Data
             'name' => [
                 'required',
                 Rule::unique(StandupGroup::class, 'name')
-                    ->where('workspace_id', Auth::user()->active_workspace_id)
-                    ->ignore(data_get($context->payload, 'id')),
+                    ->where('workspace_id', Auth::user()->active_workspace_id),
             ],
         ];
     }

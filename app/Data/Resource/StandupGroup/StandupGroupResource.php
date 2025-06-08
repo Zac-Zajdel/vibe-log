@@ -52,12 +52,12 @@ final class StandupGroupResource extends Resource
             owner: Lazy::whenLoaded(
                 'owner',
                 $standupGroup,
-                fn () => UserResource::fromModel($standupGroup->owner),
+                fn (): UserResource => UserResource::fromModel($standupGroup->owner),
             ),
             workspace: Lazy::whenLoaded(
                 'workspace',
                 $standupGroup,
-                fn () => WorkspaceResource::fromModel($standupGroup->workspace),
+                fn (): WorkspaceResource => WorkspaceResource::fromModel($standupGroup->workspace),
             ),
         );
     }
