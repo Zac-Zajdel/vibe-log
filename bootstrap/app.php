@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->statefulApi();
 
-        // TODO: Remove this when we have Sanctum tokens working for Postman testing...
+        // TODO: Uncomment for easy development...
         // if (env('APP_ENV') === 'local') {
         //     $middleware->append(StartSession::class);
         // }
