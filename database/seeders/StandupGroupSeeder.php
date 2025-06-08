@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\StandupGroup;
+use App\Models\StandupUser;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -14,9 +15,12 @@ final class StandupGroupSeeder extends Seeder
     {
         $user = User::with('activeWorkspace')->first();
 
+        // TODO - Verify...
+
         StandupGroup::factory(5)
             ->for($user, 'owner')
             ->for($user->activeWorkspace)
+            ->has(StandupUser::factory()->for($user))
             ->create();
     }
 }
