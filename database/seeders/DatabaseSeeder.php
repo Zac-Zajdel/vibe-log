@@ -17,7 +17,6 @@ final class DatabaseSeeder extends Seeder
             UserSeeder::class,
             WorkspaceSeeder::class,
             StandupGroupSeeder::class,
-            StandupUserSeeder::class,
         ]);
     }
 }

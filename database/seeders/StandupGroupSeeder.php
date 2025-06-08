@@ -15,12 +15,10 @@ final class StandupGroupSeeder extends Seeder
     {
         $user = User::with('activeWorkspace')->first();
 
-        // TODO - Verify...
-
         StandupGroup::factory(5)
             ->for($user, 'owner')
             ->for($user->activeWorkspace)
-            ->has(StandupUser::factory()->for($user))
+            ->has(StandupUser::factory()->for($user), 'users')
             ->create();
     }
 }

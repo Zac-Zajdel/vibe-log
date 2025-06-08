@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -23,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read User $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, StandupUser> $users
+ * @property-read int|null $users_count
  * @property-read Workspace $workspace
  *
  * @method static \Database\Factories\StandupGroupFactory factory($count = null, $state = [])
@@ -73,5 +76,13 @@ final class StandupGroup extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    /**
+     * @return HasMany<StandupUser, $this>
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(StandupUser::class);
     }
 }
