@@ -6,7 +6,7 @@ namespace App\Data\Request\WorkspaceUser;
 
 use App\Models\User;
 use App\Models\Workspace;
-use App\Models\WorkspaceUser;
+use Closure;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
@@ -21,32 +21,26 @@ final class WorkspaceUserStoreData extends Data
     #[Hidden, Exists(Workspace::class, 'id'), FromRouteParameterProperty('workspace', 'id')]
     public int $workspace_id;
 
-    #[Exists(User::class, 'id')]
-    public int $user_id;
+    public string $email;
 
     public Optional|bool $is_active;
 
     /**
-     * @return array<string, array<int, string|Unique>>
+     * @return array<string, array<int, string|Unique|\Illuminate\Validation\Rules\Exists|Closure>>
      */
     public static function rules(ValidationContext $context): array
     {
         return [
-            'user_id' => [
+            'email' => [
                 'required',
-                Rule::unique(WorkspaceUser::class, 'user_id')
-                    ->where('workspace_id', $context->payload['workspace_id']),
+                Rule::exists(User::class, 'email'),
+                function (string $attribute, $value, Closure $fail) use ($context) {
+                    $user = User::whereEmail($value)->first();
+                    if ($user?->workspaces()->where('workspace_id', $context->payload['workspace_id'])->exists()) {
+                        $fail('The user already belongs to this workspace.');
+                    }
+                },
             ],
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function messages(): array
-    {
-        return [
-            'user_id.unique' => 'This user already belongs to this workspace.',
         ];
     }
 }

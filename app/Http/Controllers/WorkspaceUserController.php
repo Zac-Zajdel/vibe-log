@@ -23,8 +23,14 @@ final class WorkspaceUserController extends Controller
     {
         Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
 
+        /** @var User $addingUser */
+        $addingUser = User::whereEmail($data->email)->first();
+
         $workspaceUser = StoreWorkspaceUser::make()->handle(
-            WorkspaceUserData::from($data),
+            WorkspaceUserData::from([
+                ...$data->toArray(),
+                'user_id' => $addingUser->id,
+            ]),
         );
 
         return $this->success(

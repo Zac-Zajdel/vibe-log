@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('workspace_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->boolean('is_active')->default(true);
+            $table->timestamp('joined_at')->nullable();
             $table->timestamps();
 
             $table->unique(['workspace_id', 'user_id']);

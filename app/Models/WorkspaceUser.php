@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $workspace_id
  * @property int $user_id
  * @property bool $is_active
+ * @property string|null $joined_at
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read User $user
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereJoinedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkspaceUser whereWorkspaceId($value)

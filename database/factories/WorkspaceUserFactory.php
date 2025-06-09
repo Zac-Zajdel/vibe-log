@@ -23,6 +23,7 @@ final class WorkspaceUserFactory extends Factory
             'workspace_id' => Workspace::factory(),
             'user_id' => User::factory(),
             'is_active' => fake()->boolean(),
+            'joined_at' => now(),
         ];
     }
 }
