@@ -98,9 +98,8 @@ final class StandupGroupController extends Controller
         $standupGroup->delete();
 
         return $this->success(
-            null,
-            'Standup Group deleted successfully',
-            Response::HTTP_NO_CONTENT,
+            message: 'Standup Group deleted successfully',
+            code: Response::HTTP_NO_CONTENT,
         );
     }
 }
