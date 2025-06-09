@@ -28,6 +28,8 @@ final class WorkspaceController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
+        // TODO - Now with workspace users, the user can only see the workspaces they are a member of.
+
         $workspaces = Workspace::query()
             ->whereOwnerId($user->id)
             ->where('id', '!=', $user->active_workspace_id)
@@ -65,6 +67,7 @@ final class WorkspaceController extends Controller
      */
     public function show(Workspace $workspace): JsonResponse
     {
+        // TODO - Now with workspace users, the user can only see the workspaces they are a member of.
         Gate::authorize('view', $workspace);
 
         return $this->success(
@@ -106,6 +109,8 @@ final class WorkspaceController extends Controller
                     $user->activeWorkspace()->associate($user->defaultWorkspace);
                     $user->save();
                 });
+
+            $workspace->users()->delete();
 
             $workspace->delete();
         });

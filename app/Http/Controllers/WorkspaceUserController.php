@@ -35,7 +35,7 @@ final class WorkspaceUserController extends Controller
 
         return $this->success(
             WorkspaceUserResource::from($workspaceUser),
-            'User added to workspace successfully',
+            'Request sent to user to join the workspace',
             Response::HTTP_CREATED,
         );
     }
@@ -51,18 +51,18 @@ final class WorkspaceUserController extends Controller
 
         return $this->success(
             WorkspaceUserResource::from($workspaceUser),
-            'User updated successfully',
+            'Workspace user updated successfully',
         );
     }
 
     public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
+        Gate::allowIf(fn (User $user) => $user->id === $workspaceUser->user_id);
 
         $workspaceUser->delete();
 
         return $this->success(
-            message: 'User removed from workspace successfully',
+            message: "You have left the workspace {$workspace->name}.",
             code: Response::HTTP_NO_CONTENT,
         );
     }

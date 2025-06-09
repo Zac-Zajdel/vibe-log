@@ -27,6 +27,9 @@ final class StandupGroupController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
+        // TODO - Now with workspace users, pass the workspace id to the query.
+        // TODO - And verify that the user is a member of the workspace.
+
         $standupGroups = StandupGroup::query()
             ->where('workspace_id', $user->active_workspace_id)
             ->paginate(
@@ -64,6 +67,8 @@ final class StandupGroupController extends Controller
      */
     public function show(StandupGroup $standupGroup): JsonResponse
     {
+        Gate::authorize('view', $standupGroup);
+
         return $this->success(
             StandupGroupResource::from($standupGroup->load('owner')),
             'Standup Group retrieved successfully',
