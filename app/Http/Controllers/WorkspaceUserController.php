@@ -4,23 +4,48 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\WorkspaceUser\StoreWorkspaceUser;
+use App\Data\Request\WorkspaceUser\WorkspaceUserStoreData;
+use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
+use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
+use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WorkspaceUser;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 final class WorkspaceUserController extends Controller
 {
-    public function store(Workspace $workspace): void
+    public function store(Workspace $workspace, WorkspaceUserStoreData $data): JsonResponse
     {
-        //
+        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
+
+        $workspaceUser = StoreWorkspaceUser::make()->handle(
+            WorkspaceUserData::from($data),
+        );
+
+        return $this->success(
+            WorkspaceUserResource::from($workspaceUser),
+            'User added to workspace successfully',
+            Response::HTTP_CREATED,
+        );
     }
 
     public function update(Workspace $workspace, WorkspaceUser $workspaceUser): void
     {
-        //
+        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
     }
 
-    public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): void
+    public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): JsonResponse
     {
-        //
+        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
+
+        $workspaceUser->delete();
+
+        return $this->success(
+            message: 'User removed from workspace successfully',
+            code: Response::HTTP_NO_CONTENT,
+        );
     }
 }
