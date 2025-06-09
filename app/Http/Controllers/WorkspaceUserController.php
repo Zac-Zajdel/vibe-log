@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\WorkspaceUser\StoreWorkspaceUser;
+use App\Actions\WorkspaceUser\UpdateWorkspaceUser;
 use App\Data\Request\WorkspaceUser\WorkspaceUserStoreData;
+use App\Data\Request\WorkspaceUser\WorkspaceUserUpdateData;
 use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
 use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
 use App\Models\User;
@@ -32,9 +34,19 @@ final class WorkspaceUserController extends Controller
         );
     }
 
-    public function update(Workspace $workspace, WorkspaceUser $workspaceUser): void
+    public function update(Workspace $workspace, WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
     {
         Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
+
+        $workspaceUser = UpdateWorkspaceUser::make()->handle(
+            $workspaceUser,
+            WorkspaceUserData::from($data),
+        );
+
+        return $this->success(
+            WorkspaceUserResource::from($workspaceUser),
+            'User updated successfully',
+        );
     }
 
     public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): JsonResponse

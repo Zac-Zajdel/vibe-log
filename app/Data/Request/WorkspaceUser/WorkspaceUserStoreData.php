@@ -8,9 +8,9 @@ use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WorkspaceUser;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
+use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
@@ -27,7 +27,7 @@ final class WorkspaceUserStoreData extends Data
     public Optional|bool $is_active;
 
     /**
-     * @return array<string, array<int, string|Unique|Exists>>
+     * @return array<string, array<int, string|Unique>>
      */
     public static function rules(ValidationContext $context): array
     {
