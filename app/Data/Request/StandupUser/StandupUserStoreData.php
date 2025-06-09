@@ -41,8 +41,8 @@ final class StandupUserStoreData extends Data
             ],
             'user_id' => [
                 'required',
-                Rule::exists(User::class, 'id')
-                    ->where('active_workspace_id', $user->active_workspace_id),
+                // TODO - Verify user exists in the workspace.
+                Rule::exists(User::class, 'id'),
                 Rule::unique(StandupUser::class, 'user_id')
                     ->where('standup_group_id', $context->payload['standup_group_id']),
             ],
