@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Data\Request\User;
 
 use App\Models\User;
-use App\Models\Workspace;
+use App\Models\WorkspaceUser;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
@@ -41,7 +41,9 @@ final class UserUpdateData extends Data
                 Rule::unique(User::class, 'email')->ignore($context->payload['id']),
             ],
             'active_workspace_id' => [
-                Rule::exists(Workspace::class, 'id')->where('owner_id', data_get($context->payload, 'id')),
+                Rule::exists(WorkspaceUser::class, 'workspace_id')
+                    ->where('user_id', data_get($context->payload, 'id'))
+                    ->where('is_active', true),
             ],
         ];
     }

@@ -26,4 +26,11 @@ final class WorkspaceUserFactory extends Factory
             'joined_at' => now(),
         ];
     }
+
+    public function isActive(): Factory
+    {
+        return $this->state(fn () => [
+            'is_active' => true,
+        ]);
+    }
 }

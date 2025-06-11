@@ -21,7 +21,7 @@ final class WorkspaceUserController extends Controller
 {
     public function store(Workspace $workspace, WorkspaceUserStoreData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
+        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id && ! $workspace->is_default);
 
         /** @var User $addingUser */
         $addingUser = User::whereEmail($data->email)->first();
@@ -42,7 +42,7 @@ final class WorkspaceUserController extends Controller
 
     public function update(Workspace $workspace, WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id);
+        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id && ! $workspace->is_default);
 
         $workspaceUser = UpdateWorkspaceUser::make()->handle(
             $workspaceUser,

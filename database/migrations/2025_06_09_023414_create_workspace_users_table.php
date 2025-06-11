@@ -14,11 +14,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('workspace_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->timestamp('joined_at')->nullable();
             $table->timestamps();
 
             $table->unique(['workspace_id', 'user_id']);
+            $table->index(['user_id', 'is_active']);
         });
     }
 
