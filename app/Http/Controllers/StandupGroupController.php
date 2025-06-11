@@ -64,6 +64,8 @@ final class StandupGroupController extends Controller
      */
     public function show(StandupGroup $standupGroup): JsonResponse
     {
+        Gate::authorize('view', $standupGroup);
+
         return $this->success(
             StandupGroupResource::from($standupGroup->load('owner')),
             'Standup Group retrieved successfully',

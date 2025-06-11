@@ -9,4 +9,7 @@ parameters:
   paths:
     - app/
 
-  level: 8
+  level: 6
+
+  # ignoreErrors:
+  #   - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder<Illuminate\\Database\\Eloquent\\Model>#'

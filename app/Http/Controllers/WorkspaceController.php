@@ -29,8 +29,11 @@ final class WorkspaceController extends Controller
         $user = auth()->user();
 
         $workspaces = Workspace::query()
-            ->whereOwnerId($user->id)
             ->where('id', '!=', $user->active_workspace_id)
+            ->whereHas(
+                'workspaceUsers',
+                fn ($q) => $q->whereUserId($user->id)->whereIsActive(true),
+            )
             ->when(
                 ! $data->search instanceof Optional,
                 fn ($q) => $q->search($data),
@@ -106,6 +109,8 @@ final class WorkspaceController extends Controller
                     $user->activeWorkspace()->associate($user->defaultWorkspace);
                     $user->save();
                 });
+
+            $workspace->workspaceUsers()->delete();
 
             $workspace->delete();
         });

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 use App\Models\User;
 use App\Models\Workspace;
+use App\Models\WorkspaceUser;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
 
     $this->workspace = Workspace::factory()
         ->for($this->user, 'owner')
+        ->has(WorkspaceUser::factory()->for($this->user)->isActive(), 'workspaceUsers')
         ->create();
 });
 

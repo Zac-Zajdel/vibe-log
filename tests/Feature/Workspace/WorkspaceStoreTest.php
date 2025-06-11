@@ -6,6 +6,7 @@ use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\User;
 use App\Models\Workspace;
+use App\Models\WorkspaceUser;
 use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
@@ -29,6 +30,12 @@ it('Create Workspace', function () {
         ->assertStatus(Response::HTTP_CREATED);
 
     $createdWorkspace = Workspace::orderByDesc('id')->first();
+
+    $this->assertDatabaseHas(WorkspaceUser::class, [
+        'workspace_id' => $createdWorkspace->id,
+        'user_id' => $this->user->id,
+        'joined_at' => $createdWorkspace->created_at,
+    ]);
 
     $response->assertJsonFragment([
         'status' => 'success',
