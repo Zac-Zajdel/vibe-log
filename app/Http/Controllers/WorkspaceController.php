@@ -14,6 +14,7 @@ use App\Data\Transfer\Workspace\WorkspaceData;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -32,7 +33,8 @@ final class WorkspaceController extends Controller
             ->where('id', '!=', $user->active_workspace_id)
             ->whereHas(
                 'workspaceUsers',
-                fn ($q) => $q->whereUserId($user->id)->whereIsActive(true),
+                /** @param Builder<\App\Models\WorkspaceUser> $q */
+                fn (Builder $q) => $q->whereUserId($user->id)->whereIsActive(true),
             )
             ->when(
                 ! $data->search instanceof Optional,
@@ -40,8 +42,8 @@ final class WorkspaceController extends Controller
             )
             ->orderBy('name', 'asc')
             ->paginate(
-                perPage: request()->get('per_page', 10),
-                page: request()->get('page', 1),
+                perPage: $data->per_page,
+                page: $data->page,
             );
 
         return $this->success(
@@ -116,9 +118,8 @@ final class WorkspaceController extends Controller
         });
 
         return $this->success(
-            null,
-            'Workspace deleted successfully',
-            Response::HTTP_NO_CONTENT,
+            message: 'Workspace deleted successfully',
+            code: Response::HTTP_NO_CONTENT,
         );
     }
 }

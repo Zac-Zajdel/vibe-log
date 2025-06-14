@@ -31,7 +31,7 @@ final class StandupGroupController extends Controller
             ->where('workspace_id', $user->active_workspace_id)
             ->paginate(
                 perPage: ! $data->per_page instanceof Optional ? $data->per_page : 10,
-                page: 1,
+                page: ! $data->page instanceof Optional ? $data->page : 1,
             );
 
         return $this->success(
@@ -100,9 +100,8 @@ final class StandupGroupController extends Controller
         $standupGroup->delete();
 
         return $this->success(
-            null,
-            'Standup Group deleted successfully',
-            Response::HTTP_NO_CONTENT,
+            message: 'Standup Group deleted successfully',
+            code: Response::HTTP_NO_CONTENT,
         );
     }
 }

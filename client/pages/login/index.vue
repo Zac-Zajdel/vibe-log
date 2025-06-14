@@ -51,6 +51,7 @@
                   :id="field.name"
                   v-model="field.state.value"
                   :name="field.name"
+                  placeholder="Enter Email"
                   @blur="field.handleBlur"
                   @input="
                     (e: Event) =>
@@ -75,6 +76,7 @@
                   v-model="field.state.value"
                   :name="field.name"
                   type="password"
+                  placeholder="Enter Password"
                   autocomplete="current-password"
                   @blur="field.handleBlur"
                   @input="

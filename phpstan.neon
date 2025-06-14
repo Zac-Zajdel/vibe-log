@@ -11,5 +11,5 @@ parameters:
 
   level: 6
 
-  # ignoreErrors:
-  #   - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder<Illuminate\\Database\\Eloquent\\Model>#'
+  ignoreErrors:
+    - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder<Illuminate\\Database\\Eloquent\\Model>#'

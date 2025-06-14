@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder<static>|Workspace newModelQuery()
  * @method static Builder<static>|Workspace newQuery()
  * @method static Builder<static>|Workspace query()
- * @method static Builder<static>|Workspace search(\App\Data\Request\Workspace\WorkspaceIndexData $data)
+ * @method static Builder<static>|Workspace search(WorkspaceIndexData $data)
  * @method static Builder<static>|Workspace whereArchivedAt($value)
  * @method static Builder<static>|Workspace whereCreatedAt($value)
  * @method static Builder<static>|Workspace whereDescription($value)
@@ -99,9 +99,6 @@ final class Workspace extends Model
      */
     protected function scopeSearch(Builder $query, WorkspaceIndexData $data): Builder
     {
-        /** @var string $search */
-        $search = $data->search;
-
-        return $query->where('name', 'ilike', "%$search%");
+        return $query->where('name', 'ilike', "%{$data->search}%");
     }
 }
