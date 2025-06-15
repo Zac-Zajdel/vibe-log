@@ -7,12 +7,16 @@ namespace App\Data\Transfer\StandupGroup;
 use App\Enums\StandupGroup\StandupGroupDay;
 use App\Enums\StandupGroup\StandupGroupVisibility;
 use Illuminate\Support\Collection;
-use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Concerns\TransformableData;
+use Spatie\LaravelData\Contracts\TransformableData as ContractsTransformableData;
+use Spatie\LaravelData\Dto;
 use Spatie\LaravelData\Optional;
 use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
 
-final class StandupGroupData extends Data
+final class StandupGroupData extends Dto implements ContractsTransformableData
 {
+    use TransformableData;
+
     /**
      * @param  Collection<int, StandupGroupDay>|array<StandupGroupDay>|null  $days
      */

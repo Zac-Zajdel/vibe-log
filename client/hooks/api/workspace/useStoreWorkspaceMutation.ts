@@ -1,3 +1,4 @@
+import type { ValidationError } from '@/types/errors';
 import { useMutation } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
@@ -21,8 +22,7 @@ export const useStoreWorkspaceMutation = () => {
         workspace: data,
       };
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: (error: any) => {
+    onError: (error: ValidationError) => {
       toast.error(error?.data?.message);
     },
   });
