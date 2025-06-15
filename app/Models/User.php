@@ -26,6 +26,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read Workspace|null $defaultWorkspace
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, StandupGroup> $standupGroups
+ * @property-read int|null $standup_groups_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, WorkspaceUser> $workspaces
@@ -102,5 +104,13 @@ final class User extends Authenticatable
     public function defaultWorkspace(): HasOne
     {
         return $this->hasOne(Workspace::class, 'owner_id')->where('is_default', true);
+    }
+
+    /**
+     * @return HasMany<StandupGroup, $this>
+     */
+    public function standupGroups(): HasMany
+    {
+        return $this->hasMany(StandupGroup::class);
     }
 }
