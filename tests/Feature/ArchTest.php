@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Spatie\LaravelData\Contracts\TransformableData;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Dto;
 use Spatie\LaravelData\Resource;
 
 arch()
@@ -26,3 +28,8 @@ test('Data Resource')
     ->expect('App\Data\Resource')
     ->toHaveSuffix('Resource')
     ->toExtend(Resource::class);
+
+test('Data Transfer')
+    ->expect('App\Data\Transfer')
+    ->toExtend(Dto::class)
+    ->toImplement(TransformableData::class);
