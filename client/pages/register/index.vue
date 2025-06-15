@@ -51,8 +51,8 @@
         await refreshIdentity();
         return navigateTo('/home');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        toast.error(err.data.message);
+      } catch (error: any) {
+        toast.error(error.data?.message);
       }
     },
   });
