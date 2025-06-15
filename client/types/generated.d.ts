@@ -1,4 +1,21 @@
+declare namespace App.Data.Request.PersonalAccessToken {
+  export type PersonalAccessTokenStoreData = {
+    name: string;
+  };
+}
 declare namespace App.Data.Request.StandupGroup {
+  export type StandupGroupIndexData = {
+    page?: number;
+    per_page?: number;
+  };
+  export type StandupGroupStoreData = {
+    owner_id: number;
+    name: string;
+    description?: string | null;
+    is_active?: boolean;
+    visibility?: App.Enums.StandupGroup.StandupGroupVisibility | null;
+    days?: Array<App.Enums.StandupGroup.StandupGroupDay> | null;
+  };
   export type StandupGroupUpdateData = {
     owner_id: number;
     name: string;
@@ -22,7 +39,7 @@ declare namespace App.Data.Request.User {
 }
 declare namespace App.Data.Request.Workspace {
   export type WorkspaceIndexData = {
-    search?: string;
+    search?: string | null;
     page?: number;
     per_page?: number;
   };
@@ -38,6 +55,14 @@ declare namespace App.Data.Request.Workspace {
     description?: string | null;
     logo?: string | null;
     archived_at?: string | null;
+  };
+}
+declare namespace App.Data.Request.WorkspaceUser {
+  export type WorkspaceUserStoreData = {
+    email: string;
+  };
+  export type WorkspaceUserUpdateData = {
+    is_active?: boolean;
   };
 }
 declare namespace App.Data.Resource.StandupGroup {
@@ -83,6 +108,18 @@ declare namespace App.Data.Resource.Workspace {
     owner?: App.Data.Resource.User.UserResource;
   };
 }
+declare namespace App.Data.Resource.WorkspaceUser {
+  export type WorkspaceUserResource = {
+    id: number;
+    workspace_id: number;
+    user_id: number;
+    is_active: boolean;
+    created_at: string | null;
+    updated_at: string | null;
+    user?: App.Data.Resource.User.UserResource;
+    workspace?: App.Data.Resource.Workspace.WorkspaceResource;
+  };
+}
 declare namespace App.Data.Transfer.StandupGroup {
   export type StandupGroupData = {
     workspace_id?: number;
@@ -110,6 +147,13 @@ declare namespace App.Data.Transfer.Workspace {
     logo?: string | null;
     is_default?: boolean;
     archived_at?: string | null;
+  };
+}
+declare namespace App.Data.Transfer.WorkspaceUser {
+  export type WorkspaceUserData = {
+    workspace_id?: number;
+    user_id?: number;
+    is_active?: boolean;
   };
 }
 declare namespace App.Enums.StandupGroup {

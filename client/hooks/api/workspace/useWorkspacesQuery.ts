@@ -17,12 +17,14 @@ export const useWorkspacesQuery = ({
     }> => {
       const sanctumFetch = useSanctumClient();
 
+      const requestData: App.Data.Request.Workspace.WorkspaceIndexData = {
+        page: page ?? 1,
+        search: search?.value,
+        per_page: perPage ?? 10,
+      };
+
       const { data } = await sanctumFetch('workspaces', {
-        params: {
-          page,
-          search: search?.value || undefined,
-          per_page: perPage,
-        },
+        params: requestData,
       });
 
       return {

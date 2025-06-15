@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use App\Models\Workspace;
+use App\Models\WorkspaceUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -40,6 +41,7 @@ final class UserFactory extends Factory
             $defaultWorkspace = Workspace::factory()
                 ->default()
                 ->for($user, 'owner')
+                ->has(WorkspaceUser::factory()->for($user)->isActive(), 'workspaceUsers')
                 ->create();
 
             $user->activeWorkspace()->associate($defaultWorkspace);

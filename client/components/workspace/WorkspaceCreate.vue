@@ -60,7 +60,7 @@
         <Input
           id="name"
           v-model="workspaceContent.name"
-          placeholder="Acme Corp."
+          placeholder="Enter Name"
         />
       </div>
 
@@ -69,7 +69,7 @@
         <Input
           id="description"
           v-model="workspaceContent.description"
-          placeholder="Company discussions"
+          placeholder="Enter Description"
         />
       </div>
 

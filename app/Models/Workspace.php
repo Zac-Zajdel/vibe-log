@@ -26,12 +26,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read User $owner
  * @property-read \Illuminate\Database\Eloquent\Collection<int, StandupGroup> $standupGroups
  * @property-read int|null $standup_groups_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, WorkspaceUser> $workspaceUsers
+ * @property-read int|null $workspace_users_count
  *
  * @method static \Database\Factories\WorkspaceFactory factory($count = null, $state = [])
  * @method static Builder<static>|Workspace newModelQuery()
  * @method static Builder<static>|Workspace newQuery()
  * @method static Builder<static>|Workspace query()
- * @method static Builder<static>|Workspace search(\App\Data\Request\Workspace\WorkspaceIndexData $data)
+ * @method static Builder<static>|Workspace search(WorkspaceIndexData $data)
  * @method static Builder<static>|Workspace whereArchivedAt($value)
  * @method static Builder<static>|Workspace whereCreatedAt($value)
  * @method static Builder<static>|Workspace whereDescription($value)
@@ -84,14 +86,19 @@ final class Workspace extends Model
     }
 
     /**
+     * @return HasMany<WorkspaceUser, $this>
+     */
+    public function workspaceUsers(): HasMany
+    {
+        return $this->hasMany(WorkspaceUser::class);
+    }
+
+    /**
      * @param  Builder<$this>  $query
      * @return Builder<$this>
      */
     protected function scopeSearch(Builder $query, WorkspaceIndexData $data): Builder
     {
-        /** @var string $search */
-        $search = $data->search;
-
-        return $query->where('name', 'ilike', "%$search%");
+        return $query->where('name', 'ilike', "%{$data->search}%");
     }
 }

@@ -23,11 +23,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property int|null $active_workspace_id
  * @property-read Workspace|null $activeWorkspace
+ * @property-read Workspace|null $defaultWorkspace
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Workspace> $workspaces
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, WorkspaceUser> $workspaces
  * @property-read int|null $workspaces_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -43,8 +44,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
- *
- * @property-read Workspace|null $defaultWorkspace
  *
  * @mixin \Eloquent
  */
@@ -90,11 +89,11 @@ final class User extends Authenticatable
     }
 
     /**
-     * @return HasMany<Workspace, $this>
+     * @return HasMany<WorkspaceUser, $this>
      */
     public function workspaces(): HasMany
     {
-        return $this->hasMany(Workspace::class, 'owner_id');
+        return $this->hasMany(WorkspaceUser::class);
     }
 
     /**
