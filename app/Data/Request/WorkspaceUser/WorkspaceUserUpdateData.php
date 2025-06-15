@@ -19,7 +19,7 @@ final class WorkspaceUserUpdateData extends Data
     #[Hidden, Exists(Workspace::class, 'id'), FromRouteParameterProperty('workspace', 'id')]
     public int $workspace_id;
 
-    #[Hidden, FromRouteParameterProperty('user', 'id')]
+    #[Hidden, FromRouteParameterProperty('workspaceUser', 'user_id')]
     public int $user_id;
 
     public Optional|bool $is_active;

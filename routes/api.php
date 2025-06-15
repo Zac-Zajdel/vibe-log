@@ -21,7 +21,7 @@ Route::prefix('v1')
         ]))->name('user.show');
 
         Route::apiResource('workspaces', WorkspaceController::class);
-        Route::apiResource('workspaces.users', WorkspaceUserController::class)->except(['index', 'show']);
+        Route::apiResource('workspaces.workspaceUser', WorkspaceUserController::class)->except(['index', 'show']);
 
         Route::apiResource('standup-groups', StandupGroupController::class);
         Route::apiResource('users', UserController::class)->except(['index', 'show', 'destroy']);

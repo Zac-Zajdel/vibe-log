@@ -16,7 +16,10 @@ final class UpdateWorkspaceUser
     {
         return tap(
             $workspaceUser,
-            fn (WorkspaceUser $workspaceUser) => $workspaceUser->update($data->toArray()),
+            fn (WorkspaceUser $workspaceUser) => $workspaceUser->update([
+                'is_active' => $data->is_active,
+                'joined_at' => ! $workspaceUser->is_active && $data->is_active ? now() : null,
+            ]),
         );
     }
 }

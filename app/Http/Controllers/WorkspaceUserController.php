@@ -42,7 +42,7 @@ final class WorkspaceUserController extends Controller
 
     public function update(Workspace $workspace, WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id && ! $workspace->is_default);
+        Gate::allowIf(fn (User $user) => ($user->id === $workspace->owner_id || $user->id === $workspaceUser->user_id) && ! $workspace->is_default);
 
         $workspaceUser = UpdateWorkspaceUser::make()->handle(
             $workspaceUser,
@@ -57,7 +57,7 @@ final class WorkspaceUserController extends Controller
 
     public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspaceUser->user_id);
+        Gate::allowIf(fn (User $user) => $user->id === $workspaceUser->user_id && ! $workspace->is_default);
 
         $workspaceUser->delete();
 
