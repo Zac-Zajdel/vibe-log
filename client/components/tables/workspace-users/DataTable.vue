@@ -1,10 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
-  import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-  } from '@/components/ui/dropdown-menu';
+  import DataTablePagination from '@/components/tables/workspace-users/DataTablePagination.vue';
+  import DataTableViewOptions from '@/components/tables/workspace-users/DataTableViewOptions.vue';
   import { Input } from '@/components/ui/input';
   import {
     Table,
@@ -28,7 +24,6 @@
     getSortedRowModel,
     useVueTable,
   } from '@tanstack/vue-table';
-  import { ChevronDown } from 'lucide-vue-next';
   import { valueUpdater } from '~/lib/utils';
 
   const props = defineProps<{
@@ -85,31 +80,7 @@
         :model-value="table.getColumn('email')?.getFilterValue() as string"
         @update:model-value="table.getColumn('email')?.setFilterValue($event)"
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline" class="ml-auto">
-            Columns
-            <ChevronDown class="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem
-            v-for="column in table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())"
-            :key="column.id"
-            class="capitalize"
-            :modelValue="column.getIsVisible()"
-            @update:model-value="
-              (value) => {
-                column.toggleVisibility(!!value);
-              }
-            "
-          >
-            {{ column.id }}
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <DataTableViewOptions :table="table" />
     </div>
     <div class="rounded-md border">
       <Table>
@@ -152,23 +123,6 @@
         </TableBody>
       </Table>
     </div>
-    <div class="flex items-center justify-end space-x-2 py-4">
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!table.getCanPreviousPage()"
-        @click="table.previousPage()"
-      >
-        Previous
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!table.getCanNextPage()"
-        @click="table.nextPage()"
-      >
-        Next
-      </Button>
-    </div>
+    <DataTablePagination :table="table" />
   </div>
 </template>
