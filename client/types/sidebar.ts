@@ -1,4 +1,4 @@
-import { Box, CircleUser, Home, Settings } from 'lucide-vue-next';
+import { Box, Home, PersonStanding } from 'lucide-vue-next';
 
 export type SidebarItems = SidebarItem[];
 
@@ -23,7 +23,7 @@ export const sidebarOptions: SidebarItems = [
   {
     title: 'Standup',
     url: '/standup',
-    icon: CircleUser,
+    icon: PersonStanding,
   },
   {
     title: 'Workspace',
@@ -37,19 +37,14 @@ export const sidebarOptions: SidebarItems = [
         title: 'Members',
         url: '/workspace/members',
       },
-      {
-        title: 'Integrations',
-        url: '/workspace/integrations',
-      },
-      {
-        title: 'Plans',
-        url: '/workspace/plans',
-      },
+      // {
+      //   title: 'Integrations',
+      //   url: '/workspace/integrations',
+      // },
+      // {
+      //   title: 'Plans',
+      //   url: '/workspace/plans',
+      // },
     ],
-  },
-  {
-    title: 'Settings',
-    url: '/settings',
-    icon: Settings,
   },
 ];

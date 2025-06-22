@@ -50,11 +50,10 @@
                           v-for="item in option.subItems"
                           :key="item.title"
                           class="cursor-pointer py-0.5"
+                          @click="$router.push(item.url)"
                         >
                           <SidebarMenuSubButton>
-                            <NuxtLink :to="item.url" class="flex items-center">
-                              <span>{{ item.title }}</span>
-                            </NuxtLink>
+                            <span>{{ item.title }}</span>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       </SidebarMenuSub>
