@@ -24,7 +24,7 @@ Route::prefix('v1')
         Route::apiResource('workspaces.workspaceUser', WorkspaceUserController::class)->except(['index', 'show']);
 
         Route::apiResource('standup-groups', StandupGroupController::class);
-        Route::apiResource('users', UserController::class)->except(['index', 'show', 'destroy']);
+        Route::apiResource('users', UserController::class)->except(['destroy']);
 
         Route::post('tokens', [PersonalAccessTokenController::class, 'store'])->name('tokens.store');
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

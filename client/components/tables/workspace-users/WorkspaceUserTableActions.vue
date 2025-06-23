@@ -9,7 +9,7 @@
   import { MoreHorizontal } from 'lucide-vue-next';
 
   defineProps<{
-    payment: {
+    user: {
       id: number;
     };
   }>();
@@ -28,9 +28,7 @@
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem @click="copy(payment.id)">
-        Copy User ID
-      </DropdownMenuItem>
+      <DropdownMenuItem @click="copy(user.id)">Copy User ID</DropdownMenuItem>
       <DropdownMenuItem>Disable User</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

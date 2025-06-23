@@ -1,11 +1,10 @@
 <script setup lang="ts">
   import DataTable from '@/components/tables/DataTable.vue';
-  import {
-    workspaceUserColumns,
-    type Payment,
-  } from '@/components/tables/workspace-users/workspaceUserColumns';
+  import { workspaceUserColumns } from '@/components/tables/workspace-users/workspaceUserColumns';
   import type { Breadcrumbs } from '@/types/breadcrumbs';
+  import { useDebounce } from '@vueuse/core';
   import { Box, Users } from 'lucide-vue-next';
+  import { useUsersQuery } from '~/hooks/api/user/useUsersQuery';
 
   useHead({ title: 'Workspace Members' });
 
@@ -13,6 +12,13 @@
     { title: 'Workspace', icon: Box },
     { title: 'Members', icon: Users },
   ];
+
+  interface Payment {
+    id: number;
+    status: 'Pending' | 'Active';
+    name: string;
+    email: string;
+  }
 
   const data = ref<Payment[]>([]);
 
@@ -39,6 +45,12 @@
     ];
   }
 
+  const search = ref('');
+  const debouncedSearch = useDebounce(search, 300);
+  const { users } = useUsersQuery({
+    search: debouncedSearch,
+  });
+
   onMounted(async () => {
     data.value = await getData();
   });
@@ -47,7 +59,7 @@
 <template>
   <PageWrapper :breadcrumbs="breadcrumbs">
     <div class="container mx-auto py-10">
-      <DataTable :columns="workspaceUserColumns" :data="data" />
+      <DataTable :columns="workspaceUserColumns" :data="users" />
     </div>
   </PageWrapper>
 </template>

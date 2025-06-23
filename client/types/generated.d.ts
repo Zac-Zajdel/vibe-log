@@ -26,6 +26,11 @@ declare namespace App.Data.Request.StandupGroup {
   };
 }
 declare namespace App.Data.Request.User {
+  export type UserIndexData = {
+    search?: string | null;
+    page?: number;
+    per_page?: number;
+  };
   export type UserStoreData = {
     name: string;
     email: string;
