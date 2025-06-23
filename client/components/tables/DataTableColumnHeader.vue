@@ -1,7 +1,4 @@
 <script setup lang="ts">
-  import type { Column } from '@tanstack/vue-table';
-  import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-vue-next';
-
   import { Button } from '@/components/ui/button';
   import {
     DropdownMenu,
@@ -10,6 +7,8 @@
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
   import { cn } from '@/lib/utils';
+  import type { Column } from '@tanstack/vue-table';
+  import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-vue-next';
 
   interface DataTableColumnHeaderProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,22 +40,22 @@
           <span>{{ title }}</span>
           <ArrowDown
             v-if="column.getIsSorted() === 'desc'"
-            class="ml-2 h-4 w-4"
+            class="ml-2 size-4"
           />
           <ArrowUp
             v-else-if="column.getIsSorted() === 'asc'"
-            class="ml-2 h-4 w-4"
+            class="ml-2 size-4"
           />
-          <ChevronsUpDown v-else class="ml-2 h-4 w-4" />
+          <ChevronsUpDown v-else class="ml-2 size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem @click="column.toggleSorting(false)">
-          <ArrowUp class="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+          <ArrowUp class="text-muted-foreground/70 mr-2 size-3.5" />
           Asc
         </DropdownMenuItem>
         <DropdownMenuItem @click="column.toggleSorting(true)">
-          <ArrowDown class="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+          <ArrowDown class="text-muted-foreground/70 mr-2 size-3.5" />
           Desc
         </DropdownMenuItem>
       </DropdownMenuContent>

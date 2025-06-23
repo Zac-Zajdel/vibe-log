@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
-  import DataTablePagination from '@/components/tables/workspace-users/DataTablePagination.vue';
-  import DataTableViewOptions from '@/components/tables/workspace-users/DataTableViewOptions.vue';
+  import DataTablePagination from '@/components/tables/DataTablePagination.vue';
+  import DataTableViewOptions from '@/components/tables/DataTableViewOptions.vue';
   import { Input } from '@/components/ui/input';
   import {
     Table,

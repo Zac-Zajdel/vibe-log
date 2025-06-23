@@ -4,39 +4,34 @@
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
   import { MoreHorizontal } from 'lucide-vue-next';
 
   defineProps<{
     payment: {
-      id: string;
+      id: number;
     };
   }>();
 
-  function copy(id: string) {
-    navigator.clipboard.writeText(id);
+  function copy(id: number) {
+    navigator.clipboard.writeText(id.toString());
   }
 </script>
 
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="ghost" class="h-8 w-8 p-0">
+      <Button variant="ghost" class="size-8 p-0">
         <span class="sr-only">Open menu</span>
-        <MoreHorizontal class="h-4 w-4" />
+        <MoreHorizontal class="size-4" />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuLabel>Actions</DropdownMenuLabel>
       <DropdownMenuItem @click="copy(payment.id)">
-        Copy payment ID
+        Copy User ID
       </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem>View customer</DropdownMenuItem>
-      <DropdownMenuItem>View payment details</DropdownMenuItem>
+      <DropdownMenuItem>Disable User</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

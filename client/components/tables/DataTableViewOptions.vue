@@ -1,8 +1,4 @@
 <script setup lang="ts">
-  import type { Table } from '@tanstack/vue-table';
-  import { Settings2 } from 'lucide-vue-next';
-  import { computed } from 'vue';
-
   import { Button } from '@/components/ui/button';
   import {
     DropdownMenu,
@@ -10,6 +6,9 @@
     DropdownMenuContent,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
+  import type { Table } from '@tanstack/vue-table';
+  import { Settings2 } from 'lucide-vue-next';
+  import { computed } from 'vue';
 
   interface DataTableViewOptionsProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,7 +31,7 @@
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button variant="outline" size="sm" class="ml-auto hidden h-8 lg:flex">
-        <Settings2 class="mr-2 h-4 w-4" />
+        <Settings2 class="mr-2 size-4" />
         View
       </Button>
     </DropdownMenuTrigger>
