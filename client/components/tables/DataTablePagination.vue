@@ -19,15 +19,12 @@
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     table: Table<any>;
   }
+
   defineProps<DataTablePaginationProps>();
 </script>
 
 <template>
-  <div class="flex items-center justify-between px-2 pt-3">
-    <div class="text-muted-foreground flex-1 text-sm">
-      {{ table.getFilteredSelectedRowModel().rows.length }} of
-      {{ table.getFilteredRowModel().rows.length }} row(s) selected.
-    </div>
+  <div class="flex items-center justify-end px-2 pt-3">
     <div class="flex items-center space-x-6 lg:space-x-8">
       <div class="flex items-center space-x-2">
         <p class="text-sm font-medium">Rows per page</p>
@@ -35,7 +32,7 @@
           :model-value="`${table.getState().pagination.pageSize}`"
           @update:model-value="(value) => table.setPageSize(Number(value))"
         >
-          <SelectTrigger class="h-8 w-[70px]">
+          <SelectTrigger size="sm" class="w-[70px]">
             <SelectValue
               :placeholder="`${table.getState().pagination.pageSize}`"
             />

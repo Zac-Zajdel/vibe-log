@@ -21,10 +21,10 @@ Route::prefix('v1')
         ]))->name('user.show');
 
         Route::apiResource('workspaces', WorkspaceController::class);
-        Route::apiResource('workspaces.workspaceUser', WorkspaceUserController::class)->except(['index', 'show']);
+        Route::apiResource('workspaces.workspaceUser', WorkspaceUserController::class)->except(['show']);
 
         Route::apiResource('standup-groups', StandupGroupController::class);
-        Route::apiResource('users', UserController::class)->except(['destroy']);
+        Route::apiResource('users', UserController::class)->except(['index', 'destroy']);
 
         Route::post('tokens', [PersonalAccessTokenController::class, 'store'])->name('tokens.store');
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

@@ -1,7 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
   import DataTablePagination from '@/components/tables/DataTablePagination.vue';
   import DataTableViewOptions from '@/components/tables/DataTableViewOptions.vue';
-  import { Input } from '@/components/ui/input';
   import {
     Table,
     TableBody,
@@ -74,12 +73,7 @@
 <template>
   <div>
     <div class="flex items-center py-4">
-      <Input
-        class="max-w-sm"
-        placeholder="Filter emails..."
-        :model-value="table.getColumn('email')?.getFilterValue() as string"
-        @update:model-value="table.getColumn('email')?.setFilterValue($event)"
-      />
+      <Input class="h-8 max-w-[30%]" placeholder="Search..." />
       <DataTableViewOptions :table="table" />
     </div>
     <div class="rounded-md border">

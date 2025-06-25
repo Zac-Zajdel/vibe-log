@@ -18,6 +18,7 @@ final class WorkspaceUserResource extends Resource
         public int $workspace_id,
         public int $user_id,
         public bool $is_active,
+        public ?CarbonImmutable $joined_at,
         public ?CarbonImmutable $created_at,
         public ?CarbonImmutable $updated_at,
         public Lazy|UserResource $user,
@@ -31,6 +32,7 @@ final class WorkspaceUserResource extends Resource
             workspace_id: $workspaceUser->workspace_id,
             user_id: $workspaceUser->user_id,
             is_active: $workspaceUser->is_active,
+            joined_at: $workspaceUser->joined_at,
             created_at: $workspaceUser->created_at,
             updated_at: $workspaceUser->updated_at,
             user: Lazy::whenLoaded(

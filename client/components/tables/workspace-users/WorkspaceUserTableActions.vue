@@ -6,17 +6,23 @@
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
-  import { MoreHorizontal } from 'lucide-vue-next';
+  import { MoreHorizontal, Pause, ShieldPlus, Trash } from 'lucide-vue-next';
 
   defineProps<{
-    user: {
-      id: number;
-    };
+    workspaceUser: App.Data.Resource.WorkspaceUser.WorkspaceUserResource;
   }>();
 
-  function copy(id: number) {
-    navigator.clipboard.writeText(id.toString());
-  }
+  const activateUser = () => {
+    console.log('Activate User');
+  };
+
+  const disableUser = () => {
+    console.log('Disable User');
+  };
+
+  const deleteUser = () => {
+    console.log('Delete User');
+  };
 </script>
 
 <template>
@@ -28,8 +34,21 @@
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem @click="copy(user.id)">Copy User ID</DropdownMenuItem>
-      <DropdownMenuItem>Disable User</DropdownMenuItem>
+      <DropdownMenuItem
+        v-if="workspaceUser.joined_at && !workspaceUser.is_active"
+        @click="activateUser"
+      >
+        <ShieldPlus />
+        Activate
+      </DropdownMenuItem>
+      <DropdownMenuItem v-if="workspaceUser.joined_at" @click="disableUser">
+        <Pause />
+        Disable
+      </DropdownMenuItem>
+      <DropdownMenuItem v-if="!workspaceUser.joined_at" @click="deleteUser">
+        <Trash />
+        Delete
+      </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

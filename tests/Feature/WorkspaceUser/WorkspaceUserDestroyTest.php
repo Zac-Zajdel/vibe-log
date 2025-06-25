@@ -9,15 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
+    $this->user2 = User::factory()->create();
 
     $this->workspace = Workspace::factory()
         ->for($this->user, 'owner')
         ->create();
 
     $this->workspaceUser = WorkspaceUser::factory()
-        ->for($this->user)
-        ->isActive()
-        ->create();
+        ->for($this->user2)
+        ->create([
+            'is_active' => false,
+            'joined_at' => null,
+        ]);
 });
 
 it('User leaves workspace', function () {
@@ -31,8 +34,7 @@ it('User leaves workspace', function () {
                     'workspaceUser' => $this->workspaceUser,
                 ],
             ),
-        )
-        ->assertStatus(Response::HTTP_NO_CONTENT);
+        )->assertStatus(Response::HTTP_NO_CONTENT);
 
     $this->assertDatabaseMissing('workspace_users', [
         'id' => $this->workspaceUser->id,

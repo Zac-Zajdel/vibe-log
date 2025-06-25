@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Data\Request\User;
+namespace App\Data\Request\WorkspaceUser;
 
 use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 
-final class UserIndexData extends Data
+final class WorkspaceUserIndexData extends Data
 {
     public Optional|string|null $search;
 

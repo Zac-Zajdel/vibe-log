@@ -26,11 +26,6 @@ declare namespace App.Data.Request.StandupGroup {
   };
 }
 declare namespace App.Data.Request.User {
-  export type UserIndexData = {
-    search?: string | null;
-    page?: number;
-    per_page?: number;
-  };
   export type UserStoreData = {
     name: string;
     email: string;
@@ -63,6 +58,11 @@ declare namespace App.Data.Request.Workspace {
   };
 }
 declare namespace App.Data.Request.WorkspaceUser {
+  export type WorkspaceUserIndexData = {
+    search?: string | null;
+    page?: number;
+    per_page?: number;
+  };
   export type WorkspaceUserStoreData = {
     email: string;
   };
@@ -119,6 +119,7 @@ declare namespace App.Data.Resource.WorkspaceUser {
     workspace_id: number;
     user_id: number;
     is_active: boolean;
+    joined_at: string | null;
     created_at: string | null;
     updated_at: string | null;
     user?: App.Data.Resource.User.UserResource;

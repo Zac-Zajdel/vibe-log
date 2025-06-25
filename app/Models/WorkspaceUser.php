@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $workspace_id
  * @property int $user_id
  * @property bool $is_active
- * @property string|null $joined_at
+ * @property \Carbon\CarbonImmutable|null $joined_at
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
  * @property-read User $user
@@ -45,6 +45,7 @@ final class WorkspaceUser extends Model
     {
         return [
             'is_active' => 'boolean',
+            'joined_at' => 'datetime',
         ];
     }
 

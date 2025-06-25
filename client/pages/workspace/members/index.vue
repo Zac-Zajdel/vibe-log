@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import DataTable from '@/components/tables/DataTable.vue';
   import { workspaceUserColumns } from '@/components/tables/workspace-users/workspaceUserColumns';
+  import { useWorkspaceUsersQuery } from '@/hooks/api/workspaceUser/useWorkspaceUsersQuery';
   import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { useDebounce } from '@vueuse/core';
   import { Box, Users } from 'lucide-vue-next';
-  import { useUsersQuery } from '~/hooks/api/user/useUsersQuery';
 
   useHead({ title: 'Workspace Members' });
 
@@ -47,7 +47,7 @@
 
   const search = ref('');
   const debouncedSearch = useDebounce(search, 300);
-  const { users } = useUsersQuery({
+  const { workspaceUsers } = useWorkspaceUsersQuery({
     search: debouncedSearch,
   });
 
@@ -59,7 +59,7 @@
 <template>
   <PageWrapper :breadcrumbs="breadcrumbs">
     <div class="container mx-auto py-10">
-      <DataTable :columns="workspaceUserColumns" :data="users" />
+      <DataTable :columns="workspaceUserColumns" :data="workspaceUsers" />
     </div>
   </PageWrapper>
 </template>
