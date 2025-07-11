@@ -33,8 +33,8 @@ final class WorkspaceController extends Controller
             ->where('id', '!=', $user->active_workspace_id)
             ->whereHas(
                 'workspaceUsers',
-                /** @param Builder<\App\Models\WorkspaceUser> $q */
-                fn (Builder $q) => $q->whereUserId($user->id)->whereIsActive(true),
+                /** @param Builder<\App\Models\WorkspaceUser> $query */
+                fn (Builder $query) => $query->whereUserId($user->id)->whereIsActive(true),
             )
             ->when(
                 ! $data->search instanceof Optional,

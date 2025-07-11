@@ -23,17 +23,33 @@
     getSortedRowModel,
     useVueTable,
   } from '@tanstack/vue-table';
+  import { useDebounce } from '@vueuse/core';
   import { valueUpdater } from '~/lib/utils';
 
-  const props = defineProps<{
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
-  }>();
+  const props = withDefaults(
+    defineProps<{
+      columns: ColumnDef<TData, TValue>[];
+      data: TData[];
+      hasSearch?: boolean;
+      hasViewOptions?: boolean;
+      hasPagination?: boolean;
+    }>(),
+    {
+      hasSearch: true,
+      hasViewOptions: true,
+      hasPagination: true,
+    }
+  );
+
+  const emit = defineEmits(['update:search']);
+
+  const search = ref('');
+  const debouncedSearch = useDebounce(search, 300);
+  watch(debouncedSearch, (val) => emit('update:search', val));
 
   const sorting = ref<SortingState>([]);
   const columnFilters = ref<ColumnFiltersState>([]);
   const columnVisibility = ref<VisibilityState>({});
-  const rowSelection = ref({});
 
   const table = useVueTable({
     get data() {
@@ -51,8 +67,6 @@
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: (updaterOrValue) =>
       valueUpdater(updaterOrValue, columnVisibility),
-    onRowSelectionChange: (updaterOrValue) =>
-      valueUpdater(updaterOrValue, rowSelection),
     state: {
       get sorting() {
         return sorting.value;
@@ -63,9 +77,6 @@
       get columnVisibility() {
         return columnVisibility.value;
       },
-      get rowSelection() {
-        return rowSelection.value;
-      },
     },
   });
 </script>
@@ -73,8 +84,13 @@
 <template>
   <div>
     <div class="flex items-center py-4">
-      <Input class="h-8 max-w-[30%]" placeholder="Search..." />
-      <DataTableViewOptions :table="table" />
+      <Input
+        v-if="hasSearch"
+        v-model="search"
+        class="h-8 max-w-[30%]"
+        placeholder="Search..."
+      />
+      <DataTableViewOptions v-if="hasViewOptions" :table="table" />
     </div>
     <div class="rounded-md border">
       <Table>
@@ -117,6 +133,6 @@
         </TableBody>
       </Table>
     </div>
-    <DataTablePagination :table="table" />
+    <DataTablePagination v-if="hasPagination" :table="table" />
   </div>
 </template>

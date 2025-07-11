@@ -14,6 +14,7 @@ use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WorkspaceUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelData\Optional;
@@ -33,6 +34,11 @@ final class WorkspaceUserController extends Controller
                 'workspace',
             ])
             ->whereWorkspaceId($user->active_workspace_id)
+            ->when(
+                ! $data->search instanceof Optional,
+                /** @param Builder<WorkspaceUser> $query */
+                fn (Builder $query) => $query->search($data->search),
+            )
             ->paginate(
                 perPage: ! $data->per_page instanceof Optional ? $data->per_page : 10,
                 page: ! $data->page instanceof Optional ? $data->page : 1,

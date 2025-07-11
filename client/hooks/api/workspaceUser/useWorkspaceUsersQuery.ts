@@ -22,7 +22,7 @@ export const useWorkspaceUsersQuery = ({
       const requestData: App.Data.Request.WorkspaceUser.WorkspaceUserIndexData =
         {
           page: page ?? 1,
-          search: search?.value,
+          search: search?.value?.length ? search.value : undefined,
           per_page: perPage ?? 10,
         };
 
