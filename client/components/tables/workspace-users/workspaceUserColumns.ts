@@ -1,12 +1,12 @@
 import DataTableColumnHeader from '@/components/tables/DataTableColumnHeader.vue';
 import WorkspaceUserTableActions from '@/components/tables/workspace-users/WorkspaceUserTableActions.vue';
-import { Badge } from '@/components/ui/badge';
 import type { ColumnDef } from '@tanstack/vue-table';
 import dayjs from 'dayjs';
 import { h } from 'vue';
 
 export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.WorkspaceUserResource>[] =
   [
+    // TODO - Loading state of the table...
     {
       id: 'Status',
       accessorKey: 'status',
@@ -16,33 +16,18 @@ export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.Wor
           column: column,
           title: 'Status',
         }),
-      cell: ({ row }) => {
-        const joinedAt = row.original.joined_at;
-
-        return h('div', {}, [
-          h(
-            Badge,
-            {
-              variant: joinedAt ? 'secondary' : 'outline',
-              class: joinedAt
-                ? 'bg-green-500/10 text-green-700 border-green-500/20'
-                : 'bg-yellow-500/10 text-yellow-700 border-yellow-500/20',
-            },
-            () => (joinedAt ? 'Active' : 'Pending')
-          ),
-        ]);
-      },
     },
     {
-      id: 'Name',
-      accessorKey: 'user.name',
+      id: 'Username',
+      accessorKey: 'username',
       enableSorting: false,
       header: ({ column }) =>
         h(DataTableColumnHeader, {
           column: column,
-          title: 'Name',
+          title: 'Username',
         }),
     },
+    // TODo - Custom to be '---' if they leave.
     {
       id: 'Email',
       accessorKey: 'user.email',
@@ -51,6 +36,16 @@ export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.Wor
         h(DataTableColumnHeader, {
           column: column,
           title: 'Email',
+        }),
+    },
+    {
+      id: 'Role',
+      accessorKey: 'role',
+      enableSorting: false,
+      header: ({ column }) =>
+        h(DataTableColumnHeader, {
+          column: column,
+          title: 'Role',
         }),
     },
     {

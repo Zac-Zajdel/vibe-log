@@ -1,4 +1,3 @@
-import { useUser } from '@/hooks/authentication/useUser';
 import { useQuery } from '@tanstack/vue-query';
 
 export const useWorkspaceUsersQuery = ({
@@ -16,7 +15,6 @@ export const useWorkspaceUsersQuery = ({
       workspaceUsers: App.Data.Resource.WorkspaceUser.WorkspaceUserResource[];
       total: number;
     }> => {
-      const user = useUser();
       const sanctumFetch = useSanctumClient();
 
       const requestData: App.Data.Request.WorkspaceUser.WorkspaceUserIndexData =
@@ -26,12 +24,9 @@ export const useWorkspaceUsersQuery = ({
           per_page: perPage ?? 10,
         };
 
-      const { data } = await sanctumFetch(
-        `workspaces/${user.value.active_workspace_id}/workspaceUser`,
-        {
-          params: requestData,
-        }
-      );
+      const { data } = await sanctumFetch(`workspace-users`, {
+        params: requestData,
+      });
 
       return {
         workspaceUsers: data.data,

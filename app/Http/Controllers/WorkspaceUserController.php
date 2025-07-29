@@ -12,7 +12,6 @@ use App\Data\Request\WorkspaceUser\WorkspaceUserUpdateData;
 use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
 use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
 use App\Models\User;
-use App\Models\Workspace;
 use App\Models\WorkspaceUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -25,15 +24,12 @@ final class WorkspaceUserController extends Controller
 {
     public function index(WorkspaceUserIndexData $data): JsonResponse
     {
-        /** @var User $user */
-        $user = auth()->user();
-
         $workspaceUsers = WorkspaceUser::query()
             ->with([
                 'user',
                 'workspace',
             ])
-            ->whereWorkspaceId($user->active_workspace_id)
+            ->whereWorkspaceId(activeWorkspace()->id)
             ->when(
                 ! $data->search instanceof Optional,
                 /** @param Builder<WorkspaceUser> $query */
@@ -50,9 +46,9 @@ final class WorkspaceUserController extends Controller
         );
     }
 
-    public function store(Workspace $workspace, WorkspaceUserStoreData $data): JsonResponse
+    public function store(WorkspaceUserStoreData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id && ! $workspace->is_default);
+        Gate::authorize('store', WorkspaceUser::class);
 
         /** @var User $addingUser */
         $addingUser = User::whereEmail($data->email)->first();
@@ -71,9 +67,9 @@ final class WorkspaceUserController extends Controller
         );
     }
 
-    public function update(Workspace $workspace, WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
+    public function update(WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => ($user->id === $workspace->owner_id || $user->id === $workspaceUser->user_id) && ! $workspace->is_default);
+        Gate::authorize('update', $workspaceUser);
 
         $workspaceUser = UpdateWorkspaceUser::make()->handle(
             $workspaceUser,
@@ -86,14 +82,29 @@ final class WorkspaceUserController extends Controller
         );
     }
 
-    public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): JsonResponse
+    public function destroy(WorkspaceUser $workspaceUser): JsonResponse
     {
-        Gate::authorize('delete', [$workspaceUser, $workspace]);
+        Gate::authorize('delete', $workspaceUser);
+
+        $user = $workspaceUser->user;
+        $workspace = $workspaceUser->workspace;
+
+        $message = match (true) {
+            ! $workspaceUser->joined_at => "Successfully rejected the invitation to join workspace {$workspace->name}.",
+            $user->id === $workspaceUser->user_id => "Successfully left workspace {$workspace->name}.",
+            default => "Removed user from workspace {$workspace->name}.",
+        };
+
+        // A user must always have an active workspace so we circle back to their default.
+        if ($user->active_workspace_id === $workspace->id) {
+            $user->activeWorkspace()->associate($user->defaultWorkspace);
+            $user->save();
+        }
 
         $workspaceUser->delete();
 
         return $this->success(
-            message: "User has left the workspace {$workspace->name}.",
+            message: $message,
             code: Response::HTTP_NO_CONTENT,
         );
     }

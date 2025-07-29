@@ -41,7 +41,12 @@ final class UserFactory extends Factory
             $defaultWorkspace = Workspace::factory()
                 ->default()
                 ->for($user, 'owner')
-                ->has(WorkspaceUser::factory()->for($user)->isActive(), 'workspaceUsers')
+                ->has(
+                    WorkspaceUser::factory()
+                        ->for($user)
+                        ->state(['username' => $user->name]),
+                    'workspaceUsers',
+                )
                 ->create();
 
             $user->activeWorkspace()->associate($defaultWorkspace);

@@ -11,6 +11,7 @@ use App\Data\Request\Workspace\WorkspaceStoreData;
 use App\Data\Request\Workspace\WorkspaceUpdateData;
 use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -34,7 +35,7 @@ final class WorkspaceController extends Controller
             ->whereHas(
                 'workspaceUsers',
                 /** @param Builder<\App\Models\WorkspaceUser> $query */
-                fn (Builder $query) => $query->whereUserId($user->id)->whereIsActive(true),
+                fn (Builder $query) => $query->whereUserId($user->id)->whereStatus(WorkspaceUserStatus::ACTIVE),
             )
             ->when(
                 ! $data->search instanceof Optional,

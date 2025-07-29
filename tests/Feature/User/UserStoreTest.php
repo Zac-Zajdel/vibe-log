@@ -3,8 +3,11 @@
 declare(strict_types=1);
 
 use App\Data\Resource\User\UserResource;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\User;
 use App\Models\Workspace;
+use App\Models\WorkspaceUser;
 use Symfony\Component\HttpFoundation\Response;
 
 it('Register User', function () {
@@ -20,6 +23,7 @@ it('Register User', function () {
         );
 
     $workspace = Workspace::latest()->first();
+    $workspaceUser = WorkspaceUser::latest()->first();
     $user = User::with('activeWorkspace')->latest()->first();
 
     $response
@@ -34,13 +38,17 @@ it('Register User', function () {
     expect(auth()->check())->toBeTrue();
     expect(auth()->id())->toBe($user->id);
 
-    // Check if the user is created in the database.
     expect($user->name)->toBe('Test User');
     expect($user->email)->toBe('test@gmail.com');
     expect($user->active_workspace_id)->toBe($workspace->id);
 
-    // Check if the default workspace is created and associated with the user.
     expect($workspace->owner_id)->toBe($user->id);
     expect($workspace->name)->toBe('Default Workspace');
     expect($workspace->description)->toBe('Your personal workspace');
+
+    expect($workspaceUser->workspace_id)->toBe($workspace->id);
+    expect($workspaceUser->user_id)->toBe($user->id);
+    expect($workspaceUser->role)->toBe(WorkspaceUserRole::ADMIN);
+    expect($workspaceUser->status)->toBe(WorkspaceUserStatus::ACTIVE);
+    expect($workspaceUser->joined_at)->not->toBeNull();
 });

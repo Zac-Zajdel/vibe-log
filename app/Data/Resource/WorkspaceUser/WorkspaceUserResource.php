@@ -6,6 +6,8 @@ namespace App\Data\Resource\WorkspaceUser;
 
 use App\Data\Resource\User\UserResource;
 use App\Data\Resource\Workspace\WorkspaceResource;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\WorkspaceUser;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Lazy;
@@ -17,7 +19,10 @@ final class WorkspaceUserResource extends Resource
         public int $id,
         public int $workspace_id,
         public int $user_id,
-        public bool $is_active,
+        public ?string $username,
+        public ?string $avatar,
+        public WorkspaceUserRole $role,
+        public WorkspaceUserStatus $status,
         public ?CarbonImmutable $joined_at,
         public ?CarbonImmutable $created_at,
         public ?CarbonImmutable $updated_at,
@@ -31,7 +36,10 @@ final class WorkspaceUserResource extends Resource
             id: $workspaceUser->id,
             workspace_id: $workspaceUser->workspace_id,
             user_id: $workspaceUser->user_id,
-            is_active: $workspaceUser->is_active,
+            username: $workspaceUser->username,
+            avatar: $workspaceUser->avatar,
+            role: $workspaceUser->role,
+            status: $workspaceUser->status,
             joined_at: $workspaceUser->joined_at,
             created_at: $workspaceUser->created_at,
             updated_at: $workspaceUser->updated_at,

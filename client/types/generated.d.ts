@@ -65,9 +65,13 @@ declare namespace App.Data.Request.WorkspaceUser {
   };
   export type WorkspaceUserStoreData = {
     email: string;
+    role: App.Enums.Workspace.WorkspaceUserRole;
   };
   export type WorkspaceUserUpdateData = {
-    is_active?: boolean;
+    username?: string;
+    avatar?: string;
+    role?: App.Enums.Workspace.WorkspaceUserRole;
+    status?: App.Enums.Workspace.WorkspaceUserStatus;
   };
 }
 declare namespace App.Data.Resource.StandupGroup {
@@ -118,7 +122,10 @@ declare namespace App.Data.Resource.WorkspaceUser {
     id: number;
     workspace_id: number;
     user_id: number;
-    is_active: boolean;
+    username: string | null;
+    avatar: string | null;
+    role: App.Enums.Workspace.WorkspaceUserRole;
+    status: App.Enums.Workspace.WorkspaceUserStatus;
     joined_at: string | null;
     created_at: string | null;
     updated_at: string | null;
@@ -159,7 +166,11 @@ declare namespace App.Data.Transfer.WorkspaceUser {
   export type WorkspaceUserData = {
     workspace_id?: number;
     user_id?: number;
-    is_active?: boolean;
+    username?: string;
+    avatar?: string;
+    role?: App.Enums.Workspace.WorkspaceUserRole;
+    status?: App.Enums.Workspace.WorkspaceUserStatus;
+    joined_at?: string;
   };
 }
 declare namespace App.Enums.StandupGroup {
@@ -172,4 +183,8 @@ declare namespace App.Enums.StandupGroup {
     | 'saturday'
     | 'sunday';
   export type StandupGroupVisibility = 'public' | 'private' | 'invite_only';
+}
+declare namespace App.Enums.Workspace {
+  export type WorkspaceUserRole = 'admin' | 'member' | 'viewer';
+  export type WorkspaceUserStatus = 'invited' | 'active' | 'disabled';
 }

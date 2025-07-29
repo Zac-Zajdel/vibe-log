@@ -8,11 +8,12 @@ use App\Http\Controllers\StandupGroupController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\WorkspaceUserController;
+use App\Http\Middleware\WorkspaceContext;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')
-    ->middleware('auth:sanctum')
+    ->middleware(['auth:sanctum', WorkspaceContext::class])
     ->group(function (): void {
         Route::get('user', fn (Request $request) => response()->json([
             'status' => 'success',
@@ -21,7 +22,7 @@ Route::prefix('v1')
         ]))->name('user.show');
 
         Route::apiResource('workspaces', WorkspaceController::class);
-        Route::apiResource('workspaces.workspaceUser', WorkspaceUserController::class)->except(['show']);
+        Route::apiResource('workspace-users', WorkspaceUserController::class)->except(['show']);
 
         Route::apiResource('standup-groups', StandupGroupController::class);
         Route::apiResource('users', UserController::class)->except(['index', 'destroy']);

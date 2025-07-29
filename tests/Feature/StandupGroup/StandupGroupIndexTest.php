@@ -11,7 +11,7 @@ beforeEach(function () {
 
     $this->standupGroup = StandupGroup::factory()
         ->for($this->user, 'owner')
-        ->for($this->user->activeWorkspace, 'workspace')
+        ->for($this->user->activeWorkspace)
         ->create([
             'days' => [
                 StandupGroupDay::MONDAY,

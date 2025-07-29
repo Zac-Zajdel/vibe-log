@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Actions\WorkspaceUser;
 
 use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\WorkspaceUser;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Spatie\LaravelData\Optional;
 
 final class UpdateWorkspaceUser
 {
@@ -14,12 +17,55 @@ final class UpdateWorkspaceUser
 
     public function handle(WorkspaceUser $workspaceUser, WorkspaceUserData $data): WorkspaceUser
     {
-        return tap(
-            $workspaceUser,
-            fn (WorkspaceUser $workspaceUser) => $workspaceUser->update([
-                'is_active' => $data->is_active,
-                'joined_at' => ! $workspaceUser->is_active && $data->is_active ? now() : null,
-            ]),
-        );
+        $userRole = auth()->user()->workspaceUsers()->whereWorkspaceId($workspaceUser->workspace_id)->value('role');
+
+        $workspaceUser = $this->adminOnlyUpdates($workspaceUser, $data, $userRole);
+        $workspaceUser = $this->acceptInvitation($workspaceUser);
+
+        // Only the same user can update their own metadata.
+        if ($workspaceUser->user_id === auth()->id()) {
+            $workspaceUser->fill(collect($data)->only(['avatar', 'username'])->all());
+        }
+
+        $workspaceUser->save();
+
+        return $workspaceUser;
+    }
+
+    /**
+     * Only admins can update a user's role and if already joined, their status.
+     */
+    private function adminOnlyUpdates(
+        WorkspaceUser $workspaceUser,
+        WorkspaceUserData $data,
+        WorkspaceUserRole $userRole,
+    ): WorkspaceUser {
+        if ($userRole === WorkspaceUserRole::ADMIN) {
+            if (! $data->role instanceof Optional) {
+                $workspaceUser->role = $data->role;
+            }
+            if (! $data->status instanceof Optional && $workspaceUser->joined_at) {
+                $workspaceUser->status = $data->status;
+            }
+        }
+
+        return $workspaceUser;
+    }
+
+    /**
+     * Non-admins can only set their own status to ACTIVE when they accept an invitation.
+     */
+    private function acceptInvitation(WorkspaceUser $workspaceUser): WorkspaceUser
+    {
+        if (
+            $workspaceUser->user_id === auth()->id() &&
+            $workspaceUser->status === WorkspaceUserStatus::INVITED &&
+            ! $workspaceUser->joined_at
+        ) {
+            $workspaceUser->status = WorkspaceUserStatus::ACTIVE;
+            $workspaceUser->joined_at = now();
+        }
+
+        return $workspaceUser;
     }
 }

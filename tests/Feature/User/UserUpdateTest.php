@@ -12,7 +12,7 @@ beforeEach(function () {
 
     $this->workspace = Workspace::factory()
         ->for($this->user, 'owner')
-        ->has(WorkspaceUser::factory()->for($this->user)->isActive(), 'workspaceUsers')
+        ->has(WorkspaceUser::factory()->for($this->user), 'workspaceUsers')
         ->create();
 });
 
