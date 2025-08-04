@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Models\User;
 use App\Models\WorkspaceUser;
-use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $this->owner = User::factory()->create();
@@ -29,7 +28,7 @@ it('User rejects invitation to join workspace', function () {
     $this
         ->actingAs($this->secondaryUser)
         ->deleteJson(route('workspace-users.destroy', $workspaceUser))
-        ->assertStatus(Response::HTTP_NO_CONTENT);
+        ->assertOk();
 
     expect($this->secondaryUser->refresh()->active_workspace_id)->toBe($this->secondaryUser->defaultWorkspace->id);
     $this->assertDatabaseMissing('workspace_users', [$workspaceUser]);
@@ -45,7 +44,7 @@ it('User leaves workspace', function () {
     $this
         ->actingAs($this->secondaryUser)
         ->deleteJson(route('workspace-users.destroy', $workspaceUser))
-        ->assertStatus(Response::HTTP_NO_CONTENT);
+        ->assertOk();
 
     expect($this->secondaryUser->refresh()->active_workspace_id)->toBe($this->secondaryUser->defaultWorkspace->id);
     $this->assertDatabaseMissing('workspace_users', [$workspaceUser]);
@@ -61,7 +60,7 @@ it('Admin removes user from workspace', function () {
     $this
         ->actingAs($this->owner)
         ->deleteJson(route('workspace-users.destroy', $workspaceUser))
-        ->assertStatus(Response::HTTP_NO_CONTENT);
+        ->assertOk();
 
     expect($this->secondaryUser->refresh()->active_workspace_id)->toBe($this->secondaryUser->defaultWorkspace->id);
     $this->assertDatabaseMissing('workspace_users', [$workspaceUser]);

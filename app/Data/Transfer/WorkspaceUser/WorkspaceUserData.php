@@ -16,7 +16,6 @@ final class WorkspaceUserData extends Dto implements ContractsTransformableData
 {
     use TransformableData;
 
-    // TODO - Have two: 1 for store and one for update....
     public function __construct(
         public readonly Optional|int $workspace_id,
         public readonly Optional|int $user_id,

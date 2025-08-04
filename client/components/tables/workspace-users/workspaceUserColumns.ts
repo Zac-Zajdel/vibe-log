@@ -1,10 +1,10 @@
 import DataTableColumnHeader from '@/components/tables/DataTableColumnHeader.vue';
 import WorkspaceUserTableActions from '@/components/tables/workspace-users/WorkspaceUserTableActions.vue';
+import type { BadgeVariants } from '@/components/ui/badge';
 import Badge from '@/components/ui/badge/Badge.vue';
 import type { ColumnDef } from '@tanstack/vue-table';
 import dayjs from 'dayjs';
 import { h } from 'vue';
-import type { BadgeVariants } from '~/components/ui/badge';
 
 export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.WorkspaceUserResource>[] =
   [
@@ -36,7 +36,7 @@ export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.Wor
             break;
         }
 
-        return h(Badge, { variant: colorVariant }, status);
+        return h(Badge, { variant: colorVariant }, { default: () => status });
       },
     },
     {
@@ -47,7 +47,7 @@ export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.Wor
       header: ({ column }) =>
         h(DataTableColumnHeader, {
           column: column,
-          title: 'Username',
+          title: 'Name',
         }),
       cell: ({ row }) => {
         const username = row.original.username;
@@ -56,7 +56,14 @@ export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.Wor
           return h('div', { class: 'text-muted-foreground' }, '---');
         }
 
-        return h('div', {}, username);
+        const role =
+          row.original.role.charAt(0).toUpperCase() +
+          row.original.role.slice(1);
+
+        return h('div', { class: 'flex items-center gap-4' }, [
+          h(Badge, {}, { default: () => role }),
+          h('span', {}, username),
+        ]);
       },
     },
     {
@@ -77,24 +84,6 @@ export const workspaceUserColumns: ColumnDef<App.Data.Resource.WorkspaceUser.Wor
         }
 
         return h('div', {}, email);
-      },
-    },
-    {
-      id: 'Role',
-      accessorKey: 'role',
-      enableSorting: false,
-      enableHiding: false,
-      header: ({ column }) =>
-        h(DataTableColumnHeader, {
-          column: column,
-          title: 'Role',
-        }),
-      cell: ({ row }) => {
-        const role =
-          row.original.role.charAt(0).toUpperCase() +
-          row.original.role.slice(1);
-
-        return h(Badge, role);
       },
     },
     {

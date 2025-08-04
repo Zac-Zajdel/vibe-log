@@ -90,9 +90,10 @@ final class WorkspaceUserController extends Controller
         $workspace = $workspaceUser->workspace;
 
         $message = match (true) {
-            ! $workspaceUser->joined_at => "Successfully rejected the invitation to join workspace {$workspace->name}.",
-            $user->id === $workspaceUser->user_id => "Successfully left workspace {$workspace->name}.",
-            default => "Removed user from workspace {$workspace->name}.",
+            auth()->user()->id !== $workspaceUser->user_id => 'Successfully removed user from workspace.',
+            $user->id === $workspaceUser->user_id && ! $workspaceUser->joined_at => 'Successfully rejected the invitation to join workspace.',
+            $user->id === $workspaceUser->user_id => 'Successfully left workspace.',
+            default => 'Successfully removed user from workspace.',
         };
 
         // A user must always have an active workspace so we circle back to their default.
@@ -105,7 +106,6 @@ final class WorkspaceUserController extends Controller
 
         return $this->success(
             message: $message,
-            code: Response::HTTP_NO_CONTENT,
         );
     }
 }

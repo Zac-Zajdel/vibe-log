@@ -28,10 +28,8 @@
         // Re-queries the user to get the updated active workspace.
         refreshIdentity();
 
-        // Updates the sidebar options within the dropdown menu.
-        queryClient.invalidateQueries({
-          queryKey: ['workspaces'],
-        });
+        // Invalidate all cached queries.
+        queryClient.invalidateQueries();
       },
     });
   }
