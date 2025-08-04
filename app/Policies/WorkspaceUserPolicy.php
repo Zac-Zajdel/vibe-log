@@ -29,7 +29,10 @@ final class WorkspaceUserPolicy
 
     public function update(User $user, WorkspaceUser $workspaceUser): bool|Response
     {
-        if ($workspaceUser->role !== WorkspaceUserRole::ADMIN && $workspaceUser->user_id !== $user->id) {
+        $workspace = activeWorkspace();
+
+        $signedInUser = $user->workspaceUsers()->whereBelongsTo($workspace)->value('role');
+        if ($signedInUser !== WorkspaceUserRole::ADMIN) {
             return Response::deny('Only admins can update other users.');
         }
 
@@ -38,16 +41,21 @@ final class WorkspaceUserPolicy
 
     public function delete(User $user, WorkspaceUser $workspaceUser): bool|Response
     {
+        // A user cannot leave a workspace they own until they transfer ownership.
         if ($workspaceUser->user_id === $user->id && $workspaceUser->workspace->owner_id === $user->id) {
             return Response::deny('You cannot leave a workspace you own.');
         }
 
+        /**
+         * If the user has not joined the workspace, they can leave.
+         * If the user is removing themselves, they can leave.
+         */
         if (! $workspaceUser->joined_at || $user->id === $workspaceUser->user_id) {
             return true;
         }
 
-        $workspaceUserRole = $user
-            ->workspaceUsers()
+        $workspaceUserRole = WorkspaceUser::query()
+            ->whereBelongsTo($user)
             ->whereWorkspaceId($workspaceUser->workspace_id)
             ->value('role');
 

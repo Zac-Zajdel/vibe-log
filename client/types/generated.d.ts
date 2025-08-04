@@ -65,7 +65,7 @@ declare namespace App.Data.Request.WorkspaceUser {
   };
   export type WorkspaceUserStoreData = {
     email: string;
-    role: App.Enums.Workspace.WorkspaceUserRole;
+    role?: App.Enums.Workspace.WorkspaceUserRole;
   };
   export type WorkspaceUserUpdateData = {
     username?: string;

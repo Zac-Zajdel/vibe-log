@@ -62,7 +62,7 @@ final class WorkspaceUserController extends Controller
 
         return $this->success(
             WorkspaceUserResource::from($workspaceUser),
-            'Request sent to user to join the workspace',
+            'Request sent for user to join the workspace',
             Response::HTTP_CREATED,
         );
     }

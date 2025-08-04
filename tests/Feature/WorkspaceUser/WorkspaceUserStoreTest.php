@@ -31,28 +31,26 @@ it('Invite Workspace User', function () {
         'role' => WorkspaceUserRole::VIEWER,
     ]);
 
-    $response = $this
+    $this
         ->actingAs($this->workspaceOwner)
         ->postJson(
             route('workspace-users.store'),
             $data->toArray(),
         )
-        ->assertStatus(Response::HTTP_CREATED);
+        ->assertStatus(Response::HTTP_CREATED)
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Request sent for user to join the workspace',
+            'data' => WorkspaceUserResource::from(
+                $workspaceUser = WorkspaceUser::orderByDesc('id')->first(),
+            )->toArray(),
+        ]);
 
-    $workspaceUser = WorkspaceUser::orderByDesc('id')->first();
-
-    $this->assertDatabaseHas(WorkspaceUser::class, [
+    expect($workspaceUser)->toMatchArray([
+        'joined_at' => null,
+        'status' => WorkspaceUserStatus::INVITED->value,
+        'role' => WorkspaceUserRole::VIEWER->value,
         'workspace_id' => $this->workspace->id,
         'user_id' => $this->user->id,
-        'username' => null,
-        'role' => WorkspaceUserRole::VIEWER,
-        'status' => WorkspaceUserStatus::INVITED,
-        'joined_at' => null,
-    ]);
-
-    $response->assertJsonFragment([
-        'status' => 'success',
-        'message' => 'Request sent to user to join the workspace',
-        'data' => WorkspaceUserResource::from($workspaceUser)->toArray(),
     ]);
 });

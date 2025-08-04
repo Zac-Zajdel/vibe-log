@@ -17,12 +17,10 @@ final class UpdateWorkspaceUser
 
     public function handle(WorkspaceUser $workspaceUser, WorkspaceUserData $data): WorkspaceUser
     {
-        $userRole = auth()->user()->workspaceUsers()->whereWorkspaceId($workspaceUser->workspace_id)->value('role');
-
-        $workspaceUser = $this->adminOnlyUpdates($workspaceUser, $data, $userRole);
+        $workspaceUser = $this->adminOnlyUpdates($workspaceUser, $data);
         $workspaceUser = $this->acceptInvitation($workspaceUser);
 
-        // Only the same user can update their own metadata.
+        // Only the same user can update their metadata.
         if ($workspaceUser->user_id === auth()->id()) {
             $workspaceUser->fill(collect($data)->only(['avatar', 'username'])->all());
         }
@@ -38,8 +36,9 @@ final class UpdateWorkspaceUser
     private function adminOnlyUpdates(
         WorkspaceUser $workspaceUser,
         WorkspaceUserData $data,
-        WorkspaceUserRole $userRole,
     ): WorkspaceUser {
+        $userRole = auth()->user()->workspaceUsers()->whereWorkspaceId($workspaceUser->workspace_id)->value('role');
+
         if ($userRole === WorkspaceUserRole::ADMIN) {
             if (! $data->role instanceof Optional) {
                 $workspaceUser->role = $data->role;

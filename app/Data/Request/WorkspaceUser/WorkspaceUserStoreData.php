@@ -7,7 +7,6 @@ namespace App\Data\Request\WorkspaceUser;
 use App\Enums\Workspace\WorkspaceUserRole;
 use App\Models\User;
 use Closure;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
@@ -28,12 +27,11 @@ final class WorkspaceUserStoreData extends Data
             'email' => [
                 'required',
                 'email',
-                Rule::exists(User::class, 'email'),
                 function (string $attribute, $value, Closure $fail) {
                     $user = User::whereEmail($value)->first();
 
                     if (! $user) {
-                        $fail('The user with this email does not exist.');
+                        $fail('We could not find a user with this email. Please check the email and try again.');
                     }
 
                     if ($user?->workspaceUsers()->whereBelongsTo(activeWorkspace())->exists()) {

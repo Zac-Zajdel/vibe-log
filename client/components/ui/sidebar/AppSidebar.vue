@@ -16,7 +16,7 @@
     <AppSidebarHeader class="mt-2" />
 
     <SidebarContent class="group-data-[collapsible=icon]:mt-1.5">
-      <Separator class="mt-1" />
+      <Separator class="mt-1 group-data-[collapsible=icon]:hidden" />
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu>

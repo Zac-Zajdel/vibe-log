@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import DataTable from '@/components/tables/DataTable.vue';
   import { workspaceUserColumns } from '@/components/tables/workspace-users/workspaceUserColumns';
+  import WorkspaceUserCreate from '@/components/workspaceUsers/WorkspaceUserCreate.vue';
   import { useWorkspaceUsersQuery } from '@/hooks/api/workspaceUser/useWorkspaceUsersQuery';
   import type { Breadcrumbs } from '@/types/breadcrumbs';
   import { Box, Users } from 'lucide-vue-next';
@@ -18,7 +19,11 @@
 
 <template>
   <PageWrapper :breadcrumbs="breadcrumbs">
-    <div class="container mx-auto py-10">
+    <div class="container mx-auto">
+      <div class="mb-8 flex items-center justify-between">
+        <h1 class="text-2xl">Members</h1>
+        <WorkspaceUserCreate />
+      </div>
       <DataTable
         :columns="workspaceUserColumns"
         :data="workspaceUsers"

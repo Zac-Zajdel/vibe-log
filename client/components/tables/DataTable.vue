@@ -83,7 +83,7 @@
 
 <template>
   <div>
-    <div class="flex items-center py-4">
+    <div class="flex items-center py-2">
       <Input
         v-if="hasSearch"
         v-model="search"

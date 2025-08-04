@@ -30,7 +30,12 @@
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline" size="sm" class="ml-auto hidden h-8 lg:flex">
+      <Button
+        variant="outline"
+        size="sm"
+        class="ml-auto hidden h-8 lg:flex"
+        :class="columns.length === 0 ? 'cursor-not-allowed' : ''"
+      >
         <Settings2 class="mr-2 size-4" />
         View
       </Button>

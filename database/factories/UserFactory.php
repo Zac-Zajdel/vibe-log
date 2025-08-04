@@ -39,8 +39,8 @@ final class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $defaultWorkspace = Workspace::factory()
-                ->default()
                 ->for($user, 'owner')
+                ->default()
                 ->has(
                     WorkspaceUser::factory()
                         ->for($user)

@@ -82,11 +82,13 @@ final class WorkspaceUser extends Model
     protected function scopeSearch(Builder $query, string $search): void
     {
         $query
-            ->where('username', 'like', "%{$search}%")
+            ->where('username', 'ilike', "%{$search}%")
+            ->orWhere('role', 'ilike', "%{$search}%")
+            ->orWhere('status', 'ilike', "%{$search}%")
             ->orWhereHas(
                 'user',
                 /** @param Builder<User> $query */
-                fn (Builder $query) => $query->where('email', 'like', "%{$search}%"),
+                fn (Builder $query) => $query->where('email', 'ilike', "%{$search}%"),
             );
     }
 }
