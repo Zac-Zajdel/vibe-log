@@ -4,88 +4,92 @@ declare(strict_types=1);
 
 use App\Data\Request\WorkspaceUser\WorkspaceUserUpdateData;
 use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\User;
-use App\Models\Workspace;
 use App\Models\WorkspaceUser;
 
 beforeEach(function () {
-    $this->workspaceOwner = User::factory()->create();
-
-    $this->workspace = Workspace::factory()
-        ->for($this->workspaceOwner, 'owner')
-        ->has(WorkspaceUser::factory()->for($this->workspaceOwner)->isActive(), 'workspaceUsers')
-        ->create();
-
+    $this->owner = User::factory()->create();
+    $this->workspace = $this->owner->activeWorkspace;
     $this->secondaryUser = User::factory()->create();
 });
 
-it('Workspace Owner Deactivates user', function () {
-    $workspaceUser = WorkspaceUser::factory()
-        ->for($this->workspace, 'workspace')
-        ->for($this->secondaryUser, 'user')
-        ->create([
-            'is_active' => true,
-        ]);
-
-    $data = WorkspaceUserUpdateData::from([
-        'is_active' => false,
-    ]);
-
-    $response = $this
-        ->actingAs($this->workspaceOwner)
-        ->putJson(
-            route(
-                'workspaces.workspaceUser.update',
-                [
-                    'workspace' => $this->workspace,
-                    'workspaceUser' => $workspaceUser,
-                ],
-            ),
-            $data->toArray(),
-        )
-        ->assertOk();
-
-    expect($workspaceUser->refresh()->is_active)->toBeFalse();
-
-    $response->assertJsonFragment([
-        'status' => 'success',
-        'message' => 'Workspace user updated successfully',
-        'data' => WorkspaceUserResource::from($workspaceUser)->toArray(),
-    ]);
-});
-
 it('User accepts invitation to join workspace', function () {
+    $this->secondaryUser->update([
+        'active_workspace_id' => $this->workspace->id,
+    ]);
+
     $workspaceUser = WorkspaceUser::factory()
-        ->for($this->workspace, 'workspace')
-        ->for($this->secondaryUser, 'user')
+        ->for($this->workspace)
+        ->for($this->secondaryUser)
+        ->member()
+        ->invited()
         ->create([
-            'is_active' => false,
+            'joined_at' => null,
         ]);
 
     $data = WorkspaceUserUpdateData::from([
-        'is_active' => true,
+        'user_id' => $workspaceUser->user_id,
+        'username' => $this->secondaryUser->name,
+        'avatar' => 'https://example.com/avatar.png',
+        'status' => WorkspaceUserStatus::ACTIVE,
     ]);
 
-    $response = $this
+    $this
         ->actingAs($this->secondaryUser)
         ->putJson(
-            route(
-                'workspaces.workspaceUser.update',
-                [
-                    'workspace' => $this->workspace,
-                    'workspaceUser' => $workspaceUser,
-                ],
-            ),
+            route('workspace-users.update', $workspaceUser),
             $data->toArray(),
         )
-        ->assertOk();
+        ->assertOk()
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Workspace user updated successfully',
+            'data' => WorkspaceUserResource::from($workspaceUser->refresh())->toArray(),
+        ]);
 
-    expect($workspaceUser->refresh()->is_active)->toBeTrue();
+    expect($workspaceUser->refresh())->toMatchArray([
+        'username' => $this->secondaryUser->name,
+        'avatar' => 'https://example.com/avatar.png',
+        'status' => WorkspaceUserStatus::ACTIVE->value,
+    ]);
     expect($workspaceUser->joined_at)->not->toBeNull();
+});
 
-    $response->assertJsonFragment([
-        'status' => 'success',
-        'message' => 'Workspace user updated successfully',
-        'data' => WorkspaceUserResource::from($workspaceUser)->toArray(),
+it('Admin changes users role and status', function () {
+    $this->secondaryUser->update([
+        'active_workspace_id' => $this->workspace->id,
+    ]);
+
+    $workspaceUser = WorkspaceUser::factory()
+        ->for($this->workspace)
+        ->for($this->secondaryUser)
+        ->member()
+        ->active()
+        ->create();
+
+    $data = WorkspaceUserUpdateData::from([
+        'user_id' => $workspaceUser->user_id,
+        'role' => WorkspaceUserRole::VIEWER,
+        'status' => WorkspaceUserStatus::DISABLED,
+    ]);
+
+    $this
+        ->actingAs($this->owner)
+        ->putJson(
+            route('workspace-users.update', $workspaceUser),
+            $data->toArray(),
+        )
+        ->assertOk()
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Workspace user updated successfully',
+            'data' => WorkspaceUserResource::from($workspaceUser->refresh())->toArray(),
+        ]);
+
+    expect($workspaceUser->refresh())->toMatchArray([
+        'role' => WorkspaceUserRole::VIEWER->value,
+        'status' => WorkspaceUserStatus::DISABLED->value,
     ]);
 });

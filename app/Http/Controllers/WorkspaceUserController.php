@@ -6,22 +6,49 @@ namespace App\Http\Controllers;
 
 use App\Actions\WorkspaceUser\StoreWorkspaceUser;
 use App\Actions\WorkspaceUser\UpdateWorkspaceUser;
+use App\Data\Request\WorkspaceUser\WorkspaceUserIndexData;
 use App\Data\Request\WorkspaceUser\WorkspaceUserStoreData;
 use App\Data\Request\WorkspaceUser\WorkspaceUserUpdateData;
 use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
 use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
 use App\Models\User;
-use App\Models\Workspace;
 use App\Models\WorkspaceUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
+use Spatie\LaravelData\Optional;
+use Spatie\LaravelData\PaginatedDataCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 final class WorkspaceUserController extends Controller
 {
-    public function store(Workspace $workspace, WorkspaceUserStoreData $data): JsonResponse
+    public function index(WorkspaceUserIndexData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspace->owner_id && ! $workspace->is_default);
+        $workspaceUsers = WorkspaceUser::query()
+            ->with([
+                'user',
+                'workspace',
+            ])
+            ->whereWorkspaceId(activeWorkspace()->id)
+            ->when(
+                ! $data->search instanceof Optional,
+                /** @param Builder<WorkspaceUser> $query */
+                fn (Builder $query) => $query->search($data->search),
+            )
+            ->paginate(
+                perPage: ! $data->per_page instanceof Optional ? $data->per_page : 10,
+                page: ! $data->page instanceof Optional ? $data->page : 1,
+            );
+
+        return $this->success(
+            WorkspaceUserResource::collect($workspaceUsers, PaginatedDataCollection::class),
+            'Workspace users retrieved successfully',
+        );
+    }
+
+    public function store(WorkspaceUserStoreData $data): JsonResponse
+    {
+        Gate::authorize('store', WorkspaceUser::class);
 
         /** @var User $addingUser */
         $addingUser = User::whereEmail($data->email)->first();
@@ -35,14 +62,14 @@ final class WorkspaceUserController extends Controller
 
         return $this->success(
             WorkspaceUserResource::from($workspaceUser),
-            'Request sent to user to join the workspace',
+            'Request sent for user to join the workspace',
             Response::HTTP_CREATED,
         );
     }
 
-    public function update(Workspace $workspace, WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
+    public function update(WorkspaceUser $workspaceUser, WorkspaceUserUpdateData $data): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => ($user->id === $workspace->owner_id || $user->id === $workspaceUser->user_id) && ! $workspace->is_default);
+        Gate::authorize('update', $workspaceUser);
 
         $workspaceUser = UpdateWorkspaceUser::make()->handle(
             $workspaceUser,
@@ -55,15 +82,30 @@ final class WorkspaceUserController extends Controller
         );
     }
 
-    public function destroy(Workspace $workspace, WorkspaceUser $workspaceUser): JsonResponse
+    public function destroy(WorkspaceUser $workspaceUser): JsonResponse
     {
-        Gate::allowIf(fn (User $user) => $user->id === $workspaceUser->user_id && ! $workspace->is_default);
+        Gate::authorize('delete', $workspaceUser);
+
+        $user = $workspaceUser->user;
+        $workspace = $workspaceUser->workspace;
+
+        $message = match (true) {
+            auth()->user()->id !== $workspaceUser->user_id => 'Successfully removed user from workspace.',
+            $user->id === $workspaceUser->user_id && ! $workspaceUser->joined_at => 'Successfully rejected the invitation to join workspace.',
+            $user->id === $workspaceUser->user_id => 'Successfully left workspace.',
+            default => 'Successfully removed user from workspace.',
+        };
+
+        // A user must always have an active workspace so we circle back to their default.
+        if ($user->active_workspace_id === $workspace->id) {
+            $user->activeWorkspace()->associate($user->defaultWorkspace);
+            $user->save();
+        }
 
         $workspaceUser->delete();
 
         return $this->success(
-            message: "You have left the workspace {$workspace->name}.",
-            code: Response::HTTP_NO_CONTENT,
+            message: $message,
         );
     }
 }

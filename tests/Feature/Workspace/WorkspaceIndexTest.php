@@ -11,7 +11,7 @@ beforeEach(function () {
 
     $this->workspace = Workspace::factory()
         ->for($this->user, 'owner')
-        ->has(WorkspaceUser::factory()->for($this->user)->isActive(), 'workspaceUsers')
+        ->has(WorkspaceUser::factory()->for($this->user))
         ->create()
         ->refresh();
 });
@@ -33,7 +33,7 @@ it('User cannot see workspace that they are not a member of', function () {
 
     $hiddenWorkspace = Workspace::factory()
         ->for($anotherUser, 'owner')
-        ->has(WorkspaceUser::factory()->for($anotherUser)->isActive(), 'workspaceUsers')
+        ->has(WorkspaceUser::factory()->for($anotherUser))
         ->create();
 
     $this

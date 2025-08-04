@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Data\Resource\Workspace\WorkspaceResource;
 use App\Data\Transfer\Workspace\WorkspaceData;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WorkspaceUser;
@@ -34,6 +36,9 @@ it('Create Workspace', function () {
     $this->assertDatabaseHas(WorkspaceUser::class, [
         'workspace_id' => $createdWorkspace->id,
         'user_id' => $this->user->id,
+        'username' => $this->user->name,
+        'role' => WorkspaceUserRole::ADMIN,
+        'status' => WorkspaceUserStatus::ACTIVE,
         'joined_at' => $createdWorkspace->created_at,
     ]);
 

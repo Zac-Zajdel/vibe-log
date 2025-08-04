@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import type { Breadcrumbs } from '@/types/breadcrumbs';
-  import { CircleUser } from 'lucide-vue-next';
+  import { PersonStanding } from 'lucide-vue-next';
 
   useHead({ title: 'Standup' });
 
-  const breadcrumbs: Breadcrumbs = [{ title: 'Standup', icon: CircleUser }];
+  const breadcrumbs: Breadcrumbs = [{ title: 'Standup', icon: PersonStanding }];
 </script>
 
 <template>

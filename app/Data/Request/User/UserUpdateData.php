@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data\Request\User;
 
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\User;
 use App\Models\WorkspaceUser;
 use Illuminate\Validation\Rule;
@@ -43,7 +44,7 @@ final class UserUpdateData extends Data
             'active_workspace_id' => [
                 Rule::exists(WorkspaceUser::class, 'workspace_id')
                     ->where('user_id', data_get($context->payload, 'id'))
-                    ->where('is_active', true),
+                    ->where('status', WorkspaceUserStatus::ACTIVE),
             ],
         ];
     }

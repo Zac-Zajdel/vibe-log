@@ -3,38 +3,65 @@
 declare(strict_types=1);
 
 use App\Models\User;
-use App\Models\Workspace;
 use App\Models\WorkspaceUser;
-use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->owner = User::factory()->create();
+    $this->workspace = $this->owner->activeWorkspace;
 
-    $this->workspace = Workspace::factory()
-        ->for($this->user, 'owner')
-        ->create();
+    $this->secondaryUser = User::factory()->create();
+    $this->secondaryUser->update([
+        'active_workspace_id' => $this->workspace->id,
+    ]);
+});
 
-    $this->workspaceUser = WorkspaceUser::factory()
-        ->for($this->user)
-        ->isActive()
-        ->create();
+it('User rejects invitation to join workspace', function () {
+    $workspaceUser = WorkspaceUser::factory()
+        ->for($this->workspace)
+        ->for($this->secondaryUser)
+        ->member()
+        ->invited()
+        ->create([
+            'joined_at' => null,
+        ]);
+
+    $this
+        ->actingAs($this->secondaryUser)
+        ->deleteJson(route('workspace-users.destroy', $workspaceUser))
+        ->assertOk();
+
+    expect($this->secondaryUser->refresh()->active_workspace_id)->toBe($this->secondaryUser->defaultWorkspace->id);
+    $this->assertDatabaseMissing('workspace_users', [$workspaceUser]);
 });
 
 it('User leaves workspace', function () {
-    $this
-        ->actingAs($this->user)
-        ->deleteJson(
-            route(
-                'workspaces.workspaceUser.destroy',
-                [
-                    'workspace' => $this->workspace,
-                    'workspaceUser' => $this->workspaceUser,
-                ],
-            ),
-        )
-        ->assertStatus(Response::HTTP_NO_CONTENT);
+    $workspaceUser = WorkspaceUser::factory()
+        ->for($this->workspace)
+        ->for($this->secondaryUser)
+        ->member()
+        ->create();
 
-    $this->assertDatabaseMissing('workspace_users', [
-        'id' => $this->workspaceUser->id,
-    ]);
+    $this
+        ->actingAs($this->secondaryUser)
+        ->deleteJson(route('workspace-users.destroy', $workspaceUser))
+        ->assertOk();
+
+    expect($this->secondaryUser->refresh()->active_workspace_id)->toBe($this->secondaryUser->defaultWorkspace->id);
+    $this->assertDatabaseMissing('workspace_users', [$workspaceUser]);
+});
+
+it('Admin removes user from workspace', function () {
+    $workspaceUser = WorkspaceUser::factory()
+        ->for($this->workspace)
+        ->for($this->secondaryUser)
+        ->member()
+        ->create();
+
+    $this
+        ->actingAs($this->owner)
+        ->deleteJson(route('workspace-users.destroy', $workspaceUser))
+        ->assertOk();
+
+    expect($this->secondaryUser->refresh()->active_workspace_id)->toBe($this->secondaryUser->defaultWorkspace->id);
+    $this->assertDatabaseMissing('workspace_users', [$workspaceUser]);
 });

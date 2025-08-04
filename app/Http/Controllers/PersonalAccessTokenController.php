@@ -16,6 +16,8 @@ final class PersonalAccessTokenController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
+        // TODO: Tokens need to also have the active_workspace_id for query filtering.
+
         $token = $user->createToken($data->name);
 
         return $this->success(

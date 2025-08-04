@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Actions\Workspace;
 
+use App\Actions\WorkspaceUser\StoreWorkspaceUser;
 use App\Data\Transfer\Workspace\WorkspaceData;
+use App\Data\Transfer\WorkspaceUser\WorkspaceUserData;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
+use App\Models\User;
 use App\Models\Workspace;
-use App\Models\WorkspaceUser;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 final class StoreWorkspace
@@ -20,12 +24,18 @@ final class StoreWorkspace
             fn (Workspace $workspace) => $workspace->refresh(),
         );
 
-        WorkspaceUser::create([
-            'workspace_id' => $workspace->id,
-            'user_id' => $data->owner_id,
-            'is_active' => true,
-            'joined_at' => now(),
-        ]);
+        $user = User::find($data->owner_id);
+
+        StoreWorkspaceUser::make()->handle(
+            WorkspaceUserData::from([
+                'workspace_id' => $workspace->id,
+                'user_id' => $data->owner_id,
+                'username' => $user->name,
+                'role' => WorkspaceUserRole::ADMIN,
+                'status' => WorkspaceUserStatus::ACTIVE,
+                'joined_at' => now(),
+            ]),
+        );
 
         return $workspace;
     }

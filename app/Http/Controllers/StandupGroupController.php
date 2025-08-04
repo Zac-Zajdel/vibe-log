@@ -28,7 +28,7 @@ final class StandupGroupController extends Controller
         $user = auth()->user();
 
         $standupGroups = StandupGroup::query()
-            ->where('workspace_id', $user->active_workspace_id)
+            ->whereWorkspaceId($user->active_workspace_id)
             ->paginate(
                 perPage: ! $data->per_page instanceof Optional ? $data->per_page : 10,
                 page: ! $data->page instanceof Optional ? $data->page : 1,

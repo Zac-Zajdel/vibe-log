@@ -28,8 +28,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WorkspaceUser> $workspaces
- * @property-read int|null $workspaces_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, WorkspaceUser> $workspaceUsers
+ * @property-read int|null $workspace_users_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -91,7 +91,7 @@ final class User extends Authenticatable
     /**
      * @return HasMany<WorkspaceUser, $this>
      */
-    public function workspaces(): HasMany
+    public function workspaceUsers(): HasMany
     {
         return $this->hasMany(WorkspaceUser::class);
     }

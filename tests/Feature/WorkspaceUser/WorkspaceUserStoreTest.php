@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Data\Request\WorkspaceUser\WorkspaceUserStoreData;
 use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
+use App\Enums\Workspace\WorkspaceUserRole;
+use App\Enums\Workspace\WorkspaceUserStatus;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WorkspaceUser;
@@ -16,39 +18,39 @@ beforeEach(function () {
 
     $this->workspace = Workspace::factory()
         ->for($this->workspaceOwner, 'owner')
-        ->has(WorkspaceUser::factory()->for($this->workspaceOwner)->isActive(), 'workspaceUsers')
+        ->has(WorkspaceUser::factory()->for($this->workspaceOwner), 'workspaceUsers')
         ->create();
+
+    $this->workspaceOwner->activeWorkspace()->associate($this->workspace);
+    $this->workspaceOwner->save();
 });
 
-it('Create Workspace User', function () {
+it('Invite Workspace User', function () {
     $data = WorkspaceUserStoreData::from([
-        'workspace_id' => $this->workspace->id,
         'email' => $this->user->email,
+        'role' => WorkspaceUserRole::VIEWER,
     ]);
 
-    $response = $this
+    $this
         ->actingAs($this->workspaceOwner)
         ->postJson(
-            route(
-                'workspaces.workspaceUser.store',
-                ['workspace' => $this->workspace],
-            ),
+            route('workspace-users.store'),
             $data->toArray(),
         )
-        ->assertStatus(Response::HTTP_CREATED);
+        ->assertStatus(Response::HTTP_CREATED)
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Request sent for user to join the workspace',
+            'data' => WorkspaceUserResource::from(
+                $workspaceUser = WorkspaceUser::orderByDesc('id')->first(),
+            )->toArray(),
+        ]);
 
-    $workspaceUser = WorkspaceUser::orderByDesc('id')->first();
-
-    $this->assertDatabaseHas(WorkspaceUser::class, [
+    expect($workspaceUser)->toMatchArray([
+        'joined_at' => null,
+        'status' => WorkspaceUserStatus::INVITED->value,
+        'role' => WorkspaceUserRole::VIEWER->value,
         'workspace_id' => $this->workspace->id,
         'user_id' => $this->user->id,
-        'is_active' => false,
-        'joined_at' => null,
-    ]);
-
-    $response->assertJsonFragment([
-        'status' => 'success',
-        'message' => 'Request sent to user to join the workspace',
-        'data' => WorkspaceUserResource::from($workspaceUser)->toArray(),
     ]);
 });
