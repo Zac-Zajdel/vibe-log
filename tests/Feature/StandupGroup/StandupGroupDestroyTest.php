@@ -8,17 +8,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
+    $this->workspaceUser = $this->user->workspaceUsers()->first();
 });
 
 it('Delete Standup Group', function () {
     $standupGroup = StandupGroup::factory()
-        ->for($this->user, 'owner')
+        ->for($this->workspaceUser, 'owner')
+        ->for($this->user->activeWorkspace)
         ->create();
 
     $this
         ->actingAs($this->user)
         ->deleteJson(route('standup-groups.destroy', $standupGroup))
-        ->assertStatus(Response::HTTP_NO_CONTENT);
+        ->assertStatus(Response::HTTP_OK)
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Standup Group deleted successfully',
+        ]);
 
     $this->assertDatabaseMissing('standup_groups', [$standupGroup]);
 });

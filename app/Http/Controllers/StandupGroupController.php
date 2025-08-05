@@ -42,13 +42,12 @@ final class StandupGroupController extends Controller
 
     public function store(StandupGroupStoreData $data): JsonResponse
     {
-        /** @var User $user */
-        $user = auth()->user();
+        Gate::authorize('store', StandupGroup::class);
 
         $standupGroup = StoreStandupGroup::make()->handle(
             StandupGroupData::from([
                 ...$data->toArray(),
-                'workspace_id' => $user->active_workspace_id,
+                'workspace_id' => activeWorkspace()->id,
             ]),
         );
 
@@ -101,7 +100,6 @@ final class StandupGroupController extends Controller
 
         return $this->success(
             message: 'Standup Group deleted successfully',
-            code: Response::HTTP_NO_CONTENT,
         );
     }
 }

@@ -7,7 +7,7 @@ namespace App\Data\Request\StandupGroup;
 use App\Enums\StandupGroup\StandupGroupDay;
 use App\Enums\StandupGroup\StandupGroupVisibility;
 use App\Models\StandupGroup;
-use App\Models\User;
+use App\Models\WorkspaceUser;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 use Spatie\LaravelData\Attributes\Validation\Exists;
@@ -19,7 +19,7 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
 
 final class StandupGroupStoreData extends Data
 {
-    #[Exists(User::class, 'id')]
+    #[Exists(WorkspaceUser::class, 'id')]
     public int $owner_id;
 
     #[Min(3), Max(255)]
@@ -40,14 +40,11 @@ final class StandupGroupStoreData extends Data
      */
     public static function rules(ValidationContext $context): array
     {
-        /** @var User $user */
-        $user = auth()->user();
-
         return [
             'name' => [
                 'required',
                 Rule::unique(StandupGroup::class, 'name')
-                    ->where('workspace_id', $user->active_workspace_id),
+                    ->where('workspace_id', activeWorkspace()->id),
             ],
         ];
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Data\Resource\StandupGroup;
 
-use App\Data\Resource\User\UserResource;
 use App\Data\Resource\Workspace\WorkspaceResource;
+use App\Data\Resource\WorkspaceUser\WorkspaceUserResource;
 use App\Enums\StandupGroup\StandupGroupDay;
 use App\Enums\StandupGroup\StandupGroupVisibility;
 use App\Models\StandupGroup;
@@ -32,7 +32,7 @@ final class StandupGroupResource extends Resource
         public Collection|array|null $days,
         public ?CarbonImmutable $created_at,
         public ?CarbonImmutable $updated_at,
-        public Lazy|UserResource $owner,
+        public Lazy|WorkspaceUserResource $owner,
         public Lazy|WorkspaceResource $workspace,
     ) {}
 
@@ -52,7 +52,7 @@ final class StandupGroupResource extends Resource
             owner: Lazy::whenLoaded(
                 'owner',
                 $standupGroup,
-                fn (): UserResource => UserResource::fromModel($standupGroup->owner),
+                fn (): WorkspaceUserResource => WorkspaceUserResource::fromModel($standupGroup->owner),
             ),
             workspace: Lazy::whenLoaded(
                 'workspace',

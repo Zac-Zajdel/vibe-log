@@ -11,9 +11,10 @@ use App\Models\User;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
+    $this->workspaceUser = $this->user->workspaceUsers()->first();
 
     $this->standupGroup = StandupGroup::factory()
-        ->for($this->user, 'owner')
+        ->for($this->workspaceUser, 'owner')
         ->for($this->user->activeWorkspace)
         ->create([
             'is_active' => true,
@@ -25,7 +26,7 @@ beforeEach(function () {
 
 it('Update Standup Group', function () {
     $standupGroupData = StandupGroupData::from([
-        'owner_id' => $this->user->id,
+        'owner_id' => $this->workspaceUser->id,
         'name' => 'Your updated standup group',
         'description' => 'Your updated standup group description',
         'visibility' => StandupGroupVisibility::PRIVATE,

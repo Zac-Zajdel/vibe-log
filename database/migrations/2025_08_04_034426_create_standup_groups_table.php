@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('standup_groups', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('workspace_id')->constrained();
-            $table->foreignId('owner_id')->constrained('users');
+            $table->foreignId('owner_id')->constrained('workspace_users');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('visibility')->default(StandupGroupVisibility::PRIVATE->value);

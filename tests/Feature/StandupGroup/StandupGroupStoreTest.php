@@ -15,8 +15,10 @@ beforeEach(function () {
 });
 
 it('Create Standup Group', function () {
+    $workspaceUser = $this->user->workspaceUsers()->first();
+
     $standupGroupData = StandupGroupData::from([
-        'owner_id' => $this->user->id,
+        'owner_id' => $workspaceUser->id,
         'name' => fake()->unique()->company(),
         'description' => 'Your personal standup group',
         'visibility' => StandupGroupVisibility::PUBLIC,
@@ -26,19 +28,24 @@ it('Create Standup Group', function () {
         ],
     ]);
 
-    $response = $this
+    $this
         ->actingAs($this->user)
         ->postJson(
             route('standup-groups.store'),
             $standupGroupData->toArray(),
         )
-        ->assertStatus(Response::HTTP_CREATED);
+        ->assertStatus(Response::HTTP_CREATED)
+        ->assertJsonFragment([
+            'status' => 'success',
+            'message' => 'Standup Group created successfully',
+            'data' => StandupGroupResource::from(StandupGroup::orderByDesc('id')->first())->toArray(),
+        ]);
 
-    $createdStandupGroup = StandupGroup::orderByDesc('id')->first();
-
-    $response->assertJsonFragment([
-        'status' => 'success',
-        'message' => 'Standup Group created successfully',
-        'data' => StandupGroupResource::from($createdStandupGroup)->toArray(),
+    $this->assertDatabaseHas('standup_groups', [
+        'name' => $standupGroupData->name,
+        'description' => $standupGroupData->description,
+        'visibility' => $standupGroupData->visibility,
+        'is_active' => $standupGroupData->is_active,
+        'days' => json_encode($standupGroupData->days),
     ]);
 });
