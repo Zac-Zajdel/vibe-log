@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Collection<int, StandupGroupDay>|null $days
  * @property \Carbon\CarbonImmutable|null $created_at
  * @property \Carbon\CarbonImmutable|null $updated_at
- * @property-read User $owner
+ * @property-read WorkspaceUser $owner
  * @property-read Workspace $workspace
  *
  * @method static \Database\Factories\StandupGroupFactory factory($count = null, $state = [])
@@ -68,10 +68,10 @@ final class StandupGroup extends Model
     }
 
     /**
-     * @return BelongsTo<User, $this>
+     * @return BelongsTo<WorkspaceUser, $this>
      */
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->belongsTo(WorkspaceUser::class, 'owner_id');
     }
 }

@@ -16,7 +16,7 @@ final class WorkspaceSeeder extends Seeder
         foreach (User::all() as $user) {
             Workspace::factory(2)
                 ->for($user, 'owner')
-                ->has(WorkspaceUser::factory()->for($user), 'workspaceUsers')
+                ->has(WorkspaceUser::factory()->for($user)->state(['username' => $user->name]), 'workspaceUsers')
                 ->create();
         }
     }

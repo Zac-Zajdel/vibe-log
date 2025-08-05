@@ -8,9 +8,10 @@ use App\Models\User;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
+    $workspaceUser = $this->user->workspaceUsers()->first();
 
     $this->standupGroup = StandupGroup::factory()
-        ->for($this->user, 'owner')
+        ->for($workspaceUser, 'owner')
         ->for($this->user->activeWorkspace)
         ->create([
             'days' => [

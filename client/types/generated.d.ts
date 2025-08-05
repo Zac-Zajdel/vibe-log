@@ -86,7 +86,7 @@ declare namespace App.Data.Resource.StandupGroup {
     days: Array<App.Enums.StandupGroup.StandupGroupDay> | null;
     created_at: string | null;
     updated_at: string | null;
-    owner?: App.Data.Resource.User.UserResource;
+    owner?: App.Data.Resource.WorkspaceUser.WorkspaceUserResource;
     workspace?: App.Data.Resource.Workspace.WorkspaceResource;
   };
 }
