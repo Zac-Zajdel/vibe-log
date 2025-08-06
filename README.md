@@ -4,8 +4,8 @@ Team Updates | Company Announcements | Vibe Log
 
 ## 🎉 Tools
 
-- 🚀 [Laravel](https://laravel.com/) - Laravel framework
-- ⚡ [Nuxt.js](https://nuxt.com/) - Vue Framework
+- 🚀 [Laravel 12](https://laravel.com/) - Laravel framework
+- ⚡ [Nuxt.js V4](https://nuxt.com/) - Vue Framework
 - 🎨 [TailwindCSS V4](https://tailwindcss.com/) - Stylings
 - 🛡️ [Sanctum](https://laravel.com/docs/12.x/sanctum) - API Authentication
 - 🔍 [Telescope](https://laravel.com/docs/12.x/telescope) - Debug Assistant
