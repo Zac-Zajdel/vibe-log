@@ -45,6 +45,6 @@
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.5.2",
     "typescript": "^5.8.3",
-    "vue-tsc": "^2.2.10"
+    "vue-tsc": "^3.0.5"
   }
 }
