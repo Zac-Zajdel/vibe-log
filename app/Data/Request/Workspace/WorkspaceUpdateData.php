@@ -45,6 +45,7 @@ final class WorkspaceUpdateData extends Data
             'name' => [
                 'required',
                 Rule::unique(Workspace::class, 'name')
+                    // organization_id instead of owner_id
                     ->where('owner_id', data_get($context->payload, 'owner_id'))
                     ->ignore(data_get($context->payload, 'id'))
                     ->whereNull('archived_at'),

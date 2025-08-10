@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { cn } from '@/lib/utils';
+  import { AvatarRoot } from 'reka-ui';
   import type { HTMLAttributes } from 'vue';
 
   const props = defineProps<{
@@ -8,11 +9,15 @@
 </script>
 
 <template>
-  <div
-    data-slot="sidebar-group"
-    data-sidebar="group"
-    :class="cn('relative flex w-full min-w-0 flex-col px-2', props.class)"
+  <AvatarRoot
+    data-slot="avatar"
+    :class="
+      cn(
+        'relative flex size-7 shrink-0 overflow-hidden rounded-full',
+        props.class
+      )
+    "
   >
     <slot />
-  </div>
+  </AvatarRoot>
 </template>
