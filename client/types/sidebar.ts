@@ -1,4 +1,4 @@
-import { Box, Home, PersonStanding } from 'lucide-vue-next';
+import { BookText, Settings, User, UserRoundPen } from 'lucide-vue-next';
 
 export type SidebarItems = SidebarItem[];
 
@@ -16,35 +16,23 @@ export interface SidebarItem {
 
 export const sidebarOptions: SidebarItems = [
   {
-    title: 'Home',
-    url: '/home',
-    icon: Home,
-  },
-  {
     title: 'Standup',
     url: '/standup',
-    icon: PersonStanding,
+    icon: UserRoundPen,
   },
   {
-    title: 'Workspace',
-    icon: Box,
-    subItems: [
-      {
-        title: 'General',
-        url: '/workspace/general',
-      },
-      {
-        title: 'Members',
-        url: '/workspace/members',
-      },
-      // {
-      //   title: 'Integrations',
-      //   url: '/workspace/integrations',
-      // },
-      // {
-      //   title: 'Plans',
-      //   url: '/workspace/plans',
-      // },
-    ],
+    title: 'Templates',
+    url: '/templates',
+    icon: BookText,
+  },
+  {
+    title: 'Members',
+    url: '/workspace/members',
+    icon: User,
+  },
+  {
+    title: 'Settings',
+    url: '/workspace/general',
+    icon: Settings,
   },
 ];

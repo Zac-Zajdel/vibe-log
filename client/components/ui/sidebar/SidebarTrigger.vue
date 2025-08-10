@@ -18,7 +18,7 @@
     data-slot="sidebar-trigger"
     variant="ghost"
     size="icon"
-    :class="cn('size-7 cursor-pointer', props.class)"
+    :class="cn('mr-2 size-3 cursor-pointer px-4', props.class)"
     @click="toggleSidebar"
   >
     <PanelLeft class="size-4" />
