@@ -1,4 +1,4 @@
-import { BookText, Settings, User, UserRoundPen } from 'lucide-vue-next';
+import { Settings, User, UserRoundPen } from 'lucide-vue-next';
 
 export type SidebarItems = SidebarItem[];
 
@@ -20,11 +20,11 @@ export const sidebarOptions: SidebarItems = [
     url: '/standup',
     icon: UserRoundPen,
   },
-  {
-    title: 'Templates',
-    url: '/templates',
-    icon: BookText,
-  },
+  // {
+  //   title: 'Templates',
+  //   url: '/templates',
+  //   icon: BookText,
+  // },
   {
     title: 'Members',
     url: '/workspace/members',

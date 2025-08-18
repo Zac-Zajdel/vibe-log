@@ -7,7 +7,10 @@
   useHead({ title: 'Workspace Members' });
 
   const search = ref('');
-  const { workspaceUsers } = useWorkspaceUsersQuery({ search });
+  const { workspaceUsers } = useWorkspaceUsersQuery({
+    key: 'workspace-users',
+    search,
+  });
 </script>
 
 <template>

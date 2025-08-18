@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/vue-query';
 
 export const useWorkspaceUsersQuery = ({
+  key,
   page = 1,
   perPage = 5,
   search,
 }: {
+  key: string;
   page?: number;
   perPage?: number;
   search?: Ref<string>;
 }) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['workspace-users', page, perPage, search],
+    queryKey: [key, page, perPage, search],
     queryFn: async (): Promise<{
       workspaceUsers: App.Data.Resource.WorkspaceUser.WorkspaceUserResource[];
       total: number;

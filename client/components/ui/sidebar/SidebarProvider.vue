@@ -19,7 +19,7 @@
       class?: HTMLAttributes['class'];
     }>(),
     {
-      defaultOpen: true,
+      defaultOpen: false,
       open: undefined,
     }
   );
