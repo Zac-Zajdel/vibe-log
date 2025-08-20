@@ -3,32 +3,32 @@
   import { workspaceUserColumns } from '@/components/tables/workspace-users/workspaceUserColumns';
   import WorkspaceUserCreate from '@/components/workspaceUsers/WorkspaceUserCreate.vue';
   import { useWorkspaceUsersQuery } from '@/hooks/api/workspaceUser/useWorkspaceUsersQuery';
-  import type { Breadcrumbs } from '@/types/breadcrumbs';
-  import { Box, Users } from 'lucide-vue-next';
 
   useHead({ title: 'Workspace Members' });
 
-  const breadcrumbs: Breadcrumbs = [
-    { title: 'Workspace', icon: Box },
-    { title: 'Members', icon: Users },
-  ];
-
   const search = ref('');
-  const { workspaceUsers } = useWorkspaceUsersQuery({ search });
+  const { workspaceUsers } = useWorkspaceUsersQuery({
+    key: 'workspace-users',
+    search,
+  });
 </script>
 
 <template>
-  <PageWrapper :breadcrumbs="breadcrumbs">
-    <div class="container mx-auto">
-      <div class="mb-8 flex items-center justify-between">
+  <PageWrapper class="mx-auto max-w-screen-xl">
+    <div class="mb-8 flex items-center justify-between">
+      <div>
         <h1 class="text-2xl">Members</h1>
-        <WorkspaceUserCreate />
+        <p class="text-muted-foreground mt-1 text-sm">
+          Update your workspace details and configurations.
+        </p>
       </div>
-      <DataTable
-        :columns="workspaceUserColumns"
-        :data="workspaceUsers"
-        @update:search="search = $event"
-      />
+      <WorkspaceUserCreate />
     </div>
+
+    <DataTable
+      :columns="workspaceUserColumns"
+      :data="workspaceUsers"
+      @update:search="search = $event"
+    />
   </PageWrapper>
 </template>
