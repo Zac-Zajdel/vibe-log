@@ -1,17 +1,20 @@
 import { useQuery } from '@tanstack/vue-query';
+import { toast } from 'vue-sonner';
 
 export const useWorkspaceUsersQuery = ({
   key,
   page = 1,
   perPage = 5,
   search,
+  enabled,
 }: {
   key: string;
   page?: number;
   perPage?: number;
   search?: Ref<string>;
+  enabled?: ComputedRef<boolean> | Ref<boolean>;
 }) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [key, page, perPage, search],
     queryFn: async (): Promise<{
       workspaceUsers: App.Data.Resource.WorkspaceUser.WorkspaceUserResource[];
@@ -35,11 +38,17 @@ export const useWorkspaceUsersQuery = ({
         total: data.meta.total,
       };
     },
+    enabled: enabled ?? true,
   });
+
+  watch(isError, () =>
+    toast.error('An error occurred while fetching workspace members.')
+  );
 
   return {
     total: computed(() => data.value?.total || 0),
     workspaceUsers: computed(() => data.value?.workspaceUsers || []),
     isLoading,
+    isError,
   };
 };

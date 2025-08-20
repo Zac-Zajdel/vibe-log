@@ -14,17 +14,21 @@
 </script>
 
 <template>
-  <PageWrapper>
-    <div class="container mx-auto">
-      <div class="mb-8 flex items-center justify-between">
+  <PageWrapper class="mx-auto max-w-screen-xl">
+    <div class="mb-8 flex items-center justify-between">
+      <div>
         <h1 class="text-2xl">Members</h1>
-        <WorkspaceUserCreate />
+        <p class="text-muted-foreground mt-1 text-sm">
+          Update your workspace details and configurations.
+        </p>
       </div>
-      <DataTable
-        :columns="workspaceUserColumns"
-        :data="workspaceUsers"
-        @update:search="search = $event"
-      />
+      <WorkspaceUserCreate />
     </div>
+
+    <DataTable
+      :columns="workspaceUserColumns"
+      :data="workspaceUsers"
+      @update:search="search = $event"
+    />
   </PageWrapper>
 </template>

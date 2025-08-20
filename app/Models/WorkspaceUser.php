@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+// TODO - Completely redo this with the new organizations structure to place information there.
 /**
  * @property int $id
  * @property int $workspace_id

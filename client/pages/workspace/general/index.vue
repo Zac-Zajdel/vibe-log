@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { useUpdateWorkspaceMutation } from '@/hooks/api/workspace/useUpdateWorkspaceMutation';
-  import { useUser } from '@/hooks/authentication/useUser';
+  import { useWorkspaceQuery } from '@/hooks/api/workspace/useWorkspaceQuery';
   import { useForm } from '@tanstack/vue-form';
+  import { useQueryClient } from '@tanstack/vue-query';
   import { toast } from 'vue-sonner';
   import { z } from 'zod/v4';
 
@@ -9,35 +10,49 @@
     title: 'Workspace Settings - General',
   });
 
-  const user = useUser();
+  const queryClient = useQueryClient();
   const { refreshIdentity } = useSanctumAuth();
+
   const updateWorkspaceMutation = useUpdateWorkspaceMutation();
+  const { workspace, isLoading } = useWorkspaceQuery();
+
+  const name = computed((): string => workspace.value?.name ?? '');
+  const description = computed(
+    (): string => workspace.value?.description ?? ''
+  );
+  const ownerId = computed((): number => workspace.value?.owner_id ?? 0);
 
   const form = useForm({
-    defaultValues: {
-      name: user.value.active_workspace?.name ?? '',
-      description: user.value.active_workspace?.description ?? '',
-      owner_id: user.value.active_workspace?.owner_id ?? 0,
-    },
+    defaultValues: reactive({
+      name,
+      description,
+      ownerId,
+    }),
     onSubmit: async ({ value }) => {
-      try {
-        const payload: App.Data.Request.Workspace.WorkspaceUpdateData = {
-          name: value.name,
-          owner_id: value.owner_id,
-          description: value.description,
-        };
+      const payload: App.Data.Request.Workspace.WorkspaceUpdateData = {
+        name: value.name,
+        owner_id: value.ownerId,
+        description: value.description,
+      };
 
-        await updateWorkspaceMutation.mutateAsync(payload, {
-          onSuccess: ({ message }: { message: string }) => {
-            toast.success(message);
-            refreshIdentity();
-          },
-        });
-      } catch (error) {
-        toast.error('Failed to update workspace settings');
-      }
+      await updateWorkspaceMutation.mutateAsync(payload, {
+        onSuccess: ({ message }: { message: string }) => {
+          toast.success(message);
+          refreshIdentity();
+
+          queryClient.invalidateQueries({
+            queryKey: ['workspace'],
+          });
+        },
+      });
     },
   });
+
+  const handleOwnerSelect = (
+    owner: App.Data.Resource.WorkspaceUser.WorkspaceUserResource
+  ) => {
+    form.setFieldValue('ownerId', owner.user_id);
+  };
 </script>
 
 <template>
@@ -50,7 +65,7 @@
     </div>
     <Separator class="my-6" />
     <div>
-      <Card>
+      <Card v-if="!isLoading">
         <CardHeader>
           <CardTitle>Workspace Details</CardTitle>
         </CardHeader>
@@ -88,11 +103,14 @@
               </div>
 
               <div class="col-span-2 md:col-span-1">
-                <form.Field name="owner_id">
+                <form.Field name="ownerId">
                   <template #default="{ field }">
                     <div class="w-full space-y-2">
                       <Label :for="field.name">Owner</Label>
-                      <SelectWorkspaceUser />
+                      <SelectWorkspaceUser
+                        :owner="workspace?.owner"
+                        @select="handleOwnerSelect"
+                      />
                     </div>
                   </template>
                 </form.Field>
@@ -139,6 +157,27 @@
               </template>
             </form.Subscribe>
           </form>
+        </CardContent>
+      </Card>
+      <Card v-else>
+        <CardHeader>
+          <CardTitle>Workspace Details</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2 space-y-2 md:col-span-1">
+              <InputSkeleton label="Workspace Name" :class="'h-9 w-full'" />
+            </div>
+            <div class="col-span-2 space-y-2 md:col-span-1">
+              <InputSkeleton label="Owner" :class="'h-9 w-full'" />
+            </div>
+            <div class="col-span-2 mt-7.5 space-y-2">
+              <InputSkeleton label="Description" :class="'h-16 w-full'" />
+            </div>
+          </div>
+          <div class="mt-10 flex justify-end">
+            <Skeleton class="h-10 w-16" />
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
+import { toast } from 'vue-sonner';
 
 export const useWorkspacesQuery = ({
   page = 1,
@@ -9,7 +10,7 @@ export const useWorkspacesQuery = ({
   perPage?: number;
   search?: Ref<string>;
 }) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['workspaces', page, perPage, search],
     queryFn: async (): Promise<{
       workspaces: App.Data.Resource.Workspace.WorkspaceResource[];
@@ -34,9 +35,14 @@ export const useWorkspacesQuery = ({
     },
   });
 
+  watch(isError, () =>
+    toast.error('An error occurred while fetching workspaces.')
+  );
+
   return {
     total: computed(() => data.value?.total || 0),
     workspaces: computed(() => data.value?.workspaces || []),
     isLoading,
+    isError,
   };
 };
