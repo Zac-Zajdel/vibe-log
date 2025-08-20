@@ -7,7 +7,7 @@
         "@nuxt/eslint": "1.4.1",
         "@nuxt/image": "1.10.0",
         "@tailwindcss/vite": "^4.1.6",
-        "@tanstack/vue-form": "^1.18.0",
+        "@tanstack/vue-form": "^1.19.2",
         "@tanstack/vue-query": "^5.83.1",
         "@tanstack/vue-query-devtools": "^5.84.0",
         "@tanstack/vue-table": "^8.21.3",
@@ -528,7 +528,7 @@
 
     "@tailwindcss/vite": ["@tailwindcss/vite@4.1.11", "", { "dependencies": { "@tailwindcss/node": "4.1.11", "@tailwindcss/oxide": "4.1.11", "tailwindcss": "4.1.11" }, "peerDependencies": { "vite": "^5.2.0 || ^6 || ^7" } }, "sha512-RHYhrR3hku0MJFRV+fN2gNbDNEh3dwKvY8XJvTxCSXeMOsCRSr+uKvDWQcbizrHgjML6ZmTE5OwMrl5wKcujCw=="],
 
-    "@tanstack/form-core": ["@tanstack/form-core@1.18.0", "", { "dependencies": { "@tanstack/store": "^0.7.2" } }, "sha512-VfTJgD8yCBbKR4qDwgD+OWMpVI9QiJtdkf2W9wDFBMkPV5gCPfeidmJbcXjTdHIbWD6BdZOF4KwXt+pSoeoqyA=="],
+    "@tanstack/form-core": ["@tanstack/form-core@1.19.2", "", { "dependencies": { "@tanstack/store": "^0.7.2" } }, "sha512-g2VkZCHEQUxnPOtF+vNHQDGvmrXfMpvN1T27M+G2R/eeH2vImxEdzVzAVIR71DZ5X3QtC9rm+nR64MJrjI+yXQ=="],
 
     "@tanstack/match-sorter-utils": ["@tanstack/match-sorter-utils@8.19.4", "", { "dependencies": { "remove-accents": "0.5.0" } }, "sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg=="],
 
@@ -542,7 +542,7 @@
 
     "@tanstack/virtual-core": ["@tanstack/virtual-core@3.13.12", "", {}, "sha512-1YBOJfRHV4sXUmWsFSf5rQor4Ss82G8dQWLRbnk3GA4jeP8hQt1hxXh0tmflpC0dz3VgEv/1+qwPyLeWkQuPFA=="],
 
-    "@tanstack/vue-form": ["@tanstack/vue-form@1.18.0", "", { "dependencies": { "@tanstack/form-core": "1.18.0", "@tanstack/vue-store": "^0.7.3" }, "peerDependencies": { "vue": "^3.4.0" } }, "sha512-EhGJBWo1XMUzwLWw0JUMytMP/dnRmdmZzBJRwS1vhEdYI1b0EYk3E7pqoC21FXCnFJvTIcz5u6anJB1vIVJL9g=="],
+    "@tanstack/vue-form": ["@tanstack/vue-form@1.19.2", "", { "dependencies": { "@tanstack/form-core": "1.19.2", "@tanstack/vue-store": "^0.7.3" }, "peerDependencies": { "vue": "^3.4.0" } }, "sha512-URbzwXQ8NlTg6LVLhTQW6Ugn8zwNLk4aF8cckpJoaVS8OdsXoXZ0/vH/DW2BmXTsE/Ac+WiA63Yjx8HHOjfKnA=="],
 
     "@tanstack/vue-query": ["@tanstack/vue-query@5.83.1", "", { "dependencies": { "@tanstack/match-sorter-utils": "^8.19.4", "@tanstack/query-core": "5.83.1", "@vue/devtools-api": "^6.6.3", "vue-demi": "^0.14.10" }, "peerDependencies": { "@vue/composition-api": "^1.1.2", "vue": "^2.6.0 || ^3.3.0" }, "optionalPeers": ["@vue/composition-api"] }, "sha512-Ss7LJGC2LZMZBsFFnrEfmQYcooDtJOjFZhmnXXUmlawk9EXHHDHUDaH2v7/r9jzyp2nOgABDQlDmjcBLXiyuvQ=="],
 
