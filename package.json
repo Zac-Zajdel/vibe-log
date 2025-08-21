@@ -20,6 +20,7 @@
     "@tanstack/vue-query-devtools": "^5.84.0",
     "@tanstack/vue-table": "^8.21.3",
     "@vueuse/core": "^13.6.0",
+    "@vueuse/nuxt": "13.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
