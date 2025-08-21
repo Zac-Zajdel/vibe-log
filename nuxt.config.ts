@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     'nuxt-auth-sanctum',
     'motion-v/nuxt',
+    '@vueuse/nuxt',
   ],
 
   colorMode: {
