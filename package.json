@@ -28,7 +28,7 @@
     "lucide-vue-next": "^0.511.0",
     "motion-v": "^1.7.0",
     "nuxt": "^4.0.2",
-    "nuxt-auth-sanctum": "0.6.7",
+    "nuxt-auth-sanctum": "1.2.0",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.2.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
