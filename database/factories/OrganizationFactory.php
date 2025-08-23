@@ -26,6 +26,7 @@ final class OrganizationFactory extends Factory
             'name' => $name,
             'slug' => Str::slug($name),
             'avatar' => fake()->imageUrl(),
+            'description' => fake()->sentence(),
         ];
     }
 }

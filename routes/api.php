@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\StandupGroupController;
 use App\Http\Controllers\UserController;
@@ -20,6 +21,8 @@ Route::prefix('v1')
             'message' => 'User logged in successfully',
             'data' => $request->user()->load('activeWorkspace'),
         ]))->name('user.show');
+
+        Route::apiResource('organizations', OrganizationController::class);
 
         Route::apiResource('workspaces', WorkspaceController::class);
         Route::apiResource('workspace-users', WorkspaceUserController::class)->except(['show']);

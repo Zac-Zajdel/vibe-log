@@ -22,7 +22,7 @@ final class OrganizationPolicy
     public function update(User $user, Organization $organization): Response|bool
     {
         if ($user->id !== $organization->owner_id) {
-            return Response::deny('You are not the owner of this organization.');
+            return Response::deny('Only the owner can update this organization.');
         }
 
         return true;
@@ -31,7 +31,7 @@ final class OrganizationPolicy
     public function delete(User $user, Organization $organization): Response|bool
     {
         if ($user->id !== $organization->owner_id) {
-            return Response::deny('You are not the owner of this organization.');
+            return Response::deny('Only the owner can delete this organization.');
         }
 
         return true;
